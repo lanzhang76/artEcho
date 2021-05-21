@@ -1,0 +1,16 @@
+{
+  "name": "webgl_three",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Lan Zhang",
+  "license": "ISC",
+  "keywords": [],
+  "description": "a plain three.js boiler template",
+  "dependencies": {
+    "parcel-bundler": "^1.12.5",
+    "three": "^0.128.0"
+  }
+}
