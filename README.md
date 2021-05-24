@@ -2,4 +2,18 @@
 
 artEcho on the web using three.js
 
-### to run locally
+### run the project locally
+
+```bash
+# install dependencies
+$npm install
+
+# globally install parcel
+$npm install -g parcel-bundler
+
+# run
+$parcel index.html
+
+```
+
+
