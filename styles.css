@@ -1,6 +1,7 @@
 * {
   margin: 0;
   padding: 0;
+  font-family: sans-serif;
 }
 
 canvas {
@@ -10,4 +11,11 @@ canvas {
 #container {
   width: 100vw;
   height: 100vh;
+}
+
+#selected {
+  color: white;
+  position: fixed;
+  top: 10px;
+  left: 10px;
 }
