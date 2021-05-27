@@ -2,6 +2,13 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import Raycast from "./js/raycast";
 
+const cubes = [
+  { name: "object Nana", color: 0xffbd5b, position: { x: -0.3, y: 0, z: -0.3 } },
+  { name: "object Riri", color: 0xadff5b, position: { x: 0.3, y: 0, z: -0.3 } },
+  { name: "object Momo", color: 0xff82de, position: { x: -0.3, y: 0, z: 0.3 } },
+  { name: "object Vivi", color: 0x82c3ff, position: { x: 0.3, y: 0, z: 0.3 } },
+];
+
 export default class Sketch {
   constructor(options) {
     this.time = 0;
@@ -10,8 +17,8 @@ export default class Sketch {
     this.width = this.container.offsetWidth;
     this.height = this.container.offsetHeight;
 
-    this.camera = new THREE.PerspectiveCamera(70, this.width / this.height, 0.01, 10);
-    this.camera.position.z = 1;
+    this.camera = new THREE.PerspectiveCamera(70, this.width / this.height, 0.01, 100);
+    this.camera.position.set(0, 0, 1.5);
 
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.renderer.setSize(this.width, this.height);
@@ -20,15 +27,16 @@ export default class Sketch {
 
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
 
-    this.currentColor = 0x00ff00;
-    this.currentColor2 = 0x0000ff;
-
     this.raycast = new Raycast(this.camera, this.scene);
     this.mouse = new THREE.Vector2();
+
+    this.cubes = options.cubes;
+    this.objects = [];
 
     this.resize();
     this.setupResize();
     this.setupMouse();
+    this.setupKeys();
     this.addObject();
     this.render();
   }
@@ -37,11 +45,39 @@ export default class Sketch {
     window.addEventListener("resize", this.resize.bind(this));
   }
 
+  setupKeys() {
+    window.addEventListener("keydown", this.onKeyDown.bind(this));
+  }
+
   setupMouse() {
     window.addEventListener("mousemove", this.onMouseMove.bind(this), false);
     window.addEventListener("click", () => {
       this.raycast.clickInfo(this.mouse);
     });
+  }
+
+  onKeyDown(event) {
+    switch (event.keyCode) {
+      case 37 /*Left*/:
+        console.log("pressing left");
+
+        break;
+
+      case 39 /*Right*/:
+        console.log("pressing right");
+
+        break;
+
+      case 38 /*Up*/:
+        console.log("pressing up");
+
+        break;
+
+      case 40 /*Up*/:
+        console.log("pressing down");
+
+        break;
+    }
   }
 
   onMouseMove(event) {
@@ -60,30 +96,21 @@ export default class Sketch {
 
   addObject() {
     this.geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2);
-    this.material = new THREE.MeshBasicMaterial({
-      color: this.currentColor,
-      // wireframe: true,
-    });
-    this.material2 = new THREE.MeshBasicMaterial({
-      color: this.currentColor2,
-      // wireframe: true,
-    });
-
-    this.object1 = new THREE.Mesh(this.geometry, this.material);
-    this.object2 = new THREE.Mesh(this.geometry, this.material2);
-    this.object1.position.set(-0.2, 0, 0);
-    this.object2.position.set(0.2, 0, 0);
-    this.object1.name = "green box";
-    this.object2.name = "blue box";
-
-    this.scene.add(this.object1);
-    this.scene.add(this.object2);
-    this.addFloor();
+    for (let i = 0; i < this.cubes.length; i++) {
+      let material = new THREE.MeshBasicMaterial({
+        color: this.cubes[i].color,
+      });
+      let object = new THREE.Mesh(this.geometry, material);
+      object.position.set(this.cubes[i].position.x, this.cubes[i].position.y, this.cubes[i].position.z);
+      object.name = this.cubes[i].name;
+      this.scene.add(object);
+      this.objects.push(object);
+    }
   }
 
   addFloor() {
-    this.floor = new THREE.PlaneBufferGeometry(10, 2, 1, 1);
-    this.material_floor = new THREE.MeshBasicMaterial({ color: "#ffffff", side: THREE.DoubleSide });
+    this.floor = new THREE.PlaneBufferGeometry(10, 10, 1, 1);
+    this.material_floor = new THREE.MeshBasicMaterial({ color: "#5D5446", side: THREE.DoubleSide });
     this.floorObject = new THREE.Mesh(this.floor, this.material_floor);
     this.floorObject.position.set(0, -0.11, 0);
     this.floorObject.rotation.set(Math.PI / 2, 0, 0);
@@ -100,11 +127,6 @@ export default class Sketch {
   }
 
   render() {
-    // this.object1.rotation.x = this.time / 20;
-    // this.object1.rotation.y = this.time / 10;
-    // this.object2.rotation.x = this.time / 20;
-    // this.object2.rotation.y = this.time / 10;
-
     this.raycast.update(this.mouse);
 
     this.renderer.render(this.scene, this.camera);
@@ -115,4 +137,5 @@ export default class Sketch {
 
 new Sketch({
   dom: document.querySelector("#container"),
+  cubes: cubes,
 });

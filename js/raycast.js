@@ -6,7 +6,7 @@ export default class Raycast {
     this.scene = scene;
     this.camera = camera;
     this.raycaster = new THREE.Raycaster();
-    this.goalColor = 0xffff00;
+    this.goalColor = 0xffffff;
     this.INTERSECTED = null;
   }
 
