@@ -48,21 +48,65 @@ export default class Sketch {
       distance: 1.5,
     };
 
+    this.loader = new OBJLoader();
+
     this.resize();
     this.setupResize();
     this.addObject();
     this.setupKeys();
-    this.setUpGUI();
+    this.setupGUI();
+
+    this.setupLoader();
+
     this.addFloor();
     this.render();
 
     this.select(0);
   }
 
-  setUpGUI() {
+  setupLoader() {
+    // load a resource
+
+    this.loader.load("model/mammoth.obj", this.addObjectToScene.bind(this));
+
+    // this.loader.load(
+    //   // resource URL
+    //   "../Models/mammoth/mammoth.obj",
+    //   // called when resource is loaded
+    //   this.addObjectToScene.bind(this),
+    //   // called when loading is in progresses
+    //   function (xhr) {
+    //     console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+    //   },
+    //   // called when loading has errors
+    //   function (error) {
+    //     console.log(error);
+    //   }
+    // );
+  }
+
+  addObjectToScene(model) {
+    // console.log("loaded");
+    // console.log(object);
+    // object.position.set(0, 0, 0);
+    // object.scale.set(1, 1, 10);
+    // this.scene.add(object);
+
+    model.traverse(function (child) {
+      if (child instanceof THREE.Mesh) {
+        child.material.color = 0xffb830;
+      }
+    });
+    model.position.set(0, 0, -53);
+    this.scene.add(model);
+    console.log(model);
+  }
+
+  setupGUI() {
     this.cubeFolder = this.gui.addFolder("camera");
 
     this.cubeFolder.add(this.lookAtPoint, "x", -Math.PI * 2, Math.PI * 2, 0.01);
+    this.cubeFolder.add(this.lookAtPoint, "y", -Math.PI * 2, Math.PI * 2, 0.01);
     this.cubeFolder.add(this.lookAtPoint, "z", -Math.PI * 2, Math.PI * 2, 0.01);
     this.cubeFolder.add(this.rotateObject, "theta", 0, 20, 0.01);
     this.cubeFolder.add(this.rotateObject, "distance", 0, 10, 0.01);
