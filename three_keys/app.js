@@ -43,9 +43,9 @@ export default class Sketch {
     this.currentSelected = 0;
 
     this.VIEWmode = false;
-    this.rotateObject = {
-      theta: Math.PI * 2,
-      distance: 1.5,
+    this.controlPanel = {
+      theta: Math.PI,
+      distance: 2,
     };
 
     this.loader = new OBJLoader();
@@ -108,8 +108,8 @@ export default class Sketch {
     this.cubeFolder.add(this.lookAtPoint, "x", -Math.PI * 2, Math.PI * 2, 0.01);
     this.cubeFolder.add(this.lookAtPoint, "y", -Math.PI * 2, Math.PI * 2, 0.01);
     this.cubeFolder.add(this.lookAtPoint, "z", -Math.PI * 2, Math.PI * 2, 0.01);
-    this.cubeFolder.add(this.rotateObject, "theta", 0, 20, 0.01);
-    this.cubeFolder.add(this.rotateObject, "distance", 0, 10, 0.01);
+    this.cubeFolder.add(this.controlPanel, "theta", 0, 20, 0.01);
+    this.cubeFolder.add(this.controlPanel, "distance", 0, 10, 0.01);
     this.cubeFolder.open();
   }
 
@@ -141,26 +141,39 @@ export default class Sketch {
 
         break;
 
-      case 38 /*Up*/:
+      case 13 /*Enter*/:
         if (this.VIEWmode == false) {
           this.enterAroundObject();
         }
         break;
 
-      case 40 /*Down*/:
+      case 27 /*Escape*/:
         if (this.VIEWmode == true) {
           this.exitAroundObject();
         }
         break;
+
+      case 40 /*Down*/:
+        if (this.controlPanel.distance < 10) {
+          this.controlPanel.distance += 0.1;
+          console.log(this.controlPanel.distance);
+        }
+        break;
+
+      case 38 /*Up*/:
+        if (this.controlPanel.distance > 0.3) {
+          this.controlPanel.distance -= 0.1;
+          console.log(this.controlPanel.distance);
+        }
     }
   }
 
   rotateRightObject() {
-    this.rotateObject.theta += 0.1;
+    this.controlPanel.theta += 0.1;
   }
 
   rotateLeftObject() {
-    this.rotateObject.theta -= 0.1;
+    this.controlPanel.theta -= 0.1;
   }
 
   enterAroundObject() {
@@ -273,8 +286,8 @@ export default class Sketch {
   }
 
   render() {
-    this.camera.position.x = this.cubes[this.currentSelected].position.x + this.rotateObject.distance * Math.cos(this.rotateObject.theta);
-    this.camera.position.z = this.cubes[this.currentSelected].position.z + this.rotateObject.distance * Math.sin(this.rotateObject.theta);
+    this.camera.position.x = this.cubes[this.currentSelected].position.x + this.controlPanel.distance * Math.cos(this.controlPanel.theta);
+    this.camera.position.z = this.cubes[this.currentSelected].position.z + this.controlPanel.distance * Math.sin(this.controlPanel.theta);
     this.camera.lookAt(this.cubes[this.currentSelected].position.x, 0, this.cubes[this.currentSelected].position.z);
     this.renderer.render(this.scene, this.camera);
     window.requestAnimationFrame(this.render.bind(this));
