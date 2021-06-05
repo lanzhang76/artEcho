@@ -16,4 +16,7 @@ $parcel index.html
 
 ```
 
+### preview
+![key-preview](../img/key_00.png)
+
 
