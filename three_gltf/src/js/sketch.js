@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import gsap from "gsap";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
@@ -21,40 +22,70 @@ export class Sketch {
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls.maxPolarAngle = Math.PI / 2 - 0.1;
 
-    this.vasePath = "../models/vase/vase-f1991-150k-4096.gltf";
-    this.mammothPath = "../models/mammoth/woolly-mammoth-100k-4096.gltf";
-    this.vaseMesh = null;
-    this.mammothMesh = null;
+    this.chamber = 1;
+    this.inChamber = true;
+    this.currentModels = [];
+
+    this.chamber1 = [
+      { name: "vase", path: "../models/vase/vase-f1991-150k-4096.gltf", mesh: null, box: null, position: { x: -2, y: null, z: -2 } },
+      { name: "mammoth", path: "../models/mammoth/woolly-mammoth-100k-4096.gltf", mesh: null, box: null, position: { x: 2, y: null, z: -2 } },
+    ];
+
+    this.controlPanel = {
+      theta: Math.PI,
+      distance: 2,
+      lookAtPoint: { x: 0, y: 0, z: 1.5 },
+      currentSelected: 1,
+      previousSelected: 0,
+      VIEWmode: false,
+      INTERSECTED: null,
+    };
+
+    this.textBox = document.querySelector("#selected");
 
     this.loadModels();
     this.resize();
     this.setupResize();
-    this.addObject();
+    this.setupKeys();
+    this.addWorldObjects();
     this.render();
   }
 
   loadModels() {
-    //
-    // Models TODO:
-    // 1. add loading manager;
-    // 2. chain Draco GLTF
-    // 3. embed model as class/object
-    //
     this.loader = new GLTFLoader();
-    this.loader.load(this.vasePath, (gltf) => {
-      this.vaseMesh = gltf.scene;
-      this.scene.add(this.vaseMesh);
+    if (this.chamber == 1 && this.inChamber == true) {
+      this.currentModels = [];
+      this.currentModels = this.chamber1;
+      for (let model of this.chamber1) {
+        this.loader.load(
+          model.path,
+          (gltf) => {
+            model.mesh = gltf.scene;
+            this.scene.add(model.mesh);
+            model.box = new THREE.Box3().setFromObject(model.mesh);
+            model.mesh.position.set(model.position.x, model.box.getSize(new THREE.Vector3()).y / 2, model.position.z);
+          },
+          (xhr) => {
+            // while loading:
+            console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+          }
+        );
+      }
+    }
+    // this.loader.load(this.vasePath, (gltf) => {
+    //   this.vaseMesh = gltf.scene;
+    //   this.scene.add(this.vaseMesh);
 
-      this.boxVase = new THREE.Box3().setFromObject(this.vaseMesh);
-      this.vaseMesh.position.set(-0.5, this.boxVase.getSize().y / 2, 0);
-    });
-    this.loader.load(this.mammothPath, (gltf) => {
-      this.mammothMesh = gltf.scene;
-      this.scene.add(this.mammothMesh);
+    //   this.boxVase = new THREE.Box3().setFromObject(this.vaseMesh);
+    //   this.vaseMesh.position.set(-2, this.boxVase.getSize().y / 2, -2);
+    // });
+    // this.loader.load(this.mammothPath, (gltf) => {
+    //   this.mammothMesh = gltf.scene;
+    //   this.scene.add(this.mammothMesh);
 
-      this.boxMammoth = new THREE.Box3().setFromObject(this.mammothMesh);
-      this.mammothMesh.position.set(0.5, this.boxMammoth.getSize().y / 2, 0);
-    });
+    //   this.boxMammoth = new THREE.Box3().setFromObject(this.mammothMesh);
+    //   this.mammothMesh.position.set(2, this.boxMammoth.getSize().y / 2, -2);
+    // });
   }
 
   setupResize() {
@@ -69,12 +100,103 @@ export class Sketch {
     this.camera.updateProjectionMatrix();
   }
 
-  addObject() {
-    // this.geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2);
-    // this.material = new THREE.MeshNormalMaterial();
+  setupKeys() {
+    window.addEventListener("keydown", this.onKeyDown.bind(this));
+  }
 
-    // this.mesh = new THREE.Mesh(this.geometry, this.material);
-    // this.scene.add(this.mesh);
+  onKeyDown(event) {
+    switch (event.keyCode) {
+      case 37 /*Left*/:
+        if (this.controlPanel.VIEWmode == false) {
+          this.selectMinus();
+        } else {
+          this.rotateLeftObject();
+        }
+
+        break;
+
+      case 39 /*Right*/:
+        if (this.controlPanel.VIEWmode == false) {
+          this.selectPlus();
+        } else {
+          this.rotateRightObject();
+        }
+
+        break;
+
+      // case 13 /*Enter*/:
+      //   if (this.controlPanel.VIEWmode == false) {
+      //     this.enterAroundObject();
+      //   }
+      //   break;
+
+      case 13 /*Enter*/:
+        if (this.controlPanel.INTERSECTED != null) {
+          this.textBox.innerText = `Going into View Mode of model ${this.controlPanel.INTERSECTED.name}`;
+          this.controlPanel.VIEWmode = true;
+        }
+
+        break;
+
+      case 27 /*Escape*/:
+        if (this.controlPanel.VIEWmode == true) {
+          this.exitAroundObject();
+        }
+        break;
+
+      case 40 /*Down*/:
+        if (this.controlPanel.distance < 10) {
+          this.controlPanel.distance += 0.1;
+        }
+        break;
+
+      case 38 /*Up*/:
+        if (this.controlPanel.distance > 0.3) {
+          this.controlPanel.distance -= 0.1;
+        }
+    }
+  }
+
+  rotateRightObject() {
+    this.controlPanel.theta += 0.1;
+  }
+
+  rotateLeftObject() {
+    this.controlPanel.theta -= 0.1;
+  }
+
+  enterAroundObject() {
+    this.controlPanel.VIEWmode = true;
+    this.camera.position.z -= 0.2;
+  }
+
+  exitAroundObject() {
+    this.controlPanel.VIEWmode = false;
+    this.cameraAnimation();
+    this.camera.position.z += 0.2;
+  }
+
+  selectMinus() {
+    if (this.controlPanel.currentSelected > 0) {
+      this.controlPanel.currentSelected--;
+      this.select();
+    }
+  }
+
+  selectPlus() {
+    if (this.controlPanel.currentSelected < this.currentModels.length - 1) {
+      this.controlPanel.currentSelected++;
+      this.select();
+    }
+  }
+
+  select() {
+    this.controlPanel.INTERSECTED = this.currentModels[this.controlPanel.currentSelected];
+    this.textBox.innerText = `${this.controlPanel.INTERSECTED.name} is selected`;
+    this.cameraAnimation();
+  }
+
+  addWorldObjects() {
     this.addFloor();
     this.addLight();
   }
@@ -87,6 +209,13 @@ export class Sketch {
     this.floorObject.rotation.set(Math.PI / 2, 0, 0);
     this.floorObject.name = "floor";
     this.scene.add(this.floorObject);
+
+    this.chamberFloor = new THREE.PlaneBufferGeometry(10, 10, 1, 1);
+    this.chamber_mat = new THREE.MeshBasicMaterial({ color: "#c45c54", side: THREE.DoubleSide });
+    this.chamber1 = new THREE.Mesh(this.chamberFloor, this.chamber_mat);
+    this.chamber1.position.set(0, 0.01, 0);
+    this.chamber1.rotation.set(Math.PI / 2, 0, 0);
+    this.scene.add(this.chamber1);
 
     this.grid = new THREE.GridHelper(100, 20);
     this.scene.add(this.grid);
@@ -110,7 +239,25 @@ export class Sketch {
     this.scene.add(this.ambient);
   }
 
+  cameraAnimation() {
+    this.lookPos = this.controlPanel.INTERSECTED.position;
+    this.coords = { x: this.camera.position.x, y: this.camera.position.y };
+    gsap.to(this.coords, {
+      x: this.lookPos.x,
+      y: this.lookPos.y,
+      onUpdate: () => {
+        this.camera.lookAt(this.lookPos.x, 1, this.lookPos.z);
+      },
+    });
+  }
+
   render() {
+    if (this.controlPanel.VIEWmode == true) {
+      this.camera.position.x = this.controlPanel.INTERSECTED.position.x + this.controlPanel.distance * Math.cos(this.controlPanel.theta);
+      this.camera.position.z = this.controlPanel.INTERSECTED.position.z + this.controlPanel.distance * Math.sin(this.controlPanel.theta);
+      this.camera.lookAt(this.controlPanel.INTERSECTED.position.x, 1, this.controlPanel.INTERSECTED.position.z);
+    }
+
     this.renderer.render(this.scene, this.camera);
     this.time += 0.05;
     window.requestAnimationFrame(this.render.bind(this));

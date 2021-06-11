@@ -12,3 +12,9 @@ canvas {
   width: 100vw;
   height: 100vh;
 }
+
+#selected {
+  position: absolute;
+  top: 0;
+  margin: 20px;
+}
