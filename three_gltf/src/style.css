@@ -1,20 +1,68 @@
 body {
   margin: 0;
   font-family: sans-serif;
-  background: red;
+  background: grey;
 }
 
 canvas {
   display: block;
 }
 
+.content-wrapper{
+  width: 80vw;
+  margin-left: 10vw;
+}
+
 #container {
-  width: 100vw;
-  height: 100vh;
+  position: relative;
+  width: 100%;
+  height: 600px;
+}
+
+#overlay{
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height:600px;
+  background: rgba(30,30,30,0.5);
+  color:white;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
 }
 
 #selected {
   position: absolute;
-  top: 0;
+  top: 100px;
   margin: 20px;
+  color: white;
+  display: none;
+  z-index: 2;
+}
+
+
+#action{
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-around;
+}
+
+#instruction{
+  margin-bottom: 100px;
+  width: 100%;
+  text-align: center;
+}
+
+
+
+.instruction-button{
+  border: 1px solid white;
+  min-width: 150px;
+  min-height: 40px;
+  margin-right: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

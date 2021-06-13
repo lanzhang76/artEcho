@@ -13,10 +13,14 @@ export class Sketch {
 
     this.camera = new THREE.PerspectiveCamera(70, this.width / this.height, 0.01, 100);
     this.camera.position.set(0, 0.1, 1);
+    this.listener = new THREE.AudioListener();
+    this.camera.add( this.listener );
+
 
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.renderer.setClearColor(0xf0d281);
     this.renderer.setSize(this.width, this.height);
+    this.renderer.domElement.setAttribute('role','application');
     this.container.appendChild(this.renderer.domElement);
 
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
@@ -25,6 +29,7 @@ export class Sketch {
     this.chamber = 1;
     this.inChamber = true;
     this.currentModels = [];
+    this.activated = false;
 
     this.chamber1 = [
       { name: "vase", path: "../models/vase/vase-f1991-150k-4096.gltf", mesh: null, box: null, position: { x: -2, y: null, z: -2 } },
@@ -48,6 +53,7 @@ export class Sketch {
     this.setupResize();
     this.setupKeys();
     this.addWorldObjects();
+    this.addSound();
     this.render();
   }
 
@@ -105,56 +111,59 @@ export class Sketch {
   }
 
   onKeyDown(event) {
-    switch (event.keyCode) {
-      case 37 /*Left*/:
-        if (this.controlPanel.VIEWmode == false) {
-          this.selectMinus();
-        } else {
-          this.rotateLeftObject();
-        }
+    if(this.activated){
+      switch (event.keyCode) {
+        case 37 /*Left*/:
+          if (this.controlPanel.VIEWmode == false) {
+            this.selectMinus();
+          } else {
+            this.rotateLeftObject();
+          }
 
-        break;
+          break;
 
-      case 39 /*Right*/:
-        if (this.controlPanel.VIEWmode == false) {
-          this.selectPlus();
-        } else {
-          this.rotateRightObject();
-        }
+        case 39 /*Right*/:
+          if (this.controlPanel.VIEWmode == false) {
+            this.selectPlus();
+          } else {
+            this.rotateRightObject();
+          }
 
-        break;
+          break;
 
-      // case 13 /*Enter*/:
-      //   if (this.controlPanel.VIEWmode == false) {
-      //     this.enterAroundObject();
-      //   }
-      //   break;
+          // case 13 /*Enter*/:
+          //   if (this.controlPanel.VIEWmode == false) {
+          //     this.enterAroundObject();
+          //   }
+          //   break;
 
-      case 13 /*Enter*/:
-        if (this.controlPanel.INTERSECTED != null) {
-          this.textBox.innerText = `Going into View Mode of model ${this.controlPanel.INTERSECTED.name}`;
-          this.controlPanel.VIEWmode = true;
-        }
+        case 13 /*Enter*/:
+          if (this.controlPanel.INTERSECTED != null) {
+            this.textBox.innerText = `Going into View Mode of model ${this.controlPanel.INTERSECTED.name}`;
+            this.controlPanel.VIEWmode = true;
+          }
 
-        break;
+          break;
 
-      case 27 /*Escape*/:
-        if (this.controlPanel.VIEWmode == true) {
-          this.exitAroundObject();
-        }
-        break;
+        case 27 /*Escape*/:
+          if (this.controlPanel.VIEWmode == true) {
+            this.exitAroundObject();
+          }
+          break;
 
-      case 40 /*Down*/:
-        if (this.controlPanel.distance < 10) {
-          this.controlPanel.distance += 0.1;
-        }
-        break;
+        case 40 /*Down*/:
+          if (this.controlPanel.distance < 10) {
+            this.controlPanel.distance += 0.1;
+          }
+          break;
 
-      case 38 /*Up*/:
-        if (this.controlPanel.distance > 0.3) {
-          this.controlPanel.distance -= 0.1;
-        }
+        case 38 /*Up*/:
+          if (this.controlPanel.distance > 0.3) {
+            this.controlPanel.distance -= 0.1;
+          }
+      }
     }
+
   }
 
   rotateRightObject() {
@@ -237,6 +246,31 @@ export class Sketch {
     this.scene.add(this.light);
     this.scene.add(this.light_vase);
     this.scene.add(this.ambient);
+  }
+
+  addSound() {
+    const sound = new THREE.PositionalAudio( this.listener );
+    const audioLoader = new THREE.AudioLoader();
+    audioLoader.load( '../../sounds/demo.wav', function( buffer ) {
+      sound.setBuffer( buffer );
+      sound.setRefDistance( 1 );
+      sound.setDirectionalCone( 180, 230, 0.1 );
+
+    });
+    this.sound = sound;
+
+
+    const sphere = new THREE.SphereGeometry( 1, 32, 1 );
+    const material = new THREE.MeshPhongMaterial( { color: 0xff2200 } );
+
+    const mesh = new THREE.Mesh( sphere, material );
+    this.scene.add( mesh );
+    mesh.add( sound );
+  }
+
+  setActivated(){
+    this.activated = true;
+    this.sound.play();
   }
 
   cameraAnimation() {
