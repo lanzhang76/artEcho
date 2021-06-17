@@ -2,6 +2,7 @@ import * as THREE from "three";
 import gsap from "gsap";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { GUI } from "three/examples/jsm/libs/dat.gui.module.js";
 
 export class Sketch {
   constructor(options) {
@@ -12,39 +13,68 @@ export class Sketch {
     this.height = this.container.offsetHeight;
 
     this.camera = new THREE.PerspectiveCamera(70, this.width / this.height, 0.01, 100);
-    this.camera.position.set(0, 0.1, 1);
-    this.listener = new THREE.AudioListener();
-    this.camera.add( this.listener );
+    this.camera.position.set(0, 0.2, 0);
+    this.camera.rotation.order = "YXZ";
 
+    this.tiltCam = false;
+
+    this.helper = new THREE.CameraHelper(this.camera);
+    this.scene.add(this.helper);
+
+    this.listener = new THREE.AudioListener();
+    this.camera.add(this.listener);
 
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
-    this.renderer.setClearColor(0xf0d281);
+    this.renderer.setClearColor(0x2d2d2d);
     this.renderer.setSize(this.width, this.height);
-    this.renderer.domElement.setAttribute('role','application');
+    this.renderer.domElement.setAttribute("role", "application");
     this.container.appendChild(this.renderer.domElement);
 
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-    this.controls.maxPolarAngle = Math.PI / 2 - 0.1;
 
     this.chamber = 1;
     this.inChamber = true;
     this.currentModels = [];
     this.activated = false;
 
+    this.ogPos = [
+      { name: "chamber1", x: 0, y: 0.2, z: 0 },
+      { name: "chamber2", x: 0, y: 0, z: 0 },
+      { name: "chamber3", x: 0, y: 0, z: 0 },
+      { name: "chamber4", x: 0, y: 0, z: 0 },
+    ];
+
     this.chamber1 = [
-      { name: "vase", path: "../models/vase/vase-f1991-150k-4096.gltf", mesh: null, box: null, position: { x: -2, y: null, z: -2 } },
-      { name: "mammoth", path: "../models/mammoth/woolly-mammoth-100k-4096.gltf", mesh: null, box: null, position: { x: 2, y: null, z: -2 } },
+      { name: "vase", path: "../models/vase/vase-f1991-150k-4096.gltf", mesh: null, box: null, position: { x: -2, y: 0.1, z: -2 }, starePos: { x: -1, y: 0.3, z: -1 }, stare_dist: 0.5 },
+      { name: "mammoth", path: "../models/mammoth/woolly-mammoth-100k-4096.gltf", mesh: null, box: null, position: { x: 2, y: 2, z: -2 }, starePos: { x: 1, y: 2, z: -1 }, stare_dist: 3 },
     ];
 
     this.controlPanel = {
-      theta: Math.PI,
+      theta: -Math.PI * 2,
       distance: 2,
       lookAtPoint: { x: 0, y: 0, z: 1.5 },
       currentSelected: 1,
-      previousSelected: 0,
       VIEWmode: false,
-      INTERSECTED: null,
+      INTERSECTED: { name: "origin", path: null, mesh: null, box: null, position: { x: 0, y: 1, z: 0 } },
+      x_randians: 0,
+      y_randians: 0,
     };
+
+    this.point = {
+      x: -Math.PI / 2,
+      y: Math.PI * 2,
+      z: -10,
+    };
+    this.camera.lookAt(this.point.x, this.point.y, this.point.z);
+
+    this.gui = new GUI();
+
+    this.pointRef = {
+      radius: 10,
+      phi: -Math.PI / 2,
+      theta: Math.PI / 2,
+    };
+    this.camera.lookAt(this.point.x, this.point.y, this.point.z);
 
     this.textBox = document.querySelector("#selected");
 
@@ -52,9 +82,11 @@ export class Sketch {
     this.resize();
     this.setupResize();
     this.setupKeys();
-    this.addWorldObjects();
+    this.addFloor();
+    this.addLight();
     this.addSound();
     this.render();
+    this.setupGUI();
   }
 
   loadModels() {
@@ -78,20 +110,16 @@ export class Sketch {
         );
       }
     }
-    // this.loader.load(this.vasePath, (gltf) => {
-    //   this.vaseMesh = gltf.scene;
-    //   this.scene.add(this.vaseMesh);
+  }
 
-    //   this.boxVase = new THREE.Box3().setFromObject(this.vaseMesh);
-    //   this.vaseMesh.position.set(-2, this.boxVase.getSize().y / 2, -2);
-    // });
-    // this.loader.load(this.mammothPath, (gltf) => {
-    //   this.mammothMesh = gltf.scene;
-    //   this.scene.add(this.mammothMesh);
+  setupGUI() {
+    this.cubeFolder = this.gui.addFolder("camera");
 
-    //   this.boxMammoth = new THREE.Box3().setFromObject(this.mammothMesh);
-    //   this.mammothMesh.position.set(2, this.boxMammoth.getSize().y / 2, -2);
-    // });
+    this.cubeFolder.add(this.pointRef, "radius", -10, 10, 0.01);
+    this.cubeFolder.add(this.pointRef, "phi", -Math.PI * 2, Math.PI * 2, Math.PI / 6);
+    this.cubeFolder.add(this.pointRef, "theta", -Math.PI * 2, Math.PI * 2, Math.PI / 4);
+    this.cubeFolder.add(this.controlPanel, "theta", -Math.PI * 2, Math.PI * 2, Math.PI / 4);
+    this.cubeFolder.open();
   }
 
   setupResize() {
@@ -111,103 +139,136 @@ export class Sketch {
   }
 
   onKeyDown(event) {
-    if(this.activated){
-      switch (event.keyCode) {
-        case 37 /*Left*/:
-          if (this.controlPanel.VIEWmode == false) {
-            this.selectMinus();
-          } else {
-            this.rotateLeftObject();
-          }
+    // 1. camera rotation: left and right
+    if (event.keyCode == 37 && (event.ctrlKey || event.metaKey)) {
+      console.log("rotate left");
+      this.tiltCam = true;
+      this.pointRef.theta -= Math.PI / 4;
+    } else if (event.keyCode == 39 && (event.ctrlKey || event.metaKey)) {
+      console.log("rotate right");
+      this.tiltCam = true;
+      this.pointRef.theta += Math.PI / 4;
+    }
+    console.log(this.pointRef.theta);
 
+    // 2. camera tilt
+    if (event.keyCode == 38 && (event.ctrlKey || event.metaKey) && this.pointRef.phi < -Math.PI / 3) {
+      console.log("tilt up");
+      this.tiltCam = true;
+      this.pointRef.phi += Math.PI / 6;
+    } else if (event.keyCode == 40 && (event.ctrlKey || event.metaKey) && this.pointRef.phi > (-Math.PI * 3) / 4) {
+      console.log("tilt down");
+      this.tiltCam = true;
+      this.pointRef.phi -= Math.PI / 6;
+    }
+    console.log(this.pointRef.phi);
+
+    if (this.activated && this.controlPanel.VIEWmode == false) {
+      // Chamber Navigation
+
+      // 3. select assets 1-currentModels.length
+      if (event.keyCode >= 48 && event.keyCode <= 54) {
+        switch (event.keyCode) {
+          case 48: // 0 is orginal point
+            // reset camera angle and position
+            this.pointRef.theta = Math.PI / 2;
+            this.textBox.innerText = `nothing is selected`;
+
+            break;
+          case 49: // 1
+            this.controlPanel.currentSelected = 0;
+            this.pointRef.theta = Math.PI * 2 + Math.PI / 4;
+            this.select();
+
+            break;
+          case 50: // 2
+            this.controlPanel.currentSelected = 1;
+            this.pointRef.theta = Math.PI * 2 + (Math.PI * 3) / 4;
+            this.select();
+
+            break;
+        }
+      }
+
+      // 4. move switch chambers
+    }
+
+    if (this.activated && this.controlPanel.VIEWmode == true) {
+      switch (event.keyCode) {
+        case 8: // 0 is orginal point
+          // reset camera angle and position
+          this.pointRef.theta = Math.PI / 2;
+          this.moveBackToCenter();
+          this.textBox.innerText = `moved back to center`;
+
+        case 37 /*Left*/:
+          this.rotateLeftObject();
           break;
 
         case 39 /*Right*/:
-          if (this.controlPanel.VIEWmode == false) {
-            this.selectPlus();
-          } else {
-            this.rotateRightObject();
-          }
-
+          this.rotateRightObject();
           break;
-
-          // case 13 /*Enter*/:
-          //   if (this.controlPanel.VIEWmode == false) {
-          //     this.enterAroundObject();
-          //   }
-          //   break;
-
-        case 13 /*Enter*/:
-          if (this.controlPanel.INTERSECTED != null) {
-            this.textBox.innerText = `Going into View Mode of model ${this.controlPanel.INTERSECTED.name}`;
-            this.controlPanel.VIEWmode = true;
-          }
-
-          break;
-
-        case 27 /*Escape*/:
-          if (this.controlPanel.VIEWmode == true) {
-            this.exitAroundObject();
-          }
-          break;
-
-        case 40 /*Down*/:
-          if (this.controlPanel.distance < 10) {
-            this.controlPanel.distance += 0.1;
-          }
-          break;
-
-        case 38 /*Up*/:
-          if (this.controlPanel.distance > 0.3) {
-            this.controlPanel.distance -= 0.1;
-          }
       }
     }
 
+    // if (this.activated) {
+    //   switch (event.keyCode) {
+    //     case 37 /*Left*/:
+    //       break;
+
+    //     case 39 /*Right*/:
+    //       if (this.controlPanel.VIEWmode == false) {
+    //         this.selectPlus();
+    //       } else {
+    //         this.rotateRightObject();
+    //       }
+
+    //       break;
+
+    //     case 13 /*Enter*/:
+    //       if (this.controlPanel.INTERSECTED != null) {
+    //         this.textBox.innerText = `Going into View Mode of model ${this.controlPanel.INTERSECTED.name}`;
+    //         this.controlPanel.VIEWmode = true;
+    //       }
+
+    //       break;
+
+    //     case 27 /*Escape*/:
+    //       if (this.controlPanel.VIEWmode == true) {
+    //         this.exitAroundObject();
+    //       }
+    //       break;
+
+    //     case 40 /*Down*/:
+    //       if (this.controlPanel.distance < 10) {
+    //         this.controlPanel.distance += 0.1;
+    //       }
+    //       break;
+
+    //     case 38 /*Up*/:
+    //       if (this.controlPanel.distance > 0.3) {
+    //         this.controlPanel.distance -= 0.1;
+    //       }
+    //   }
+    // }
   }
 
   rotateRightObject() {
-    this.controlPanel.theta += 0.1;
+    this.pointRef.theta -= Math.PI / 4;
   }
 
   rotateLeftObject() {
-    this.controlPanel.theta -= 0.1;
-  }
-
-  enterAroundObject() {
-    this.controlPanel.VIEWmode = true;
-    this.camera.position.z -= 0.2;
-  }
-
-  exitAroundObject() {
-    this.controlPanel.VIEWmode = false;
-    this.cameraAnimation();
-    this.camera.position.z += 0.2;
-  }
-
-  selectMinus() {
-    if (this.controlPanel.currentSelected > 0) {
-      this.controlPanel.currentSelected--;
-      this.select();
-    }
-  }
-
-  selectPlus() {
-    if (this.controlPanel.currentSelected < this.currentModels.length - 1) {
-      this.controlPanel.currentSelected++;
-      this.select();
-    }
+    this.pointRef.theta += Math.PI / 4;
   }
 
   select() {
     this.controlPanel.INTERSECTED = this.currentModels[this.controlPanel.currentSelected];
     this.textBox.innerText = `${this.controlPanel.INTERSECTED.name} is selected`;
-    this.cameraAnimation();
-  }
-
-  addWorldObjects() {
-    this.addFloor();
-    this.addLight();
+    this.point.x = this.controlPanel.INTERSECTED.position.x;
+    this.point.y = this.controlPanel.INTERSECTED.position.y;
+    this.point.z = this.controlPanel.INTERSECTED.position.z;
+    this.animation_ZoomToObject();
+    this.controlPanel.VIEWmode = true;
   }
 
   addFloor() {
@@ -220,7 +281,7 @@ export class Sketch {
     this.scene.add(this.floorObject);
 
     this.chamberFloor = new THREE.PlaneBufferGeometry(10, 10, 1, 1);
-    this.chamber_mat = new THREE.MeshBasicMaterial({ color: "#c45c54", side: THREE.DoubleSide });
+    this.chamber_mat = new THREE.MeshBasicMaterial({ color: "#f8f8ff", side: THREE.DoubleSide });
     this.chamber1 = new THREE.Mesh(this.chamberFloor, this.chamber_mat);
     this.chamber1.position.set(0, 0.01, 0);
     this.chamber1.rotation.set(Math.PI / 2, 0, 0);
@@ -249,51 +310,82 @@ export class Sketch {
   }
 
   addSound() {
-    const sound = new THREE.PositionalAudio( this.listener );
+    const sound = new THREE.PositionalAudio(this.listener);
     const audioLoader = new THREE.AudioLoader();
-    audioLoader.load( '../../sounds/demo.wav', function( buffer ) {
-      sound.setBuffer( buffer );
-      sound.setRefDistance( 1 );
-      sound.setDirectionalCone( 180, 230, 0.1 );
-
+    audioLoader.load("../../sounds/demo.wav", function (buffer) {
+      sound.setBuffer(buffer);
+      sound.setRefDistance(1);
+      sound.setDirectionalCone(180, 230, 0.1);
     });
     this.sound = sound;
 
+    const sphere = new THREE.SphereGeometry(1, 32, 1);
+    const material = new THREE.MeshPhongMaterial({ color: 0xff2200 });
 
-    const sphere = new THREE.SphereGeometry( 1, 32, 1 );
-    const material = new THREE.MeshPhongMaterial( { color: 0xff2200 } );
-
-    const mesh = new THREE.Mesh( sphere, material );
-    this.scene.add( mesh );
-    mesh.add( sound );
+    const mesh = new THREE.Mesh(sphere, material);
+    this.scene.add(mesh);
+    mesh.add(sound);
   }
 
-  setActivated(){
+  setActivated() {
     this.activated = true;
     this.sound.play();
   }
 
-  cameraAnimation() {
-    this.lookPos = this.controlPanel.INTERSECTED.position;
-    this.coords = { x: this.camera.position.x, y: this.camera.position.y };
-    gsap.to(this.coords, {
-      x: this.lookPos.x,
-      y: this.lookPos.y,
+  animation_ZoomToObject() {
+    gsap.to(this.camera.position, {
+      x: this.controlPanel.INTERSECTED.starePos.x,
+      y: this.controlPanel.INTERSECTED.starePos.y,
+      z: this.controlPanel.INTERSECTED.starePos.z,
       onUpdate: () => {
-        this.camera.lookAt(this.lookPos.x, 1, this.lookPos.z);
+        this.camera.lookAt(this.point.x, this.point.y, this.point.z);
       },
     });
   }
 
+  moveBackToCenter() {
+    this.controlPanel.VIEWmode = false;
+    this.clearTarget();
+    if (this.chamber == 1) {
+      gsap.to(this.camera.position, {
+        x: this.ogPos[0].x,
+        y: this.ogPos[0].y,
+        z: this.ogPos[0].z,
+        onUpdate: () => {
+          this.camera.lookAt(this.point.x, this.point.y, this.point.z);
+        },
+      });
+    }
+  }
+
+  clearTarget() {
+    this.pointRef.radius = 10;
+    this.pointRef.phi = -Math.PI / 2;
+    this.pointRef.theta = Math.PI / 2;
+    this.point.x = this.pointRef.radius * Math.sin(this.pointRef.phi) * Math.cos(this.pointRef.theta);
+    this.point.y = this.pointRef.radius * Math.cos(this.pointRef.phi);
+    this.point.z = this.pointRef.radius * Math.sin(this.pointRef.phi) * Math.sin(this.pointRef.theta);
+  }
+
   render() {
     if (this.controlPanel.VIEWmode == true) {
-      this.camera.position.x = this.controlPanel.INTERSECTED.position.x + this.controlPanel.distance * Math.cos(this.controlPanel.theta);
-      this.camera.position.z = this.controlPanel.INTERSECTED.position.z + this.controlPanel.distance * Math.sin(this.controlPanel.theta);
-      this.camera.lookAt(this.controlPanel.INTERSECTED.position.x, 1, this.controlPanel.INTERSECTED.position.z);
+      this.camera.position.x = this.point.x + this.controlPanel.INTERSECTED.stare_dist * Math.cos(this.pointRef.theta);
+      this.camera.position.z = this.point.z + this.controlPanel.INTERSECTED.stare_dist * Math.sin(this.pointRef.theta);
     }
 
+    if (this.tiltCam == true) {
+      this.point.x = this.pointRef.radius * Math.sin(this.pointRef.phi) * Math.cos(this.pointRef.theta);
+      this.point.y = this.pointRef.radius * Math.cos(this.pointRef.phi);
+      this.point.z = this.pointRef.radius * Math.sin(this.pointRef.phi) * Math.sin(this.pointRef.theta);
+      this.tiltCam = false;
+    }
+
+    this.camera.lookAt(this.point.x, this.point.y, this.point.z);
+
+    this.camera.matrixAutoUpdate = true;
+
     this.renderer.render(this.scene, this.camera);
-    this.time += 0.05;
+
     window.requestAnimationFrame(this.render.bind(this));
   }
 }
