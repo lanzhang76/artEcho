@@ -211,46 +211,6 @@ export class Sketch {
       }
     }
 
-    // if (this.activated) {
-    //   switch (event.keyCode) {
-    //     case 37 /*Left*/:
-    //       break;
-
-    //     case 39 /*Right*/:
-    //       if (this.controlPanel.VIEWmode == false) {
-    //         this.selectPlus();
-    //       } else {
-    //         this.rotateRightObject();
-    //       }
-
-    //       break;
-
-    //     case 13 /*Enter*/:
-    //       if (this.controlPanel.INTERSECTED != null) {
-    //         this.textBox.innerText = `Going into View Mode of model ${this.controlPanel.INTERSECTED.name}`;
-    //         this.controlPanel.VIEWmode = true;
-    //       }
-
-    //       break;
-
-    //     case 27 /*Escape*/:
-    //       if (this.controlPanel.VIEWmode == true) {
-    //         this.exitAroundObject();
-    //       }
-    //       break;
-
-    //     case 40 /*Down*/:
-    //       if (this.controlPanel.distance < 10) {
-    //         this.controlPanel.distance += 0.1;
-    //       }
-    //       break;
-
-    //     case 38 /*Up*/:
-    //       if (this.controlPanel.distance > 0.3) {
-    //         this.controlPanel.distance -= 0.1;
-    //       }
-    //   }
-    // }
   }
 
   rotateRightObject() {
