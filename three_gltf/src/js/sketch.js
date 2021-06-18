@@ -40,7 +40,7 @@ export class Sketch {
 
     this.ogPos = [
       { name: "chamber1", x: 0, y: 1, z: 0 },
-      { name: "chamber2", x: 0, y: 0, z: 0 },
+      { name: "chamber2", x: 0, y: 1, z: -20 },
       { name: "chamber3", x: 0, y: 0, z: 0 },
       { name: "chamber4", x: 0, y: 0, z: 0 },
     ];
@@ -81,7 +81,7 @@ export class Sketch {
     this.resize();
     this.setupResize();
     this.setupKeys();
-    // this.addFloor();
+    this.addFloor();
     this.addLight();
     this.addSound();
 
@@ -191,7 +191,8 @@ export class Sketch {
       }
 
       // 3. select assets 1-currentModels.length
-      if (event.keyCode >= 48 && event.keyCode <= 54) {
+      if (event.keyCode >= 48 && event.keyCode <= 54 && event.ctrlKey == false && event.shiftKey == false) {
+        console.log(event.shiftKey);
         switch (event.keyCode) {
           case 48: // 0 is orginal point
             // reset camera angle and position
@@ -222,6 +223,29 @@ export class Sketch {
 
       // 4. move switch chambers
       // TO BE COMPLETE
+      if (event.keyCode >= 48 && event.keyCode <= 54 && (event.ctrlKey || event.shiftKey)) {
+        switch (event.keyCode) {
+          case 49: // chamber 1
+            this.moveToChamber(1);
+            this.pointRef.radius = 10;
+            break;
+
+          case 50: // chamber 2
+            this.moveToChamber(2);
+            this.pointRef.radius = 100;
+            break;
+
+          case 51: // chamber 3
+            this.moveToChamber(3);
+            this.pointRef.radius = 200;
+            break;
+
+          case 52: // chamber 4
+            this.moveToChamber(4);
+            this.pointRef.radius = 300;
+            break;
+        }
+      }
     }
 
     //
@@ -232,10 +256,16 @@ export class Sketch {
       if (event.shiftKey == false) {
         //Move Around Object Navigation
         switch (event.keyCode) {
-          case 8: // 0 is orginal point
+          case 8: // del button
             // reset camera angle and position
             this.moveBackToCenter();
             this.textBox.innerText = `moved back to center`;
+            break;
+
+          case 27: // escape
+            this.moveBackToCenter();
+            this.textBox.innerText = `moved back to center`;
+            break;
 
           case 37 /*Left*/:
             this.rotateLeftObject();
@@ -295,7 +325,7 @@ export class Sketch {
     this.floor = new THREE.PlaneBufferGeometry(100, 100, 1, 1);
     this.material_floor = new THREE.MeshBasicMaterial({ color: "#131528", side: THREE.DoubleSide });
     this.floorObject = new THREE.Mesh(this.floor, this.material_floor);
-    this.floorObject.position.set(0, 0, 0);
+    this.floorObject.position.set(0, -0.01, 0);
     this.floorObject.rotation.set(Math.PI / 2, 0, 0);
     this.floorObject.name = "floor";
     this.scene.add(this.floorObject);
@@ -303,7 +333,7 @@ export class Sketch {
     this.chamberFloor = new THREE.PlaneBufferGeometry(10, 10, 1, 1);
     this.chamber_mat = new THREE.MeshBasicMaterial({ color: "#f8f8ff", side: THREE.DoubleSide });
     this.chamber1 = new THREE.Mesh(this.chamberFloor, this.chamber_mat);
-    this.chamber1.position.set(0, 0.01, 0);
+    this.chamber1.position.set(0, 0.01, -20);
     this.chamber1.rotation.set(Math.PI / 2, 0, 0);
     this.scene.add(this.chamber1);
 
@@ -356,7 +386,8 @@ export class Sketch {
     this.controlPanel.VIEWmode = true;
     this.tiltCam = false;
     gsap.to(this.point, {
-      duration: 2,
+      duration: 3,
+      ease: "power1.out",
       x: this.controlPanel.INTERSECTED.position.x,
       y: this.controlPanel.INTERSECTED.position.y,
       z: this.controlPanel.INTERSECTED.position.z,
@@ -371,7 +402,8 @@ export class Sketch {
           z: this.ogPos[0].z,
         },
         {
-          duration: 2,
+          duration: 3,
+          ease: "power1.out",
           x: this.controlPanel.INTERSECTED.position.x + this.controlPanel.INTERSECTED.stare_dist * Math.cos(this.controlPanel.INTERSECTED.theta),
           y: this.controlPanel.INTERSECTED.position.y,
           z: this.controlPanel.INTERSECTED.position.z + this.controlPanel.INTERSECTED.stare_dist * Math.sin(this.controlPanel.INTERSECTED.theta),
@@ -411,9 +443,33 @@ export class Sketch {
     }
   }
 
+  moveToChamber(num) {
+    if (num != this.chamber) {
+      this.textBox.innerText = `moving to chamber ${num}`;
+      console.log("move to " + num + " chamber.");
+      this.chamber = num;
+      console.log(this.ogPos[this.chamber - 1]);
+
+      gsap.fromTo(
+        this.camera.position,
+        { x: this.camera.position.x, y: this.camera.position.y, z: this.camera.position.z },
+        {
+          duration: 10,
+          x: this.ogPos[this.chamber - 1].x,
+          y: this.ogPos[this.chamber - 1].y,
+          z: this.ogPos[this.chamber - 1].z,
+          onUpdate: () => {
+            // this.camera.lookAt(this.point.x, this.point.y, this.point.z);
+          },
+        }
+      );
+    } else {
+      this.textBox.innerText = `you are already in chamber ${num}`;
+    }
+  }
+
   clearTarget() {
     this.controlPanel.theta = Math.PI * 2;
-    this.pointRef.radius = 10;
     this.pointRef.phi = -Math.PI / 2;
     this.pointRef.theta = Math.PI / 2;
   }

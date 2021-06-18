@@ -48,6 +48,12 @@ canvas {
   z-index: 2;
 }
 
+.temp-instructions {
+  color: white;
+  padding: 20px;
+  display: flex;
+}
+
 #action {
   display: flex;
   align-items: center;
