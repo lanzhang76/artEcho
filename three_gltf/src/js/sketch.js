@@ -3,6 +3,7 @@ import gsap from "gsap";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { GUI } from "three/examples/jsm/libs/dat.gui.module.js";
+import { models } from "../data/models";
 
 export class Sketch {
   constructor(options) {
@@ -44,20 +45,19 @@ export class Sketch {
       { name: "chamber4", x: 0, y: 0, z: 0 },
     ];
 
-    this.chamber1 = [
-      { name: "vase", path: "../models/vase/vase-f1991-150k-4096.gltf", mesh: null, box: null, position: { x: -2, y: 0.1, z: -2 }, starePos: { x: -1, y: 0.3, z: -1 }, stare_dist: 0.5 },
-      { name: "mammoth", path: "../models/mammoth/woolly-mammoth-100k-4096.gltf", mesh: null, box: null, position: { x: 2, y: 2, z: -2 }, starePos: { x: 1, y: 2, z: -1 }, stare_dist: 3 },
-    ];
+    // this.chamber1 = [
+    //   { name: "vase", path: "../models/vase/vase-f1991-150k-4096.gltf", mesh: null, box: null, position: { x: -2, y: 0.1, z: -2 }, theta: Math.PI * 2, stare_dist: 0.5 },
+    //   { name: "mammoth", path: "../models/mammoth/woolly-mammoth-100k-4096.gltf", mesh: null, box: null, position: { x: 2, y: 2, z: -2 }, theta: (Math.PI * 3) / 4, stare_dist: 3 },
+    // ];
+    this.chamber1 = models[0].data;
 
     this.controlPanel = {
-      theta: -Math.PI * 2,
-      distance: 2,
-      lookAtPoint: { x: 0, y: 0, z: 1.5 },
+      theta: Math.PI / 2,
       currentSelected: 1,
       VIEWmode: false,
-      INTERSECTED: { name: "origin", path: null, mesh: null, box: null, position: { x: 0, y: 1, z: 0 } },
-      x_randians: 0,
-      y_randians: 0,
+      initialMove: true,
+      INTERSECTED: { name: "origin", path: null, mesh: null, box: null, position: { x: 0, y: 0.2, z: 0 } },
+      og: { name: "origin", path: null, mesh: null, box: null, position: { x: 0, y: 0.2, z: 0 } },
     };
 
     this.point = {
@@ -65,7 +65,6 @@ export class Sketch {
       y: Math.PI * 2,
       z: -10,
     };
-    this.camera.lookAt(this.point.x, this.point.y, this.point.z);
 
     this.gui = new GUI();
 
@@ -86,13 +85,14 @@ export class Sketch {
     this.addLight();
     this.addSound();
     this.render();
-    this.setupGUI();
+    // this.setupGUI();
+    this.moveBackToCenter();
+    this.clearTarget();
   }
 
   loadModels() {
     this.loader = new GLTFLoader();
     if (this.chamber == 1 && this.inChamber == true) {
-      this.currentModels = [];
       this.currentModels = this.chamber1;
       for (let model of this.chamber1) {
         this.loader.load(
@@ -139,51 +139,45 @@ export class Sketch {
   }
 
   onKeyDown(event) {
-    // 1. camera rotation: left and right
-    if (event.keyCode == 37 && (event.ctrlKey || event.metaKey)) {
-      console.log("rotate left");
-      this.tiltCam = true;
-      this.pointRef.theta -= Math.PI / 4;
-    } else if (event.keyCode == 39 && (event.ctrlKey || event.metaKey)) {
-      console.log("rotate right");
-      this.tiltCam = true;
-      this.pointRef.theta += Math.PI / 4;
-    }
-    console.log(this.pointRef.theta);
-
-    // 2. camera tilt
-    if (event.keyCode == 38 && (event.ctrlKey || event.metaKey) && this.pointRef.phi < -Math.PI / 3) {
-      console.log("tilt up");
-      this.tiltCam = true;
-      this.pointRef.phi += Math.PI / 6;
-    } else if (event.keyCode == 40 && (event.ctrlKey || event.metaKey) && this.pointRef.phi > (-Math.PI * 3) / 4) {
-      console.log("tilt down");
-      this.tiltCam = true;
-      this.pointRef.phi -= Math.PI / 6;
-    }
-    console.log(this.pointRef.phi);
-
     if (this.activated && this.controlPanel.VIEWmode == false) {
       // Chamber Navigation
+      // 1. camera rotation: left and right
+      if (event.keyCode == 37 && (event.ctrlKey || event.shiftKey)) {
+        console.log("rotate left");
+        this.tiltCam = true;
+        this.pointRef.theta -= Math.PI / 4;
+      } else if (event.keyCode == 39 && (event.ctrlKey || event.shiftKey)) {
+        console.log("rotate right");
+        this.tiltCam = true;
+        this.pointRef.theta += Math.PI / 4;
+      }
+
+      // 2. camera tilt
+      if (event.keyCode == 38 && (event.ctrlKey || event.shiftKey) && this.pointRef.phi < -Math.PI / 3) {
+        console.log("tilt up");
+        this.tiltCam = true;
+        this.pointRef.phi += Math.PI / 6;
+      } else if (event.keyCode == 40 && (event.ctrlKey || event.shiftKey) && this.pointRef.phi > (-Math.PI * 3) / 4) {
+        console.log("tilt down");
+        this.tiltCam = true;
+        this.pointRef.phi -= Math.PI / 6;
+      }
 
       // 3. select assets 1-currentModels.length
       if (event.keyCode >= 48 && event.keyCode <= 54) {
         switch (event.keyCode) {
           case 48: // 0 is orginal point
             // reset camera angle and position
-            this.pointRef.theta = Math.PI / 2;
             this.textBox.innerText = `nothing is selected`;
 
             break;
-          case 49: // 1
+          case 49: // object 1
             this.controlPanel.currentSelected = 0;
-            this.pointRef.theta = Math.PI * 2 + Math.PI / 4;
             this.select();
 
             break;
-          case 50: // 2
+          case 50: // object 2
             this.controlPanel.currentSelected = 1;
-            this.pointRef.theta = Math.PI * 2 + (Math.PI * 3) / 4;
             this.select();
 
             break;
@@ -191,13 +185,14 @@ export class Sketch {
       }
 
       // 4. move switch chambers
+      // TO BE COMPLETE
     }
 
     if (this.activated && this.controlPanel.VIEWmode == true) {
+      // Around Object Navigation
       switch (event.keyCode) {
         case 8: // 0 is orginal point
           // reset camera angle and position
-          this.pointRef.theta = Math.PI / 2;
           this.moveBackToCenter();
           this.textBox.innerText = `moved back to center`;
 
@@ -210,25 +205,22 @@ export class Sketch {
           break;
       }
     }
-
   }
 
   rotateRightObject() {
-    this.pointRef.theta -= Math.PI / 4;
+    this.controlPanel.INTERSECTED.theta -= Math.PI / 4;
+    console.log(this.currentModels[this.controlPanel.currentSelected].theta);
   }
 
   rotateLeftObject() {
-    this.pointRef.theta += Math.PI / 4;
+    this.controlPanel.INTERSECTED.theta += Math.PI / 4;
+    console.log(this.currentModels[this.controlPanel.currentSelected].theta);
   }
 
   select() {
-    this.controlPanel.INTERSECTED = this.currentModels[this.controlPanel.currentSelected];
+    this.controlPanel.INTERSECTED = Object.assign({}, this.currentModels[this.controlPanel.currentSelected]);
     this.textBox.innerText = `${this.controlPanel.INTERSECTED.name} is selected`;
-    this.point.x = this.controlPanel.INTERSECTED.position.x;
-    this.point.y = this.controlPanel.INTERSECTED.position.y;
-    this.point.z = this.controlPanel.INTERSECTED.position.z;
     this.animation_ZoomToObject();
-    this.controlPanel.VIEWmode = true;
   }
 
   addFloor() {
@@ -293,21 +285,44 @@ export class Sketch {
   }
 
   animation_ZoomToObject() {
-    gsap.to(this.camera.position, {
-      x: this.controlPanel.INTERSECTED.starePos.x,
-      y: this.controlPanel.INTERSECTED.starePos.y,
-      z: this.controlPanel.INTERSECTED.starePos.z,
-      onUpdate: () => {
-        this.camera.lookAt(this.point.x, this.point.y, this.point.z);
-      },
+    this.controlPanel.VIEWmode = true;
+    this.tiltCam = false;
+    gsap.to(this.point, {
+      duration: 2,
+      x: this.controlPanel.INTERSECTED.position.x,
+      y: this.controlPanel.INTERSECTED.position.y,
+      z: this.controlPanel.INTERSECTED.position.z,
     });
+
+    if (this.controlPanel.initialMove) {
+      gsap.fromTo(
+        this.camera.position,
+        {
+          x: this.ogPos[0].x,
+          y: this.ogPos[0].y,
+          z: this.ogPos[0].z,
+        },
+        {
+          duration: 2,
+          x: this.controlPanel.INTERSECTED.position.x + this.controlPanel.INTERSECTED.stare_dist * Math.cos(this.controlPanel.INTERSECTED.theta),
+          y: this.controlPanel.INTERSECTED.position.y,
+          z: this.controlPanel.INTERSECTED.position.z + this.controlPanel.INTERSECTED.stare_dist * Math.sin(this.controlPanel.INTERSECTED.theta),
+          onComplete: () => {
+            this.controlPanel.initialMove = false;
+          },
+        }
+      );
+    }
   }
 
   moveBackToCenter() {
     this.controlPanel.VIEWmode = false;
+    this.controlPanel.initialMove = true;
+    this.tiltCam = true;
     this.clearTarget();
     if (this.chamber == 1) {
       gsap.to(this.camera.position, {
+        duration: 2,
         x: this.ogPos[0].x,
         y: this.ogPos[0].y,
         z: this.ogPos[0].z,
@@ -319,30 +334,26 @@ export class Sketch {
   }
 
   clearTarget() {
+    this.controlPanel.theta = Math.PI * 2;
     this.pointRef.radius = 10;
     this.pointRef.phi = -Math.PI / 2;
     this.pointRef.theta = Math.PI / 2;
-    this.point.x = this.pointRef.radius * Math.sin(this.pointRef.phi) * Math.cos(this.pointRef.theta);
-    this.point.y = this.pointRef.radius * Math.cos(this.pointRef.phi);
-    this.point.z = this.pointRef.radius * Math.sin(this.pointRef.phi) * Math.sin(this.pointRef.theta);
   }
 
   render() {
-    if (this.controlPanel.VIEWmode == true) {
-      this.camera.position.x = this.point.x + this.controlPanel.INTERSECTED.stare_dist * Math.cos(this.pointRef.theta);
-      this.camera.position.z = this.point.z + this.controlPanel.INTERSECTED.stare_dist * Math.sin(this.pointRef.theta);
+    if (this.controlPanel.VIEWmode == true && this.controlPanel.initialMove == false) {
+      this.camera.position.x = this.controlPanel.INTERSECTED.position.x + this.controlPanel.INTERSECTED.stare_dist * Math.cos(this.controlPanel.INTERSECTED.theta);
+      this.camera.position.y = this.controlPanel.INTERSECTED.position.y;
+      this.camera.position.z = this.controlPanel.INTERSECTED.position.z + this.controlPanel.INTERSECTED.stare_dist * Math.sin(this.controlPanel.INTERSECTED.theta);
     }
 
     if (this.tiltCam == true) {
       this.point.x = this.pointRef.radius * Math.sin(this.pointRef.phi) * Math.cos(this.pointRef.theta);
       this.point.y = this.pointRef.radius * Math.cos(this.pointRef.phi);
       this.point.z = this.pointRef.radius * Math.sin(this.pointRef.phi) * Math.sin(this.pointRef.theta);
-      this.tiltCam = false;
     }
 
     this.camera.lookAt(this.point.x, this.point.y, this.point.z);
-
-    this.camera.matrixAutoUpdate = true;
 
     this.renderer.render(this.scene, this.camera);
 
