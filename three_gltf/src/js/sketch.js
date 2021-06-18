@@ -14,7 +14,7 @@ export class Sketch {
     this.height = this.container.offsetHeight;
 
     this.camera = new THREE.PerspectiveCamera(70, this.width / this.height, 0.01, 100);
-    this.camera.position.set(0, 0.2, 0);
+    this.camera.position.set(0, 1, 0);
     this.camera.rotation.order = "YXZ";
 
     this.tiltCam = false;
@@ -31,7 +31,7 @@ export class Sketch {
     this.renderer.domElement.setAttribute("role", "application");
     this.container.appendChild(this.renderer.domElement);
 
-    // this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
 
     this.chamber = 1;
     this.inChamber = true;
@@ -39,18 +39,16 @@ export class Sketch {
     this.activated = false;
 
     this.ogPos = [
-      { name: "chamber1", x: 0, y: 0.2, z: 0 },
+      { name: "chamber1", x: 0, y: 1, z: 0 },
       { name: "chamber2", x: 0, y: 0, z: 0 },
       { name: "chamber3", x: 0, y: 0, z: 0 },
       { name: "chamber4", x: 0, y: 0, z: 0 },
     ];
 
-    // this.chamber1 = [
-    //   { name: "vase", path: "../models/vase/vase-f1991-150k-4096.gltf", mesh: null, box: null, position: { x: -2, y: 0.1, z: -2 }, theta: Math.PI * 2, stare_dist: 0.5 },
-    //   { name: "mammoth", path: "../models/mammoth/woolly-mammoth-100k-4096.gltf", mesh: null, box: null, position: { x: 2, y: 2, z: -2 }, theta: (Math.PI * 3) / 4, stare_dist: 3 },
-    // ];
+    this.rooms = models[4].data;
     this.chamber1 = models[0].data;
 
+    console.log(this.rooms);
     this.controlPanel = {
       theta: Math.PI / 2,
       currentSelected: 1,
@@ -81,10 +79,10 @@ export class Sketch {
     this.resize();
     this.setupResize();
     this.setupKeys();
-    this.addFloor();
+    // this.addFloor();
     this.addLight();
     this.addSound();
-    this.render();
+
     // this.setupGUI();
     this.moveBackToCenter();
     this.clearTarget();
@@ -92,6 +90,27 @@ export class Sketch {
 
   loadModels() {
     this.loader = new GLTFLoader();
+    //room
+    for (let room of this.rooms) {
+      this.loader.load(
+        room.path,
+        (gltf) => {
+          room.mesh = gltf.scene;
+          this.scene.add(room.mesh);
+
+          // room.box = new THREE.Box3().setFromObject(room.mesh);
+          room.mesh.scale.set(2.5, 2.5, 2.5);
+          room.mesh.position.set(room.position.x, room.position.y, room.position.z);
+        },
+        (xhr) => {
+          // while loading:
+          console.log("room" + (xhr.loaded / xhr.total) * 100 + "% loaded");
+        }
+      );
+      this.render();
+    }
+
+    //chamber 1 model
     if (this.chamber == 1 && this.inChamber == true) {
       this.currentModels = this.chamber1;
       for (let model of this.chamber1) {
@@ -100,16 +119,20 @@ export class Sketch {
           (gltf) => {
             model.mesh = gltf.scene;
             this.scene.add(model.mesh);
+
             model.box = new THREE.Box3().setFromObject(model.mesh);
-            model.mesh.position.set(model.position.x, model.box.getSize(new THREE.Vector3()).y / 2, model.position.z);
+            model.mesh.position.set(model.position.x + model.offset.x, model.box.getSize(new THREE.Vector3()).y / 2 + model.offset.y, model.position.z + model.offset.z);
+            model.mesh.rotation.set(model.rotation.x, model.rotation.y, model.rotation.z);
           },
           (xhr) => {
             // while loading:
-            console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+            console.log("models are " + (xhr.loaded / xhr.total) * 100 + "% loaded");
           }
         );
       }
     }
+
+    console.log(this.currentModels);
   }
 
   setupGUI() {
@@ -169,17 +192,26 @@ export class Sketch {
           case 48: // 0 is orginal point
             // reset camera angle and position
             this.textBox.innerText = `nothing is selected`;
-
             break;
+
           case 49: // object 1
             this.controlPanel.currentSelected = 0;
             this.select();
-
             break;
+
           case 50: // object 2
             this.controlPanel.currentSelected = 1;
             this.select();
+            break;
 
+          case 51: // object 3
+            this.controlPanel.currentSelected = 2;
+            this.select();
+            break;
+
+          case 52: // object 4
+            this.controlPanel.currentSelected = 3;
+            this.select();
             break;
         }
       }
