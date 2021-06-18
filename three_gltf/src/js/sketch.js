@@ -7,11 +7,11 @@ import { models } from "../data/models";
 
 export class Sketch {
   constructor(options) {
-    this.time = 0;
     this.container = options.dom;
-    this.scene = new THREE.Scene();
     this.width = this.container.offsetWidth;
     this.height = this.container.offsetHeight;
+
+    this.scene = new THREE.Scene();
 
     this.camera = new THREE.PerspectiveCamera(70, this.width / this.height, 0.01, 100);
     this.camera.position.set(0, 1, 0);
@@ -47,8 +47,10 @@ export class Sketch {
 
     this.rooms = models[4].data;
     this.chamber1 = models[0].data;
+    this.chamber2 = models[1].data;
+    this.chamber3 = models[2].data;
+    this.chamber4 = models[3].data;
 
-    console.log(this.rooms);
     this.controlPanel = {
       theta: Math.PI / 2,
       currentSelected: 1,
@@ -163,7 +165,9 @@ export class Sketch {
 
   onKeyDown(event) {
     if (this.activated && this.controlPanel.VIEWmode == false) {
-      // Chamber Navigation
+      //
+      // ** Chamber Navigation **
+      //
       // 1. camera rotation: left and right
       if (event.keyCode == 37 && (event.ctrlKey || event.shiftKey)) {
         console.log("rotate left");
@@ -220,21 +224,53 @@ export class Sketch {
       // TO BE COMPLETE
     }
 
+    //
+    // ** object navigation**
+    //
+
     if (this.activated && this.controlPanel.VIEWmode == true) {
-      // Around Object Navigation
-      switch (event.keyCode) {
-        case 8: // 0 is orginal point
-          // reset camera angle and position
-          this.moveBackToCenter();
-          this.textBox.innerText = `moved back to center`;
+      if (event.shiftKey == false) {
+        //Move Around Object Navigation
+        switch (event.keyCode) {
+          case 8: // 0 is orginal point
+            // reset camera angle and position
+            this.moveBackToCenter();
+            this.textBox.innerText = `moved back to center`;
 
-        case 37 /*Left*/:
-          this.rotateLeftObject();
-          break;
+          case 37 /*Left*/:
+            this.rotateLeftObject();
+            break;
 
-        case 39 /*Right*/:
-          this.rotateRightObject();
-          break;
+          case 39 /*Right*/:
+            this.rotateRightObject();
+            break;
+        }
+      }
+
+      if (event.keyCode == 38 && (event.ctrlKey || event.shiftKey) && this.point.y < this.controlPanel.INTERSECTED.position.y + Math.PI / 3) {
+        // up
+        this.point.y += Math.PI / 6;
+      } else if (event.keyCode == 40 && (event.ctrlKey || event.shiftKey) && this.point.y > this.controlPanel.INTERSECTED.position.y - Math.PI / 4) {
+        // down
+        this.point.y -= Math.PI / 6;
+      }
+
+      if (event.keyCode == 37 && (event.ctrlKey || event.shiftKey)) {
+        // right
+        if (this.point.z < 0 && this.point.x > this.controlPanel.INTERSECTED.position.x - Math.PI / 3) {
+          this.point.x -= Math.PI / 4;
+        } else if (this.point.z > 0 && this.point.x < this.controlPanel.INTERSECTED.position.x + Math.PI / 3) {
+          // object placed on +z axis
+          this.point.x += Math.PI / 4;
+        }
+      } else if (event.keyCode == 39 && (event.ctrlKey || event.shiftKey)) {
+        // left
+        if (this.point.z < 0 && this.point.x < this.controlPanel.INTERSECTED.position.x + Math.PI / 3) {
+          this.point.x += Math.PI / 4;
+        } else if (this.point.z > 0 && this.point.x > this.controlPanel.INTERSECTED.position.x - Math.PI / 3) {
+          // object placed on +z axis
+          this.point.x -= Math.PI / 4;
+        }
       }
     }
   }
@@ -281,7 +317,7 @@ export class Sketch {
     this.light = new THREE.PointLight(this.color, this.intensity);
     this.light_vase = new THREE.DirectionalLight(this.color, this.intensity, 10);
     this.ambient = new THREE.AmbientLight(0x404040, this.intensity);
-    this.light.position.set(0.5, 1, 0.866);
+    this.light.position.set(0, 50, 0.866);
 
     const targetObject = new THREE.Object3D();
     targetObject.position.set(-0.5, 0, 0);
@@ -352,16 +388,26 @@ export class Sketch {
     this.controlPanel.initialMove = true;
     this.tiltCam = true;
     this.clearTarget();
+    gsap.to(this.point, {
+      duration: 2,
+      x: this.pointRef.radius * Math.sin(this.pointRef.phi) * Math.cos(this.pointRef.theta),
+      y: this.pointRef.radius * Math.cos(this.pointRef.phi),
+      z: this.pointRef.radius * Math.sin(this.pointRef.phi) * Math.sin(this.pointRef.theta),
+    });
     if (this.chamber == 1) {
-      gsap.to(this.camera.position, {
-        duration: 2,
-        x: this.ogPos[0].x,
-        y: this.ogPos[0].y,
-        z: this.ogPos[0].z,
-        onUpdate: () => {
-          this.camera.lookAt(this.point.x, this.point.y, this.point.z);
-        },
-      });
+      gsap.fromTo(
+        this.camera.position,
+        { duration: 2, x: this.camera.position.x, y: this.camera.position.y, z: this.camera.position.z },
+        {
+          duration: 2,
+          x: this.ogPos[this.chamber - 1].x,
+          y: this.ogPos[this.chamber - 1].y,
+          z: this.ogPos[this.chamber - 1].z,
+          onUpdate: () => {
+            // this.camera.lookAt(this.point.x, this.point.y, this.point.z);
+          },
+        }
+      );
     }
   }
 
@@ -379,7 +425,7 @@ export class Sketch {
       this.camera.position.z = this.controlPanel.INTERSECTED.position.z + this.controlPanel.INTERSECTED.stare_dist * Math.sin(this.controlPanel.INTERSECTED.theta);
     }
 
-    if (this.tiltCam == true) {
+    if (this.controlPanel.VIEWmode == false && this.tiltCam == true) {
       this.point.x = this.pointRef.radius * Math.sin(this.pointRef.phi) * Math.cos(this.pointRef.theta);
       this.point.y = this.pointRef.radius * Math.cos(this.pointRef.phi);
       this.point.z = this.pointRef.radius * Math.sin(this.pointRef.phi) * Math.sin(this.pointRef.theta);
