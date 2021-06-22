@@ -16,8 +16,14 @@ export const models = [
         theta: Math.PI / 4,
         stare_dist: 3.5,
       },
+
     ],
-    soundsFiles: [],
+    soundsFiles: [
+        { name: "Geochelone carbonaria", path: "../Background-Sounds/Chamber1/Object1.mp3", position: { x: 5, y: 0, z: -5 } },
+      { name: "Eremotherium laurillardi", path: "../Background-Sounds/Chamber1/Object2.mp3", position: { x: 5, y: 0, z: 5 } },
+      { name: "Mammuthus primigenius (Blumbach)", path: "../Background-Sounds/Chamber1/Object3.mp3", position: { x: -5, y: 0, z: 5 }},
+      { name: "Triceratops horridus", path: "../Background-Sounds/Chamber1/Object4.mp3", position: { x: -5, y: 0, z: -5 },}
+    ],
   },
   {
     name: "chamber2",
@@ -42,3 +48,5 @@ export const models = [
     data: [{ name: "chamber1-room", path: "../models/rooms/chamber1/test.gltf", mesh: null, box: null, position: { x: 0, y: 0, z: 0 } }],
   },
 ];
+
+

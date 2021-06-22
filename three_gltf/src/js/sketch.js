@@ -5,6 +5,8 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { GUI } from "three/examples/jsm/libs/dat.gui.module.js";
 import { models } from "../data/models";
 
+
+const audioLoader = new THREE.AudioLoader();
 export class Sketch {
   constructor(options) {
     this.container = options.dom;
@@ -50,6 +52,7 @@ export class Sketch {
     this.chamber2 = models[1].data;
     this.chamber3 = models[2].data;
     this.chamber4 = models[3].data;
+    this.chamber1Sound = models[0].soundsFiles;
 
     this.controlPanel = {
       theta: Math.PI / 2,
@@ -318,7 +321,7 @@ export class Sketch {
   select() {
     this.controlPanel.INTERSECTED = Object.assign({}, this.currentModels[this.controlPanel.currentSelected]);
     this.textBox.innerText = `${this.controlPanel.INTERSECTED.name} is selected`;
-    this.animation_ZoomToObject();
+    this.animation_ZoomToObject(this.controlPanel.currentSelected);
   }
 
   addFloor() {
@@ -360,29 +363,34 @@ export class Sketch {
   }
 
   addSound() {
-    const sound = new THREE.PositionalAudio(this.listener);
-    const audioLoader = new THREE.AudioLoader();
-    audioLoader.load("../../sounds/demo.wav", function (buffer) {
-      sound.setBuffer(buffer);
-      sound.setRefDistance(1);
-      sound.setDirectionalCone(180, 230, 0.1);
-    });
-    this.sound = sound;
+    this.chamber1Sound.forEach((info) => {
+      const sound = new THREE.PositionalAudio(this.listener);
+      audioLoader.load(info.path, function (buffer) {
+        sound.setBuffer(buffer);
+        sound.setRefDistance(1.5);
+        sound.setDirectionalCone(180, 230, 0.1);
+      });
+      info.sound = sound;
+      const geometry = new THREE.BoxGeometry();
+      const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+      const sphere = new THREE.Mesh( geometry, material );
+      sphere.position.copy(info.position);
+      sphere.visible = false;
+      sphere.add(sound);
+      this.scene.add(sphere);
+    })
 
-    const sphere = new THREE.SphereGeometry(1, 32, 1);
-    const material = new THREE.MeshPhongMaterial({ color: 0xff2200 });
-
-    const mesh = new THREE.Mesh(sphere, material);
-    this.scene.add(mesh);
-    mesh.add(sound);
   }
 
   setActivated() {
     this.activated = true;
-    this.sound.play();
+
+    // this.chamber1Sound.forEach((info) => {
+    //   info.sound.play();
+    // })
   }
 
-  animation_ZoomToObject() {
+  animation_ZoomToObject(index) {
     this.controlPanel.VIEWmode = true;
     this.tiltCam = false;
     gsap.to(this.point, {
@@ -392,6 +400,7 @@ export class Sketch {
       y: this.controlPanel.INTERSECTED.position.y,
       z: this.controlPanel.INTERSECTED.position.z,
     });
+    this.chamber1Sound[index].sound.play();
 
     if (this.controlPanel.initialMove) {
       gsap.fromTo(
