@@ -32,7 +32,7 @@ export class Sketch {
     this.renderer.domElement.setAttribute("role", "application");
     this.container.appendChild(this.renderer.domElement);
 
-    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+    // this.controls = new OrbitControls(this.camera, this.renderer.domElement);
 
     this.chamber = 1;
     this.inChamber = true;
@@ -70,7 +70,7 @@ export class Sketch {
       z: -10,
     };
 
-    this.gui = new GUI();
+    // this.gui = new GUI();
 
     this.pointRef = {
       radius: 10,
