@@ -350,7 +350,22 @@ export class Sketch {
         let echoPath = '../Sounds/Chamber1/Object3/0_-45_-30.mp3';
         audioLoader.load(echoPath,(buffer) => {
           this.echoSound.setBuffer(buffer);
-          this.echoSound.play();
+        })
+        let targetSound = this.chamber1Sound[object];
+        gsap.to(targetSound,{
+          duration: 0.5,
+          ease: "power1.out",
+          volume: 0,
+          onComplete: () => {
+            this.echoSound.play();
+            gsap.to(targetSound,{
+              duration: 1,
+              ease: "power1.out",
+              volume: 1,
+            })
+
+
+          }
         })
       }
     }
