@@ -1,0 +1,142 @@
+{
+  "accessors": [
+    {
+      "bufferView": 0,
+      "componentType": 5126,
+      "count": 102235,
+      "max": [
+        1.40096402168274,
+        0.831313014030457,
+        2.94555997848511
+      ],
+      "min": [
+        -1.40255403518677,
+        -0.830383002758026,
+        -2.94590401649475
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 102235,
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 102235,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 3,
+      "componentType": 5125,
+      "count": 449994,
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "generator": "MeshSmith mesh conversion tool",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 1226820,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 1226820,
+      "byteOffset": 1226820,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 817880,
+      "byteOffset": 2453640,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 1799976,
+      "byteOffset": 3271520,
+      "target": 34963
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 5071496,
+      "uri": "Triceratops_horridus_Marsh_1889-150k-4096.bin"
+    }
+  ],
+  "images": [
+    {
+      "uri": "Triceratops_horridus_Marsh_1889-150k-4096-diffuse.jpg"
+    },
+    {
+      "uri": "Triceratops_horridus_Marsh_1889-150k-4096-occlusion.jpg"
+    },
+    {
+      "uri": "Triceratops_horridus_Marsh_1889-150k-4096-normals.jpg"
+    }
+  ],
+  "materials": [
+    {
+      "name": "default",
+      "normalTexture": {
+        "index": 2
+      },
+      "occlusionTexture": {
+        "index": 1
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 0
+        },
+        "metallicFactor": 0.100000001490116,
+        "roughnessFactor": 0.800000011920929
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0,
+            "TEXCOORD_0": 2
+          },
+          "indices": 3,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "mesh": 0
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "source": 0
+    },
+    {
+      "source": 1
+    },
+    {
+      "source": 2
+    }
+  ]
+}
