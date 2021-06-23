@@ -42,6 +42,7 @@ export class Sketch {
     this.activated = false;
     this.loaded = false;
     this.keyPressed = false;
+    this.orbiting = false;
 
     this.ogPos = [
       { name: "chamber1", x: 0, y: 1, z: 0 },
@@ -71,6 +72,8 @@ export class Sketch {
       y: Math.PI * 2,
       z: -10,
     };
+
+    this.target_deg = 0;
 
     // this.gui = new GUI();
 
@@ -123,7 +126,11 @@ export class Sketch {
     if (this.chamber == 1 && this.inChamber == true) {
       this.currentModels = this.chamber1;
       for (let model of this.chamber1) {
-        this.loadThisModel(model);
+        this.loadThisModel(model, "room 1");
+      }
+
+      for (let model of this.chamber2) {
+        this.loadThisModel(model, "room 2");
       }
     }
 
@@ -147,7 +154,7 @@ export class Sketch {
     }
   }
 
-  loadThisModel(model) {
+  loadThisModel(model, room_name) {
     this.loader.load(
       model.path,
       (gltf) => {
@@ -161,7 +168,7 @@ export class Sketch {
       },
       (xhr) => {
         // while loading:
-        console.log("models are " + (xhr.loaded / xhr.total) * 100 + "% loaded");
+        console.log(room_name + " models are " + (xhr.loaded / xhr.total) * 100 + "% loaded");
       }
     );
   }
@@ -193,33 +200,151 @@ export class Sketch {
   }
 
   onKeyDown(event) {
-    if (this.activated && this.loaded == true) {
-      //
-      // ** Chamber Navigation **
-      //
+    //
+    // ** ORIGIN-ONLY Camera Rotation **
+    //
+
+    if (this.activated && this.loaded == true && this.controlPanel.VIEWmode == false) {
       // 1. camera rotation: left and right at ORIGIN
-      if (event.keyCode == 37 && (event.ctrlKey || event.shiftKey)) {
-        console.log("rotate left");
+      if (event.keyCode == 37 && event.shiftKey) {
+        //
+        console.log("@origin: rotate left");
         this.tiltCam = true;
         this.pointRef.theta -= Math.PI / 4;
-      } else if (event.keyCode == 39 && (event.ctrlKey || event.shiftKey)) {
-        console.log("rotate right");
+      } else if (event.keyCode == 39 && event.shiftKey) {
+        //
+        console.log("@origin: rotate right");
         this.tiltCam = true;
         this.pointRef.theta += Math.PI / 4;
       }
 
-      // 2. camera tilt
-      if (event.keyCode == 38 && (event.ctrlKey || event.shiftKey) && this.pointRef.phi < -Math.PI / 3) {
-        console.log("tilt up");
+      if (event.keyCode == 38 && event.shiftKey && this.pointRef.phi < -0.6) {
+        //
+        console.log("@origin: tilt up", this.pointRef.phi);
         this.tiltCam = true;
         this.pointRef.phi += Math.PI / 6;
-      } else if (event.keyCode == 40 && (event.ctrlKey || event.shiftKey) && this.pointRef.phi > (-Math.PI * 3) / 8) {
-        console.log("tilt down");
+      } else if (event.keyCode == 40 && event.shiftKey && this.pointRef.phi > -2) {
+        //
+        console.log("@origin: tilt down", this.pointRef.phi);
+        this.tiltCam = true;
+        this.pointRef.phi -= Math.PI / 6;
+      }
+    }
+
+    // *******************************************************
+    // ************* OBJECT-ONLY Camera Rotation *************
+    // *******************************************************
+
+    if (this.activated && this.loaded == true && this.controlPanel.VIEWmode == true) {
+      //
+      // ** LEFT & RIGHT **
+      //
+
+      if (event.keyCode == 37 && event.shiftKey) {
+        // left
+        console.log("@object: rotate left");
+        this.tiltCam = true;
+        this.pointRef.theta -= Math.PI / 4;
+      } else if (event.keyCode == 39 && event.shiftKey) {
+        // right
+        console.log("@object: rotate right");
+        this.tiltCam = true;
+        this.pointRef.theta += Math.PI / 4;
+      }
+
+      //
+      // ** UP & DOWN **
+      //
+
+      if (event.keyCode == 38 && event.shiftKey && this.pointRef.phi < -0.6) {
+        // up
+        console.log("@object: tilt up", this.pointRef.phi);
+        this.tiltCam = true;
+        this.pointRef.phi += Math.PI / 6;
+      } else if (event.keyCode == 40 && event.shiftKey && this.pointRef.phi > -2) {
+        // down
+        console.log("@object: tilt down", this.pointRef.phi);
         this.tiltCam = true;
         this.pointRef.phi -= Math.PI / 6;
       }
 
-      // 3. select assets
+      //
+      // ** ORBIT MOVEMENT **
+      //
+
+      if (event.shiftKey == false) {
+        //Move Around Object Navigation
+        switch (event.keyCode) {
+          case 48: // 0
+            // reset camera angle and position
+            this.moveBackToCenter();
+            this.textBox.innerText = `moved back to center`;
+            break;
+
+          case 8: // del button
+            // reset camera angle and position
+            this.moveBackToCenter();
+            this.textBox.innerText = `moved back to center`;
+            break;
+
+          case 37 /*Left*/:
+            // rotate AROUND object
+            this.orbiting = true;
+            this.rotateLeftObject();
+            break;
+
+          case 39 /*Right*/:
+            // rotate AROUND object
+            this.orbiting = true;
+            this.rotateRightObject();
+            break;
+        }
+      }
+
+      //
+      // ** PLAY ECHO SOUND W/ SPACE KEY **
+      //
+      if (event.keyCode === 32) {
+        // 32 space bar
+        let chamber = this.chamber;
+        let object = this.controlPanel.currentSelected;
+        let orbit = ((this.controlPanel.INTERSECTED.theta / Math.PI) * 180) / 45 - 1;
+        // let verticalAngle = (this.point.y / Math.PI) * 180;
+        // let horizontal = (this.point.x / Math.PI) * 180;
+        let verticalAngle = (this.pointRef.phi / Math.PI) * 180; //以这个为基数
+        let horizontal = (this.pointRef.theta / Math.PI) * 180; //以这个为基数
+
+        console.log("orbit " + orbit + " vertical " + verticalAngle + "horizontal " + horizontal);
+        let echoPath = "../Sounds/Chamber1/Object3/0_-45_-30.mp3";
+        audioLoader.load(echoPath, (buffer) => {
+          this.echoSound.setBuffer(buffer);
+        });
+        let targetSound = this.chamber1Sound[object];
+        gsap.to(targetSound, {
+          duration: 0.5,
+          ease: "power1.out",
+          volume: 0,
+          onComplete: () => {
+            this.echoSound.play();
+            gsap.to(targetSound, {
+              duration: 1,
+              ease: "power1.out",
+              volume: 1,
+            });
+          },
+        });
+      }
+    }
+
+    //
+    // ** GLOBAL KEY BEHAVIORS **
+    //
+
+    if (this.activated && this.loaded == true) {
+      //
+      // ** SELECT MODELS **
+      //
+
       if (event.keyCode >= 48 && event.keyCode <= 54 && event.ctrlKey == false && event.shiftKey == false) {
         switch (event.keyCode) {
           case 48: // 0 is orginal point
@@ -249,8 +374,10 @@ export class Sketch {
         }
       }
 
-      // 4. move switch chambers
-      // TO BE COMPLETE
+      //
+      // ** SELECT CHAMBERS **
+      //
+
       if (event.keyCode >= 48 && event.keyCode <= 54 && (event.ctrlKey || event.shiftKey)) {
         switch (event.keyCode) {
           case 49: // chamber 1
@@ -275,109 +402,28 @@ export class Sketch {
         }
       }
     }
-
-    //
-    // ** OBJECT navigation**
-    //
-
-    if (this.activated && this.controlPanel.VIEWmode == true && this.loaded == true) {
-      if (event.shiftKey == false) {
-        //Move Around Object Navigation
-        switch (event.keyCode) {
-          case 48: // 0
-            // reset camera angle and position
-            this.moveBackToCenter();
-            this.textBox.innerText = `moved back to center`;
-            break;
-
-          case 8: // del button
-            // reset camera angle and position
-            this.moveBackToCenter();
-            this.textBox.innerText = `moved back to center`;
-            break;
-
-          case 37 /*Left*/:
-            // rotate AROUND object
-            this.rotateLeftObject();
-            break;
-
-          case 39 /*Right*/:
-            // rotate AROUND object
-            this.rotateRightObject();
-            break;
-        }
-      }
-
-      //
-      // ** OBJECT navigation** && camera TILT
-      //
-
-      if (event.keyCode == 38 && (event.ctrlKey || event.shiftKey) && this.point.y < this.controlPanel.INTERSECTED.position.y + Math.PI / 6) {
-        // up
-        this.point.y += Math.PI / 6;
-      } else if (event.keyCode == 40 && (event.ctrlKey || event.shiftKey) && this.point.y > this.controlPanel.INTERSECTED.position.y - Math.PI / 6) {
-        // down
-        this.point.y -= Math.PI / 6;
-      }
-
-      if (event.keyCode == 37 && (event.ctrlKey || event.shiftKey)) {
-        // right
-        if (this.point.z < 0 && this.point.x > this.controlPanel.INTERSECTED.position.x - Math.PI / 6) {
-          this.point.x -= Math.PI / 4;
-          console.log(this.position.x);
-        } else if (this.point.z > 0 && this.point.x < this.controlPanel.INTERSECTED.position.x + Math.PI / 6) {
-          // object placed on +z axis
-          this.point.x += Math.PI / 4;
-        }
-      } else if (event.keyCode == 39 && (event.ctrlKey || event.shiftKey)) {
-        // left
-        if (this.point.z < 0 && this.point.x < this.controlPanel.INTERSECTED.position.x + Math.PI / 6) {
-          this.point.x += Math.PI / 4;
-        } else if (this.point.z > 0 && this.point.x > this.controlPanel.INTERSECTED.position.x - Math.PI / 4) {
-          // object placed on +z axis
-          this.point.x -= Math.PI / 4;
-        }
-      }
-
-      //play echo sound
-      if(event.keyCode === 32){
-        let chamber = this.chamber;
-        let object = this.controlPanel.currentSelected;
-        let orbit = this.controlPanel.INTERSECTED.theta / Math.PI * 180 / 45 - 1;
-        let verticalAngle = this.point.y / Math.PI * 180;
-        let horizontal = this.point.x / Math.PI * 180;
-        console.log("orbit " + orbit + " vertical " + verticalAngle + "horizontal " + horizontal);
-        let echoPath = '../Sounds/Chamber1/Object3/0_-45_-30.mp3';
-        audioLoader.load(echoPath,(buffer) => {
-          this.echoSound.setBuffer(buffer);
-        })
-        let targetSound = this.chamber1Sound[object];
-        gsap.to(targetSound,{
-          duration: 0.5,
-          ease: "power1.out",
-          volume: 0,
-          onComplete: () => {
-            this.echoSound.play();
-            gsap.to(targetSound,{
-              duration: 1,
-              ease: "power1.out",
-              volume: 1,
-            })
-
-
-          }
-        })
-      }
-    }
   }
 
   rotateRightObject() {
     this.controlPanel.INTERSECTED.theta -= Math.PI / 4;
+    gsap.to(this.pointRef, 5, {
+      theta: this.controlPanel.INTERSECTED.theta,
+      onComplete: () => {
+        this.orbiting = false;
+        console.log("unlocked");
+      },
+    });
   }
 
   rotateLeftObject() {
     this.controlPanel.INTERSECTED.theta += Math.PI / 4;
-    console.log(this.currentModels[this.controlPanel.currentSelected].theta);
+    gsap.to(this.pointRef, 5, {
+      theta: this.controlPanel.INTERSECTED.theta,
+      onComplete: () => {
+        this.orbiting = false;
+        console.log("unlocked");
+      },
+    });
   }
 
   select() {
@@ -427,7 +473,7 @@ export class Sketch {
         sound.setBuffer(buffer);
         sound.setRefDistance(0.05);
         sound.setLoop(true);
-        sound.setDistanceModel('linear');
+        sound.setDistanceModel("linear");
         sound.setRolloffFactor(1);
         sound.setVolume(info.volume);
         sound.setDirectionalCone(180, 230, 0.1);
@@ -445,7 +491,6 @@ export class Sketch {
     });
   }
 
-
   setActivated() {
     this.activated = true;
   }
@@ -453,7 +498,7 @@ export class Sketch {
   animation_ZoomToObject(index) {
     this.controlPanel.VIEWmode = true;
     this.tiltCam = false;
-
+    this.pointRef.theta = this.controlPanel.INTERSECTED.theta;
 
     gsap.to(this.point, {
       duration: 3,
@@ -463,18 +508,18 @@ export class Sketch {
       z: this.controlPanel.INTERSECTED.position.z,
     });
     let targetSound = this.chamber1Sound[index];
-    gsap.to(targetSound,{
-     duration: 3,
-     ease: "power1.out",
-     volume: 1
-    })
-    if(this.previous !== null){
+    gsap.to(targetSound, {
+      duration: 3,
+      ease: "power1.out",
+      volume: 1,
+    });
+    if (this.previous !== null) {
       let targetSound = this.chamber1Sound[this.previous];
-      gsap.to(targetSound,{
+      gsap.to(targetSound, {
         duration: 3,
         ease: "power1.out",
-        volume: 0
-      })
+        volume: 0,
+      });
     }
     this.previous = index;
 
@@ -486,9 +531,6 @@ export class Sketch {
           x: this.camera.position.x,
           y: this.camera.position.y,
           z: this.camera.position.z,
-          // x: this.ogPos[0].x,
-          // y: this.ogPos[0].y,
-          // z: this.ogPos[0].z,
         },
         {
           duration: 3,
@@ -504,7 +546,6 @@ export class Sketch {
     }
   }
 
-
   moveBackToCenter() {
     this.controlPanel.VIEWmode = false;
     this.controlPanel.initialMove = true;
@@ -518,13 +559,13 @@ export class Sketch {
         x: this.pointRef.radius * Math.sin(this.pointRef.phi) * Math.cos(this.pointRef.theta),
         y: this.pointRef.radius * Math.cos(this.pointRef.phi),
         z: this.pointRef.radius * Math.sin(this.pointRef.phi) * Math.sin(this.pointRef.theta),
-        onComplete:() => {
-          if(this.previous !== null){
+        onComplete: () => {
+          if (this.previous !== null) {
             let previous = this.chamber1Sound[this.previous].sound;
             previous.stop();
           }
           this.previous = null;
-        }
+        },
       }
     );
     if (this.chamber == 1) {
@@ -582,21 +623,29 @@ export class Sketch {
         y: this.controlPanel.INTERSECTED.position.y,
         z: this.controlPanel.INTERSECTED.position.z + this.controlPanel.INTERSECTED.stare_dist * Math.sin(this.controlPanel.INTERSECTED.theta),
       });
-      // this.camera.position.x = this.controlPanel.INTERSECTED.position.x + this.controlPanel.INTERSECTED.stare_dist * Math.cos(this.controlPanel.INTERSECTED.theta);
-      // this.camera.position.y = this.controlPanel.INTERSECTED.position.y;
-      // this.camera.position.z = this.controlPanel.INTERSECTED.position.z + this.controlPanel.INTERSECTED.stare_dist * Math.sin(this.controlPanel.INTERSECTED.theta);
+
+      if (this.orbiting == true) {
+        this.point.x = this.controlPanel.INTERSECTED.position.x;
+        this.point.y = this.controlPanel.INTERSECTED.position.y;
+        this.point.z = this.controlPanel.INTERSECTED.position.z;
+      } else {
+        this.point.x = this.controlPanel.INTERSECTED.position.x + this.pointRef.radius * Math.sin(this.pointRef.phi) * Math.cos(this.pointRef.theta);
+        this.point.y = this.controlPanel.INTERSECTED.position.y + this.pointRef.radius * Math.cos(this.pointRef.phi);
+        this.point.z = this.controlPanel.INTERSECTED.position.z + this.pointRef.radius * Math.sin(this.pointRef.phi) * Math.sin(this.pointRef.theta);
+      }
     }
 
     if (this.controlPanel.VIEWmode == false && this.tiltCam == true) {
       this.point.x = this.pointRef.radius * Math.sin(this.pointRef.phi) * Math.cos(this.pointRef.theta);
       this.point.y = this.pointRef.radius * Math.cos(this.pointRef.phi);
       this.point.z = this.pointRef.radius * Math.sin(this.pointRef.phi) * Math.sin(this.pointRef.theta);
+      this.tiltCam = false;
     }
 
-    if(this.activated){
+    if (this.activated) {
       this.chamber1Sound.forEach((file) => {
         file.sound.setVolume(file.volume);
-      })
+      });
     }
 
     this.camera.lookAt(this.point.x, this.point.y, this.point.z);
