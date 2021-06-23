@@ -431,14 +431,14 @@ export class Sketch {
         sound.setRolloffFactor(1);
         sound.setVolume(info.volume);
         sound.setDirectionalCone(180, 230, 0.1);
-        sound.play();
+        // sound.play();
       });
       info.sound = sound;
       const geometry = new THREE.BoxGeometry();
       const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
       const sphere = new THREE.Mesh(geometry, material);
       sphere.position.copy(info.position);
-      sphere.visible = true;
+      sphere.visible = false;
       sphere.add(sound);
       info.sphere = sphere;
       this.scene.add(sphere);
@@ -448,6 +448,10 @@ export class Sketch {
 
   setActivated() {
     this.activated = true;
+    this.chamber1Sound.forEach((info) => {
+      const sound = info.sound;
+      sound.play();
+    });
   }
 
   animation_ZoomToObject(index) {
