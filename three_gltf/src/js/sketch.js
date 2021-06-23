@@ -17,6 +17,7 @@ export class Sketch {
     this.camera = new THREE.PerspectiveCamera(70, this.width / this.height, 0.01, 500);
     this.camera.position.set(0, 1, 0);
     this.camera.rotation.order = "YXZ";
+    this.previous = null;
 
     this.tiltCam = false;
 
@@ -25,6 +26,7 @@ export class Sketch {
 
     this.listener = new THREE.AudioListener();
     this.camera.add(this.listener);
+    this.echoSound = new THREE.Audio(this.listener);
 
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.renderer.setClearColor(0x2d2d2d);
@@ -336,6 +338,36 @@ export class Sketch {
           this.point.x -= Math.PI / 4;
         }
       }
+
+      //play echo sound
+      if(event.keyCode === 32){
+        let chamber = this.chamber;
+        let object = this.controlPanel.currentSelected;
+        let orbit = this.controlPanel.INTERSECTED.theta / Math.PI * 180 / 45 - 1;
+        let verticalAngle = this.point.y / Math.PI * 180;
+        let horizontal = this.point.x / Math.PI * 180;
+        console.log("orbit " + orbit + " vertical " + verticalAngle + "horizontal " + horizontal);
+        let echoPath = '../Sounds/Chamber1/Object3/0_-45_-30.mp3';
+        audioLoader.load(echoPath,(buffer) => {
+          this.echoSound.setBuffer(buffer);
+        })
+        let targetSound = this.chamber1Sound[object];
+        gsap.to(targetSound,{
+          duration: 0.5,
+          ease: "power1.out",
+          volume: 0,
+          onComplete: () => {
+            this.echoSound.play();
+            gsap.to(targetSound,{
+              duration: 1,
+              ease: "power1.out",
+              volume: 1,
+            })
+
+
+          }
+        })
+      }
     }
   }
 
@@ -393,31 +425,36 @@ export class Sketch {
       const sound = new THREE.PositionalAudio(this.listener);
       audioLoader.load(info.path, function (buffer) {
         sound.setBuffer(buffer);
-        sound.setRefDistance(1.5);
+        sound.setRefDistance(0.05);
+        sound.setLoop(true);
+        sound.setDistanceModel('linear');
+        sound.setRolloffFactor(1);
+        sound.setVolume(info.volume);
         sound.setDirectionalCone(180, 230, 0.1);
+        sound.play();
       });
       info.sound = sound;
       const geometry = new THREE.BoxGeometry();
       const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
       const sphere = new THREE.Mesh(geometry, material);
       sphere.position.copy(info.position);
-      sphere.visible = false;
+      sphere.visible = true;
       sphere.add(sound);
+      info.sphere = sphere;
       this.scene.add(sphere);
     });
   }
 
+
   setActivated() {
     this.activated = true;
-
-    // this.chamber1Sound.forEach((info) => {
-    //   info.sound.play();
-    // })
   }
 
   animation_ZoomToObject(index) {
     this.controlPanel.VIEWmode = true;
     this.tiltCam = false;
+
+
     gsap.to(this.point, {
       duration: 3,
       ease: "power1.out",
@@ -425,7 +462,21 @@ export class Sketch {
       y: this.controlPanel.INTERSECTED.position.y,
       z: this.controlPanel.INTERSECTED.position.z,
     });
-    this.chamber1Sound[index].sound.play();
+    let targetSound = this.chamber1Sound[index];
+    gsap.to(targetSound,{
+     duration: 3,
+     ease: "power1.out",
+     volume: 1
+    })
+    if(this.previous !== null){
+      let targetSound = this.chamber1Sound[this.previous];
+      gsap.to(targetSound,{
+        duration: 3,
+        ease: "power1.out",
+        volume: 0
+      })
+    }
+    this.previous = index;
 
     if (this.controlPanel.initialMove) {
       gsap.fromTo(
@@ -453,6 +504,7 @@ export class Sketch {
     }
   }
 
+
   moveBackToCenter() {
     this.controlPanel.VIEWmode = false;
     this.controlPanel.initialMove = true;
@@ -466,6 +518,13 @@ export class Sketch {
         x: this.pointRef.radius * Math.sin(this.pointRef.phi) * Math.cos(this.pointRef.theta),
         y: this.pointRef.radius * Math.cos(this.pointRef.phi),
         z: this.pointRef.radius * Math.sin(this.pointRef.phi) * Math.sin(this.pointRef.theta),
+        onComplete:() => {
+          if(this.previous !== null){
+            let previous = this.chamber1Sound[this.previous].sound;
+            previous.stop();
+          }
+          this.previous = null;
+        }
       }
     );
     if (this.chamber == 1) {
@@ -532,6 +591,12 @@ export class Sketch {
       this.point.x = this.pointRef.radius * Math.sin(this.pointRef.phi) * Math.cos(this.pointRef.theta);
       this.point.y = this.pointRef.radius * Math.cos(this.pointRef.phi);
       this.point.z = this.pointRef.radius * Math.sin(this.pointRef.phi) * Math.sin(this.pointRef.theta);
+    }
+
+    if(this.activated){
+      this.chamber1Sound.forEach((file) => {
+        file.sound.setVolume(file.volume);
+      })
     }
 
     this.camera.lookAt(this.point.x, this.point.y, this.point.z);

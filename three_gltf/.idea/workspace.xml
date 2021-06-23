@@ -21,28 +21,6 @@
   <component name="ChangeListManager">
     <list default="true" id="e0f3ef49-89a8-4939-a6ae-03e4180a8230" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ASOA Sounds/Chamber1SoundTrack/ASOA Mastadon meadow.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ASOA Sounds/Chamber1SoundTrack/ASOA Mastadon_forest.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ASOA Sounds/Chamber1SoundTrack/ASOA sea turtle_mixdown.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ASOA Sounds/Chamber1SoundTrack/ASOA_Dinosaur_swamp.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ASOA Sounds/Chamber1SoundTrack/ASOA_Eremotherium.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ASOA Sounds/Chamber2SoundTrack/QingDynastyVases/ASOA China track 1 birds_mixdown.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ASOA Sounds/Chamber2SoundTrack/QingDynastyVases/ASOA China track 2 stream_mixdown.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ASOA Sounds/Chamber2SoundTrack/XiaDynastyBronzeContainers/ASOA China Xun.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ASOA Sounds/Chamber2SoundTrack/XiaDynastyBronzeContainers/ASOA China track 3 guqin.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ASOA Sounds/Chamber2SoundTrack/XiaDynastyBronzeContainers/ASOA china bianzhong.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ASOA Sounds/Chamber3SoundTrack/ASOA Bell X1.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ASOA Sounds/Chamber3SoundTrack/ASOA_Airplane.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ASOA Sounds/Chamber4SoundTrack/ASOA Moon Capsule.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ASOA Sounds/Chamber4SoundTrack/ASOA Spaceshuttle.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ASOA Sounds/Chamber4SoundTrack/ASOA Spacesuit.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ASOA Sounds/OLD TRACKS/ASOA_moon.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ASOA Sounds/Seperated Footstep/S1.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ASOA Sounds/Seperated Footstep/S2.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ASOA Sounds/Seperated Footstep/S3.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ASOA Sounds/Seperated Footstep/S4.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ASOA Sounds/Seperated Footstep/S5.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data/models.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/models.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/js/sketch.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/sketch.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -83,6 +61,8 @@
       <workItem from="1623565961862" duration="7398000" />
       <workItem from="1624354783491" duration="1417000" />
       <workItem from="1624356847385" duration="3713000" />
+      <workItem from="1624403295917" duration="3084000" />
+      <workItem from="1624406867699" duration="5500000" />
     </task>
     <servers />
   </component>
