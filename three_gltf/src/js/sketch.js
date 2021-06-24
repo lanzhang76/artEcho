@@ -33,6 +33,11 @@ export class Sketch {
     this.renderer.setSize(this.width, this.height);
     this.renderer.domElement.setAttribute("role", "application");
     this.container.appendChild(this.renderer.domElement);
+    this.directionCounter = {
+      vertical: 0,
+      orbit: 0,
+      horizontal: 0
+    }
 
     // this.controls = new OrbitControls(this.camera, this.renderer.domElement);
 
@@ -249,12 +254,14 @@ export class Sketch {
         this.tiltCam = true;
         this.pointRef.theta -= Math.PI / 4;
         this.orientation.horizontal -= 1;
+        this.directionCounter.horizontal -= 1;
       } else if (event.keyCode == 39 && event.shiftKey && this.orientation.horizontal < 1) {
         // right
         console.log("@object: rotate right");
         this.tiltCam = true;
         this.pointRef.theta += Math.PI / 4;
         this.orientation.horizontal += 1;
+        this.directionCounter.horizontal += 1;
       }
 
       //
@@ -267,12 +274,14 @@ export class Sketch {
         this.tiltCam = true;
         this.pointRef.phi += Math.PI / 6;
         this.orientation.vertical += 1;
+        this.directionCounter.vertical += 1;
       } else if (event.keyCode == 40 && event.shiftKey && this.orientation.vertical > -1) {
         // down
         console.log("@object: tilt down", this.pointRef.phi);
         this.tiltCam = true;
         this.pointRef.phi -= Math.PI / 6;
         this.orientation.vertical -= 1;
+        this.directionCounter.vertical -= 1;
       }
 
       //
@@ -314,25 +323,27 @@ export class Sketch {
       if (event.keyCode === 32) {
         // 32 space bar
         let chamber = this.chamber;
-        let object = this.controlPanel.currentSelected;
-        let theta = this.controlPanel.INTERSECTED.theta;
-        console.log(theta);
-        console.log(theta / Math.PI * 180)
-        if(theta < 0){
-          console.log(Math.ceil(-theta / (Math.PI * 2)));
-          theta += Math.ceil(-theta / (Math.PI * 2)) * Math.PI * 2;
-        }
-        console.log(theta / Math.PI * 180);
-        theta = theta > Math.PI * 2 ? theta - (Math.floor(theta / (Math.PI * 2)) * Math.PI * 2) : theta;
-        console.log(theta / Math.PI * 180);
-        let orbit = Math.ceil((theta / Math.PI) * 4);
+        let object = this.controlPanel.currentSelected + 1;
+        // let theta = this.controlPanel.INTERSECTED.theta;
+        // //console.log(theta);
+        // //console.log(theta / Math.PI * 180)
+        // if(theta < 0){
+        //   console.log(Math.ceil(-theta / (Math.PI * 2)));
+        //   theta += Math.ceil(-theta / (Math.PI * 2)) * Math.PI * 2;
+        // }
+        // //console.log(theta / Math.PI * 180);
+        // theta = theta > Math.PI * 2 ? theta - (Math.floor(theta / (Math.PI * 2)) * Math.PI * 2) : theta;
+        //console.log(theta / Math.PI * 180);
+        let orbit = this.directionCounter.orbit;
+        //if(orbit > 7) orbit -= 1;
         // let verticalAngle = (this.point.y / Math.PI) * 180;
         // let horizontal = (this.point.x / Math.PI) * 180;
-        let verticalAngle = parseInt((this.pointRef.phi / Math.PI) * 180); //以这个为基数
-        let horizontal = parseInt( (this.pointRef.theta / Math.PI) * 180); //以这个为基数
+        let verticalAngle = this.directionCounter.vertical * 30; //以这个为基数
+        let horizontal = this.directionCounter.horizontal * 45; //以这个为基数
 
-        console.log("orbit " + orbit + " vertical " + verticalAngle + "horizontal " + horizontal);
-        let echoPath = "../Sounds/Chamber1/Object3/0_-45_-30.mp3";
+        //console.log("orbit " + orbit + " vertical " + verticalAngle + "horizontal " + horizontal);
+        let echoPath = "../dist/Sounds/Chamber1/Object"+ object+"/" + orbit + "_" + horizontal + "_" + verticalAngle + ".mp3";
+        //console.log(echoPath);
         audioLoader.load(echoPath, (buffer) => {
           this.echoSound.setBuffer(buffer);
         });
@@ -423,7 +434,8 @@ export class Sketch {
 
   rotateRightObject() {
     this.controlPanel.INTERSECTED.theta -= Math.PI / 4;
-
+    this.directionCounter.orbit += 1;
+    if(this.directionCounter.orbit > 7) this.directionCounter.orbit = 0;
     gsap.to(this.pointRef, 4.5, {
       theta: this.controlPanel.INTERSECTED.theta,
       onComplete: () => {
@@ -438,7 +450,8 @@ export class Sketch {
 
   rotateLeftObject() {
     this.controlPanel.INTERSECTED.theta += Math.PI / 4;
-
+    this.directionCounter.orbit -= 1;
+    if(this.directionCounter.orbit < 0) this.directionCounter.orbit = 7;
     gsap.to(this.pointRef, 4.5, {
       theta: this.controlPanel.INTERSECTED.theta,
       onComplete: () => {
@@ -454,6 +467,7 @@ export class Sketch {
   select() {
     this.controlPanel.INTERSECTED = Object.assign({}, this.currentModels[this.controlPanel.currentSelected]);
     this.textBox.innerText = `${this.controlPanel.INTERSECTED.name} is selected`;
+    this.directionCounter = {vertical: 0, horizontal: 0, orbit: 0};
     this.animation_ZoomToObject(this.controlPanel.currentSelected);
   }
 
