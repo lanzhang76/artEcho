@@ -347,12 +347,8 @@ export class Sketch {
 
         audioLoader.load(echoPath, (buffer) => {
           this.echoSound.setBuffer(buffer);
-          //this.echoSound.pause();
 
           let targetSound = this.chamber1Sound[object - 1];
-          console.log(object);
-          console.log(targetSound.volume)
-          //targetSound.sound.stop();
           gsap.to(targetSound, {
             duration: 3,
             ease: "power1.out",
@@ -369,11 +365,9 @@ export class Sketch {
                   });
             },
             onUpdate: function() {
-              console.log(targetSound.volume);
               targetSound.sound.setVolume(targetSound.volume);
             }
           });
-          //console.log(targetSound.volume);
 
         });
 
