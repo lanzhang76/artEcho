@@ -413,6 +413,7 @@ export class Sketch {
 
   rotateRightObject() {
     this.controlPanel.INTERSECTED.theta -= Math.PI / 4;
+
     gsap.to(this.pointRef, 4.5, {
       theta: this.controlPanel.INTERSECTED.theta,
       onComplete: () => {
@@ -422,10 +423,12 @@ export class Sketch {
         this.orientation.vertical = 0;
       },
     });
+    console.log(Math.floor(this.controlPanel.INTERSECTED.theta));
   }
 
   rotateLeftObject() {
     this.controlPanel.INTERSECTED.theta += Math.PI / 4;
+
     gsap.to(this.pointRef, 4.5, {
       theta: this.controlPanel.INTERSECTED.theta,
       onComplete: () => {
@@ -435,6 +438,7 @@ export class Sketch {
         console.log("unlocked");
       },
     });
+    console.log(this.controlPanel.INTERSECTED.theta);
   }
 
   select() {
