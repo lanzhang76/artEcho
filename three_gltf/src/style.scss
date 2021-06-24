@@ -11,6 +11,7 @@ canvas {
 .content-wrapper {
   width: 80vw;
   margin-left: 10vw;
+  position: relative;
 }
 
 #container {
@@ -51,7 +52,6 @@ canvas {
 
 #selected {
   position: absolute;
-  top: 70px;
   margin: 20px;
   color: white;
   display: none;
