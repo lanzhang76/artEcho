@@ -39,10 +39,10 @@ export const models = [
   {
     name: "chamber2",
     data: [
-      { name: "Baluster vase", path: "../models/c2/vase1/f1980_193-150k-4096.gltf", mesh: null, box: null, scale: 1, position: { x: -2, y: 0.1, z: -22 }, rotation: { x: 0, y: 0, z: 0 }, offset: { x: 0, y: 0, z: 0 }, theta: Math.PI * 2, stare_dist: 0.5 },
-      { name: "Beaker-shaped vase", path: "../models/c2/vase2/baluster_vase-150k-4096.gltf", mesh: null, box: null, scale: 1, position: { x: 2, y: 0.1, z: -22 }, rotation: { x: 0, y: 0, z: 0 }, offset: { x: 0, y: 0, z: 0 }, theta: Math.PI * 2, stare_dist: 0.5 },
-      { name: "fangyi", path: "../models/c2/fangyi/fangyi-150k-4096.gltf", mesh: null, box: null, scale: 1, position: { x: -2, y: 0.1, z: -20 }, rotation: { x: 0, y: 0, z: 0 }, offset: { x: 0, y: 0, z: 0 }, theta: Math.PI * 2, stare_dist: 0.5 },
-      { name: "ewer", path: "../models/c2/ewer/lidded_ewer-150k-4096.gltf", mesh: null, box: null, scale: 1, position: { x: 2, y: 0.1, z: -20 }, rotation: { x: 0, y: 0, z: 0 }, offset: { x: 0, y: 0, z: 0 }, theta: Math.PI * 2, stare_dist: 0.5 },
+      // { name: "Baluster vase", path: "../models/c2/vase1/f1980_193-150k-4096.gltf", mesh: null, box: null, scale: 1, position: { x: -2, y: 0.1, z: -22 }, rotation: { x: 0, y: 0, z: 0 }, offset: { x: 0, y: 0, z: 0 }, theta: Math.PI * 2, stare_dist: 0.5 },
+      // { name: "Beaker-shaped vase", path: "../models/c2/vase2/baluster_vase-150k-4096.gltf", mesh: null, box: null, scale: 1, position: { x: 2, y: 0.1, z: -22 }, rotation: { x: 0, y: 0, z: 0 }, offset: { x: 0, y: 0, z: 0 }, theta: Math.PI * 2, stare_dist: 0.5 },
+      // { name: "fangyi", path: "../models/c2/fangyi/fangyi-150k-4096.gltf", mesh: null, box: null, scale: 1, position: { x: -2, y: 0.1, z: -20 }, rotation: { x: 0, y: 0, z: 0 }, offset: { x: 0, y: 0, z: 0 }, theta: Math.PI * 2, stare_dist: 0.5 },
+      // { name: "ewer", path: "../models/c2/ewer/lidded_ewer-150k-4096.gltf", mesh: null, box: null, scale: 1, position: { x: 2, y: 0.1, z: -20 }, rotation: { x: 0, y: 0, z: 0 }, offset: { x: 0, y: 0, z: 0 }, theta: Math.PI * 2, stare_dist: 0.5 },
     ],
     soundsFiles: [],
   },
