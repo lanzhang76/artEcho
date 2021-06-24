@@ -348,21 +348,32 @@ export class Sketch {
         audioLoader.load(echoPath, (buffer) => {
           this.echoSound.setBuffer(buffer);
           //this.echoSound.pause();
-          let targetSound = this.chamber1Sound[object];
+
+          let targetSound = this.chamber1Sound[object - 1];
+          console.log(object);
+          console.log(targetSound.volume)
+          //targetSound.sound.stop();
           gsap.to(targetSound, {
-            duration: 1,
-            ease: "linear",
+            duration: 3,
+            ease: "power1.out",
             volume: 0,
             onComplete: () => {
               this.echoSound.play();
-              gsap.to(targetSound, {
-                delay:0.5,
-                duration: 1,
-                ease: "linear",
-                volume: 1,
-              });
+              gsap.fromTo(targetSound,
+                  {volume: 0}, {
+                    delay:1,
+                    duration: 3,
+                    ease: "power1.out",
+                    volume: 1,
+                    onUpdate: function(){targetSound.sound.setVolume(targetSound.volume);}
+                  });
             },
+            onUpdate: function() {
+              console.log(targetSound.volume);
+              targetSound.sound.setVolume(targetSound.volume);
+            }
           });
+          //console.log(targetSound.volume);
 
         });
 
@@ -517,9 +528,10 @@ export class Sketch {
         sound.setBuffer(buffer);
         sound.setRefDistance(0.05);
         sound.setLoop(true);
+        sound.pause();
         sound.setDistanceModel("linear");
         sound.setRolloffFactor(1);
-        sound.setVolume(info.volume);
+        sound.setVolume(0);
         sound.setDirectionalCone(180, 230, 0.1);
         // sound.play();
       });
@@ -540,6 +552,7 @@ export class Sketch {
     this.chamber1Sound.forEach((info) => {
       const sound = info.sound;
       sound.play();
+      sound.setVolume(0);
     });
   }
 
@@ -556,10 +569,15 @@ export class Sketch {
       z: this.controlPanel.INTERSECTED.position.z,
     });
     let targetSound = this.chamber1Sound[index];
+    console.log(index);
+    //console.log(targetSound.sound);
     gsap.to(targetSound, {
       duration: 3,
       ease: "power1.out",
       volume: 1,
+      onUpdate: () => {
+        targetSound.sound.setVolume(targetSound.volume);
+      }
     });
     if (this.previous !== null) {
       let targetSound = this.chamber1Sound[this.previous];
@@ -567,6 +585,9 @@ export class Sketch {
         duration: 3,
         ease: "power1.out",
         volume: 0,
+        onUpdate: () => {
+          targetSound.sound.setVolume(targetSound.volume);
+        }
       });
     }
     this.previous = index;
@@ -690,11 +711,11 @@ export class Sketch {
       this.tiltCam = false;
     }
 
-    if (this.activated) {
-      this.chamber1Sound.forEach((file) => {
-        file.sound.setVolume(file.volume);
-      });
-    }
+    // if (this.activated) {
+    //   this.chamber1Sound.forEach((file) => {
+    //     file.sound.setVolume(file.volume);
+    //   });
+    // }
 
     this.camera.lookAt(this.point.x, this.point.y, this.point.z);
 
