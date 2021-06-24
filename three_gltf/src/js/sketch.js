@@ -73,7 +73,10 @@ export class Sketch {
       z: -10,
     };
 
-    this.target_deg = 0;
+    this.orientation = {
+      vertical: 0,
+      horizontal: 0,
+    };
 
     // this.gui = new GUI();
 
@@ -218,7 +221,7 @@ export class Sketch {
         this.pointRef.theta += Math.PI / 4;
       }
 
-      if (event.keyCode == 38 && event.shiftKey && this.pointRef.phi < -0.6) {
+      if (event.keyCode == 38 && event.shiftKey && this.pointRef.phi < -1.5) {
         //
         console.log("@origin: tilt up", this.pointRef.phi);
         this.tiltCam = true;
@@ -240,32 +243,36 @@ export class Sketch {
       // ** LEFT & RIGHT **
       //
 
-      if (event.keyCode == 37 && event.shiftKey) {
+      if (event.keyCode == 37 && event.shiftKey && this.orientation.horizontal > -1) {
         // left
         console.log("@object: rotate left");
         this.tiltCam = true;
         this.pointRef.theta -= Math.PI / 4;
-      } else if (event.keyCode == 39 && event.shiftKey) {
+        this.orientation.horizontal -= 1;
+      } else if (event.keyCode == 39 && event.shiftKey && this.orientation.horizontal < 1) {
         // right
         console.log("@object: rotate right");
         this.tiltCam = true;
         this.pointRef.theta += Math.PI / 4;
+        this.orientation.horizontal += 1;
       }
 
       //
       // ** UP & DOWN **
       //
 
-      if (event.keyCode == 38 && event.shiftKey && this.pointRef.phi < -0.6) {
+      if (event.keyCode == 38 && event.shiftKey && this.pointRef.phi < -0.6 && this.orientation.vertical < 1) {
         // up
         console.log("@object: tilt up", this.pointRef.phi);
         this.tiltCam = true;
         this.pointRef.phi += Math.PI / 6;
-      } else if (event.keyCode == 40 && event.shiftKey && this.pointRef.phi > -2) {
+        this.orientation.vertical += 1;
+      } else if (event.keyCode == 40 && event.shiftKey && this.orientation.vertical > -1) {
         // down
         console.log("@object: tilt down", this.pointRef.phi);
         this.tiltCam = true;
         this.pointRef.phi -= Math.PI / 6;
+        this.orientation.vertical -= 1;
       }
 
       //
@@ -406,21 +413,25 @@ export class Sketch {
 
   rotateRightObject() {
     this.controlPanel.INTERSECTED.theta -= Math.PI / 4;
-    gsap.to(this.pointRef, 5, {
+    gsap.to(this.pointRef, 4.5, {
       theta: this.controlPanel.INTERSECTED.theta,
       onComplete: () => {
         this.orbiting = false;
         console.log("unlocked");
+        this.orientation.horizontal = 0;
+        this.orientation.vertical = 0;
       },
     });
   }
 
   rotateLeftObject() {
     this.controlPanel.INTERSECTED.theta += Math.PI / 4;
-    gsap.to(this.pointRef, 5, {
+    gsap.to(this.pointRef, 4.5, {
       theta: this.controlPanel.INTERSECTED.theta,
       onComplete: () => {
         this.orbiting = false;
+        this.orientation.horizontal = 0;
+        this.orientation.vertical = 0;
         console.log("unlocked");
       },
     });
