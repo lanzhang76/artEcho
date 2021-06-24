@@ -211,6 +211,7 @@ export class Sketch {
     //
     // ** ORIGIN-ONLY Camera Rotation **
     //
+    event.preventDefault();
 
     if (this.activated && this.loaded == true && this.controlPanel.VIEWmode == false) {
       // 1. camera rotation: left and right at ORIGIN
