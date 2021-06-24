@@ -344,7 +344,7 @@ export class Sketch {
         //console.log("orbit " + orbit + " vertical " + verticalAngle + "horizontal " + horizontal);
         let echoPath = "../Sounds/Chamber1/Object"+ object+"/" + orbit + "_" + horizontal + "_" + verticalAngle + ".mp3";
         //console.log(echoPath);
-        this.echoSound.stop();
+        this.echoSound.pause();
         audioLoader.load(echoPath, (buffer) => {
           this.echoSound.setBuffer(buffer);
         });
