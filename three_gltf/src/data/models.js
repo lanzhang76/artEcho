@@ -30,10 +30,10 @@ export const models = [
       },
     ],
     soundsFiles: [
-      { name: "Geochelone carbonaria", path: "../dist/Background-Sounds/Chamber1/Object1.mp3", position: { x: 6, y: 0, z: -6 }, volume: 0 },
-      { name: "Eremotherium laurillardi", path: "../dist/Background-Sounds/Chamber1/Object2.mp3", position: { x: 6, y: 0, z: 6 }, volume: 0 },
-      { name: "Mammuthus primigenius (Blumbach)", path: "../dist/Background-Sounds/Chamber1/Object3.mp3", position: { x: -6, y: 0, z: 6 }, volume: 0 },
-      { name: "Triceratops horridus", path: "../dist/Background-Sounds/Chamber1/Object4.mp3", position: { x: -6, y: 0, z: -6 }, volume: 0 },
+      { name: "Geochelone carbonaria", path: "../Background-Sounds/Chamber1/Object1.mp3", position: { x: 6, y: 0, z: -6 }, volume: 0 },
+      { name: "Eremotherium laurillardi", path: "../Background-Sounds/Chamber1/Object2.mp3", position: { x: 6, y: 0, z: 6 }, volume: 0 },
+      { name: "Mammuthus primigenius (Blumbach)", path: "../Background-Sounds/Chamber1/Object3.mp3", position: { x: -6, y: 0, z: 6 }, volume: 0 },
+      { name: "Triceratops horridus", path: "../Background-Sounds/Chamber1/Object4.mp3", position: { x: -6, y: 0, z: -6 }, volume: 0 },
     ],
   },
   {
