@@ -315,11 +315,21 @@ export class Sketch {
         // 32 space bar
         let chamber = this.chamber;
         let object = this.controlPanel.currentSelected;
-        let orbit = ((this.controlPanel.INTERSECTED.theta / Math.PI) * 180) / 45 - 1;
+        let theta = this.controlPanel.INTERSECTED.theta;
+        console.log(theta);
+        console.log(theta / Math.PI * 180)
+        if(theta < 0){
+          console.log(Math.ceil(-theta / (Math.PI * 2)));
+          theta += Math.ceil(-theta / (Math.PI * 2)) * Math.PI * 2;
+        }
+        console.log(theta / Math.PI * 180);
+        theta = theta > Math.PI * 2 ? theta - (Math.floor(theta / (Math.PI * 2)) * Math.PI * 2) : theta;
+        console.log(theta / Math.PI * 180);
+        let orbit = Math.ceil((theta / Math.PI) * 4);
         // let verticalAngle = (this.point.y / Math.PI) * 180;
         // let horizontal = (this.point.x / Math.PI) * 180;
-        let verticalAngle = (this.pointRef.phi / Math.PI) * 180; //以这个为基数
-        let horizontal = (this.pointRef.theta / Math.PI) * 180; //以这个为基数
+        let verticalAngle = parseInt((this.pointRef.phi / Math.PI) * 180); //以这个为基数
+        let horizontal = parseInt( (this.pointRef.theta / Math.PI) * 180); //以这个为基数
 
         console.log("orbit " + orbit + " vertical " + verticalAngle + "horizontal " + horizontal);
         let echoPath = "../Sounds/Chamber1/Object3/0_-45_-30.mp3";
