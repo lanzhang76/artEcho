@@ -1,0 +1,107 @@
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background: #2e2d2d;
+}
+
+canvas {
+  display: block;
+}
+
+.content-wrapper {
+  width: 80vw;
+  margin-left: 10vw;
+}
+
+#container {
+  position: relative;
+  width: 100%;
+  height: 600px;
+}
+
+.header {
+  display: flex;
+  color: white;
+  justify-content: space-between;
+  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+  font-size: 0.8em;
+
+  .nav {
+    width: 150px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+  }
+}
+
+#overlay {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 600px;
+  background: rgba(30, 30, 30, 0.5);
+  color: white;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+#selected {
+  position: absolute;
+  top: 70px;
+  margin: 20px;
+  color: white;
+  display: none;
+  z-index: 2;
+}
+
+.temp-instructions {
+  color: white;
+  padding: 50px;
+  display: flex;
+  justify-content: center;
+}
+
+#action {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-around;
+}
+
+.description {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color: white;
+  max-width: 1300px;
+  margin: 0 auto;
+  height: 240px;
+
+  .hero-logo {
+    margin-right: 150px;
+  }
+}
+
+.description div {
+  margin: 0 20px;
+}
+
+#instruction {
+  margin-bottom: 100px;
+  width: 100%;
+  text-align: center;
+}
+
+.instruction-button {
+  border: 1px solid white;
+  min-width: 150px;
+  min-height: 40px;
+  margin-right: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

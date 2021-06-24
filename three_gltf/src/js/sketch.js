@@ -36,8 +36,8 @@ export class Sketch {
     this.directionCounter = {
       vertical: 0,
       orbit: 0,
-      horizontal: 0
-    }
+      horizontal: 0,
+    };
 
     // this.controls = new OrbitControls(this.camera, this.renderer.domElement);
 
@@ -342,7 +342,7 @@ export class Sketch {
         let horizontal = this.directionCounter.horizontal * 45; //以这个为基数
 
         //console.log("orbit " + orbit + " vertical " + verticalAngle + "horizontal " + horizontal);
-        let echoPath = "../sounds/Chamber1/Object"+ object+"/" + orbit + "_" + horizontal + "_" + verticalAngle + ".mp3";
+        let echoPath = "../sounds/Chamber1/Object" + object + "/" + orbit + "_" + horizontal + "_" + verticalAngle + ".mp3";
         //console.log(echoPath);
 
         audioLoader.load(echoPath, (buffer) => {
@@ -355,22 +355,25 @@ export class Sketch {
             volume: 0,
             onComplete: () => {
               this.echoSound.play();
-              gsap.fromTo(targetSound,
-                  {volume: 0}, {
-                    delay:1,
-                    duration: 3,
-                    ease: "power1.out",
-                    volume: 1,
-                    onUpdate: function(){targetSound.sound.setVolume(targetSound.volume);}
-                  });
+              gsap.fromTo(
+                targetSound,
+                { volume: 0 },
+                {
+                  delay: 1,
+                  duration: 3,
+                  ease: "power1.out",
+                  volume: 1,
+                  onUpdate: function () {
+                    targetSound.sound.setVolume(targetSound.volume);
+                  },
+                }
+              );
             },
-            onUpdate: function() {
+            onUpdate: function () {
               targetSound.sound.setVolume(targetSound.volume);
-            }
+            },
           });
-
         });
-
       }
     }
 
@@ -425,7 +428,7 @@ export class Sketch {
 
           case 50: // chamber 2
             this.moveToChamber(2);
-            this.pointRef.radius = 100;
+            this.pointRef.radius = 200;
             break;
 
           case 51: // chamber 3
@@ -445,7 +448,7 @@ export class Sketch {
   rotateRightObject() {
     this.controlPanel.INTERSECTED.theta -= Math.PI / 4;
     this.directionCounter.orbit += 1;
-    if(this.directionCounter.orbit > 7) this.directionCounter.orbit = 0;
+    if (this.directionCounter.orbit > 7) this.directionCounter.orbit = 0;
     gsap.to(this.pointRef, 4.5, {
       theta: this.controlPanel.INTERSECTED.theta,
       onComplete: () => {
@@ -461,7 +464,7 @@ export class Sketch {
   rotateLeftObject() {
     this.controlPanel.INTERSECTED.theta += Math.PI / 4;
     this.directionCounter.orbit -= 1;
-    if(this.directionCounter.orbit < 0) this.directionCounter.orbit = 7;
+    if (this.directionCounter.orbit < 0) this.directionCounter.orbit = 7;
     gsap.to(this.pointRef, 4.5, {
       theta: this.controlPanel.INTERSECTED.theta,
       onComplete: () => {
@@ -477,7 +480,7 @@ export class Sketch {
   select() {
     this.controlPanel.INTERSECTED = Object.assign({}, this.currentModels[this.controlPanel.currentSelected]);
     this.textBox.innerText = `${this.controlPanel.INTERSECTED.name} is selected`;
-    this.directionCounter = {vertical: 0, horizontal: 0, orbit: 0};
+    this.directionCounter = { vertical: 0, horizontal: 0, orbit: 0 };
     this.animation_ZoomToObject(this.controlPanel.currentSelected);
   }
 
@@ -571,7 +574,7 @@ export class Sketch {
       volume: 1,
       onUpdate: () => {
         targetSound.sound.setVolume(targetSound.volume);
-      }
+      },
     });
     if (this.previous !== null) {
       let targetSound = this.chamber1Sound[this.previous];
@@ -581,7 +584,7 @@ export class Sketch {
         volume: 0,
         onUpdate: () => {
           targetSound.sound.setVolume(targetSound.volume);
-        }
+        },
       });
     }
     this.previous = index;
@@ -664,7 +667,7 @@ export class Sketch {
           y: this.ogPos[this.chamber - 1].y,
           z: this.ogPos[this.chamber - 1].z,
           onUpdate: () => {
-            // this.camera.lookAt(this.point.x, this.point.y, this.point.z);
+            this.camera.lookAt(this.point.x, this.point.y, this.point.z);
           },
         }
       );
