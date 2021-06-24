@@ -342,7 +342,7 @@ export class Sketch {
         let horizontal = this.directionCounter.horizontal * 45; //以这个为基数
 
         //console.log("orbit " + orbit + " vertical " + verticalAngle + "horizontal " + horizontal);
-        let echoPath = "../Sounds/Chamber1/Object"+ object+"/" + orbit + "_" + horizontal + "_" + verticalAngle + ".mp3";
+        let echoPath = "../sounds/Chamber1/Object"+ object+"/" + orbit + "_" + horizontal + "_" + verticalAngle + ".mp3";
         //console.log(echoPath);
 
         audioLoader.load(echoPath, (buffer) => {
