@@ -19,7 +19,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e0f3ef49-89a8-4939-a6ae-03e4180a8230" name="Default Changelist" comment="" />
+    <list default="true" id="e0f3ef49-89a8-4939-a6ae-03e4180a8230" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/src/js/sketch.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/sketch.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -60,7 +62,7 @@
       <workItem from="1624356847385" duration="3713000" />
       <workItem from="1624403295917" duration="3084000" />
       <workItem from="1624406867699" duration="5500000" />
-      <workItem from="1624503188988" duration="3218000" />
+      <workItem from="1624503188988" duration="3470000" />
     </task>
     <servers />
   </component>
