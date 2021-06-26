@@ -45,6 +45,8 @@ export class Sketch {
 
     this.lights = new THREE.Group();
 
+    this.airplaneView = false;
+
     this.ogPos = [
       { name: "chamber1", x: 0, y: 1, z: -0 },
       { name: "chamber2", x: 0, y: 1, z: -19.3 },
@@ -55,10 +57,6 @@ export class Sketch {
 
     this.rooms = models[4].data;
     this.chambers = [{ chamber1: models[0].data, chamber2: models[1].data, chamber3: models[2].data, chamber4: models[3].data }];
-    this.chamber1 = models[0].data;
-    this.chamber2 = models[1].data;
-    this.chamber3 = models[2].data;
-    this.chamber4 = models[3].data;
     this.chamber1Sound = models[0].soundsFiles;
 
     this.controlPanel = {
@@ -84,6 +82,7 @@ export class Sketch {
     this.orientation = {
       vertical: 0,
       horizontal: 0,
+      shuttle: 0,
     };
 
     // this.gui = new GUI();
@@ -127,34 +126,24 @@ export class Sketch {
         },
         (xhr) => {
           // while loading:
-          console.log("room" + (xhr.loaded / xhr.total) * 100 + "% loaded");
+          console.log("chambers " + (xhr.loaded / xhr.total) * 100 + "% loaded");
         }
       );
       this.loaded = true;
       this.render();
     }
 
-    //chamber 1 model
-    // if (this.chamber == 1 && this.inChamber == true) {
-    //   const chamberName = `chamber{this.chamber}`
-    //   this.currentModels = this.chamber1;
-    //   for (let model of this.chamber1) {
-    //     this.loadThisModel(model, "room 1");
-    //   }
-
-    //   for (let model of this.chamber2) {
-    //     this.loadThisModel(model, "room 2");
-    //   }
-    // }
-
+    // ROOM 1 MODELS
     // for (let model of this.chambers[0]["chamber1"]) {
     //   this.loadThisModel(model, "room 1");
     // }
 
+    // ROOM 2 MODELS
     // for (let model of this.chambers[0]["chamber2"]) {
     //   this.loadThisModel(model, "room 2");
     // }
 
+    // // ROOM 3 MODELS
     // for (let model of this.chambers[0]["chamber3"]) {
     //   this.loadThisModel(model, "room 3");
     // }
@@ -263,6 +252,7 @@ export class Sketch {
         this.pointRef.theta -= Math.PI / 4;
         this.orientation.horizontal -= 1;
 
+        //sound:
         this.directionCounter.horizontal -= 1;
       } else if (event.keyCode == 39 && event.shiftKey && this.orientation.horizontal < 1) {
         // right
@@ -271,6 +261,7 @@ export class Sketch {
         this.pointRef.theta += Math.PI / 4;
         this.orientation.horizontal += 1;
 
+        //sound:
         this.directionCounter.horizontal += 1;
       }
 
@@ -450,27 +441,41 @@ export class Sketch {
   }
 
   rotateRightObject() {
-    this.controlPanel.INTERSECTED.theta -= Math.PI / 4;
-    this.directionCounter.orbit += 1;
-    if (this.directionCounter.orbit > 7) this.directionCounter.orbit = 0;
+    if (this.controlPanel.INTERSECTED.name == "shuttle") {
+      if (this.orientation.shuttle < 2) {
+        this.controlPanel.INTERSECTED.position.z -= 10;
+        this.orientation.shuttle += 1;
+      }
+    } else {
+      this.controlPanel.INTERSECTED.theta -= Math.PI / 4;
+      this.directionCounter.orbit += 1;
+      if (this.directionCounter.orbit > 7) this.directionCounter.orbit = 0;
 
-    console.log("hor: " + this.orientation.horizontal, "ver: " + this.orientation.vertical);
-    const diff = this.pointRef.theta - Math.PI / 4;
-    gsap.to(this.pointRef, 0.5, {
-      theta: diff,
-    });
+      console.log("hor: " + this.orientation.horizontal, "ver: " + this.orientation.vertical);
+      const diff = this.pointRef.theta - Math.PI / 4;
+      gsap.to(this.pointRef, 0.5, {
+        theta: diff,
+      });
+    }
   }
 
   rotateLeftObject() {
-    this.controlPanel.INTERSECTED.theta += Math.PI / 4;
-    this.directionCounter.orbit -= 1;
-    if (this.directionCounter.orbit < 0) this.directionCounter.orbit = 7;
+    if (this.controlPanel.INTERSECTED.name == "shuttle") {
+      if (this.orientation.shuttle > -2) {
+        this.controlPanel.INTERSECTED.position.z += 10;
+        this.orientation.shuttle -= 1;
+      }
+    } else {
+      this.controlPanel.INTERSECTED.theta += Math.PI / 4;
+      this.directionCounter.orbit -= 1;
+      if (this.directionCounter.orbit < 0) this.directionCounter.orbit = 7;
 
-    console.log("hor: " + this.orientation.horizontal, "ver: " + this.orientation.vertical);
-    const diff = this.pointRef.theta + Math.PI / 4;
-    gsap.to(this.pointRef, 0.5, {
-      theta: diff,
-    });
+      console.log("hor: " + this.orientation.horizontal, "ver: " + this.orientation.vertical);
+      const diff = this.pointRef.theta + Math.PI / 4;
+      gsap.to(this.pointRef, 0.5, {
+        theta: diff,
+      });
+    }
   }
 
   select() {
@@ -479,7 +484,7 @@ export class Sketch {
     if (Object.keys(this.controlPanel.INTERSECTED).length != 0) {
       this.textBox.innerText = `${this.controlPanel.INTERSECTED.name} is selected`;
       this.directionCounter = { vertical: 0, horizontal: 0, orbit: 0 };
-      this.orientation = { horizontal: 0, vertical: 0 };
+      this.orientation = { horizontal: 0, vertical: 0, shuttle: 0 };
       this.animation_ZoomToObject(this.controlPanel.currentSelected);
     }
   }
