@@ -7,77 +7,77 @@
 		{
 			"bufferView":0,
 			"componentType":5123,
-			"count":726,
+			"count":6138,
 			"type":"SCALAR",
 			"min":[0
 			],
-			"max":[725
+			"max":[6137
 			]
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":726,
+			"count":6138,
 			"type":"VEC3",
-			"min":[-1.98000002,0.0199999996,-3.52999997
+			"min":[-2.52999997,0,-2.77999997
 			],
-			"max":[1.98000002,0.0199999996,3.52999997
+			"max":[2.52999997,4.03000021,2.75
 			]
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":726,
+			"count":6138,
 			"type":"VEC2",
-			"min":[-5.93999958,-9.59000015
+			"min":[-2.77999997,-3.03000021
 			],
-			"max":[5.93999958,11.5900002
+			"max":[2.77999997,3.77999997
 			]
 		},
 		{
 			"bufferView":3,
 			"componentType":5126,
-			"count":726,
+			"count":6138,
 			"type":"VEC3",
-			"min":[0,1,0
+			"min":[-1,-1,-1
 			],
-			"max":[0,1,0
+			"max":[1,1,1
 			]
 		},
 		{
 			"bufferView":4,
 			"componentType":5123,
-			"count":6798,
+			"count":1224,
 			"type":"SCALAR",
 			"min":[0
 			],
-			"max":[6797
+			"max":[1223
 			]
 		},
 		{
 			"bufferView":5,
 			"componentType":5126,
-			"count":6798,
+			"count":1224,
 			"type":"VEC3",
-			"min":[-2.04999995,-0.0500000007,-3.54999995
+			"min":[-2.5,0,-2.75
 			],
-			"max":[2.04999995,2.05000019,3.54999995
+			"max":[2.5,0.0299999993,2.75
 			]
 		},
 		{
 			"bufferView":6,
 			"componentType":5126,
-			"count":6798,
+			"count":1224,
 			"type":"VEC2",
-			"min":[-10.6499996,-9.64999962
+			"min":[0,-0.0499999523
 			],
-			"max":[10.6499996,11.6499996
+			"max":[1,1.04999995
 			]
 		},
 		{
 			"bufferView":7,
 			"componentType":5126,
-			"count":6798,
+			"count":1224,
 			"type":"VEC3",
 			"min":[-1,-1,-1
 			],
@@ -88,62 +88,62 @@
 	"buffers":[
 		{
 			"uri":"chamber2_data.bin",
-			"byteLength":255816,
+			"byteLength":250308,
 			"name":"main_buffer"
 		}
 	],
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":1452,
+			"byteLength":12276,
 			"target":34963
 		},
 		{
 			"buffer":0,
-			"byteOffset":1452,
-			"byteLength":8712,
+			"byteOffset":12276,
+			"byteLength":73656,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteOffset":10164,
-			"byteLength":5808,
+			"byteOffset":85932,
+			"byteLength":49104,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteOffset":15972,
-			"byteLength":8712,
+			"byteOffset":135036,
+			"byteLength":73656,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteOffset":24684,
-			"byteLength":13596,
+			"byteOffset":208692,
+			"byteLength":2448,
 			"target":34963
 		},
 		{
 			"buffer":0,
-			"byteOffset":38280,
-			"byteLength":81576,
+			"byteOffset":211140,
+			"byteLength":14688,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteOffset":119856,
-			"byteLength":54384,
+			"byteOffset":225828,
+			"byteLength":9792,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteOffset":174240,
-			"byteLength":81576,
+			"byteOffset":235620,
+			"byteLength":14688,
 			"target":34962
 		}
 	],
 	"nodes":[
 		{
-			"name":"chamber_2",
+			"name":"chamber2",
 			"mesh":0
 		}
 	],
@@ -173,7 +173,7 @@
 	],
 	"materials":[
 		{
-			"name":"Worn_Concrete_Wall",
+			"name":"Concrete_Slab_2x2_M",
 			"pbrMetallicRoughness":{
 				"metallicFactor":0,
 				"baseColorTexture":{
@@ -188,7 +188,7 @@
 			}
 		},
 		{
-			"name":"Concrete_Slab_2x2_M",
+			"name":"Worn_Concrete_Wall",
 			"pbrMetallicRoughness":{
 				"metallicFactor":0,
 				"baseColorTexture":{
@@ -231,27 +231,27 @@
 	],
 	"images":[
 		{
-			"uri":"uhnlfbvn_4K_Albedo.png",
+			"uri":"sdwocfwa_2K_Albedo.png",
 			"mimeType":"image/png"
 		},
 		{
-			"uri":"uhnlfbvn_4K_Roughness.png",
+			"uri":"sdwocfwa_2K_Roughness.png",
 			"mimeType":"image/png"
 		},
 		{
-			"uri":"uhnlfbvn_4K_Normal.png",
+			"uri":"sdwocfwa_2K_Normal.png",
 			"mimeType":"image/png"
 		},
 		{
-			"uri":"sdwocfwa_4K_Albedo.png",
+			"uri":"uhnlfbvn_2K_Albedo.png",
 			"mimeType":"image/png"
 		},
 		{
-			"uri":"sdwocfwa_4K_Roughness.png",
+			"uri":"uhnlfbvn_2K_Roughness.png",
 			"mimeType":"image/png"
 		},
 		{
-			"uri":"sdwocfwa_4K_Normal.png",
+			"uri":"uhnlfbvn_2K_Normal.png",
 			"mimeType":"image/png"
 		}
 	],
