@@ -255,6 +255,7 @@ export class Sketch {
         this.tiltCam = true;
         this.pointRef.theta -= Math.PI / 4;
         this.orientation.horizontal -= 1;
+
         this.directionCounter.horizontal -= 1;
       } else if (event.keyCode == 39 && event.shiftKey && this.orientation.horizontal < 1) {
         // right
@@ -262,6 +263,7 @@ export class Sketch {
         this.tiltCam = true;
         this.pointRef.theta += Math.PI / 4;
         this.orientation.horizontal += 1;
+
         this.directionCounter.horizontal += 1;
       }
 
@@ -306,13 +308,11 @@ export class Sketch {
 
           case 37 /*Left*/:
             // rotate AROUND object
-            this.orbiting = true;
             this.rotateLeftObject();
             break;
 
           case 39 /*Right*/:
             // rotate AROUND object
-            this.orbiting = true;
             this.rotateRightObject();
             break;
         }
@@ -450,38 +450,31 @@ export class Sketch {
     this.controlPanel.INTERSECTED.theta -= Math.PI / 4;
     this.directionCounter.orbit += 1;
     if (this.directionCounter.orbit > 7) this.directionCounter.orbit = 0;
-    gsap.to(this.pointRef, 4.5, {
-      theta: this.controlPanel.INTERSECTED.theta,
-      onComplete: () => {
-        this.orbiting = false;
-        console.log("unlocked");
-        this.orientation.horizontal = 0;
-        this.orientation.vertical = 0;
-      },
+
+    console.log("hor: " + this.orientation.horizontal, "ver: " + this.orientation.vertical);
+    const diff = this.pointRef.theta - Math.PI / 4;
+    gsap.to(this.pointRef, 0.5, {
+      theta: diff,
     });
-    console.log(Math.floor(this.controlPanel.INTERSECTED.theta));
   }
 
   rotateLeftObject() {
     this.controlPanel.INTERSECTED.theta += Math.PI / 4;
     this.directionCounter.orbit -= 1;
     if (this.directionCounter.orbit < 0) this.directionCounter.orbit = 7;
-    gsap.to(this.pointRef, 4.5, {
-      theta: this.controlPanel.INTERSECTED.theta,
-      onComplete: () => {
-        this.orbiting = false;
-        this.orientation.horizontal = 0;
-        this.orientation.vertical = 0;
-        console.log("unlocked");
-      },
+
+    console.log("hor: " + this.orientation.horizontal, "ver: " + this.orientation.vertical);
+    const diff = this.pointRef.theta + Math.PI / 4;
+    gsap.to(this.pointRef, 0.5, {
+      theta: diff,
     });
-    console.log(this.controlPanel.INTERSECTED.theta);
   }
 
   select() {
     this.controlPanel.INTERSECTED = Object.assign({}, this.currentModels[this.controlPanel.currentSelected]);
     this.textBox.innerText = `${this.controlPanel.INTERSECTED.name} is selected`;
     this.directionCounter = { vertical: 0, horizontal: 0, orbit: 0 };
+    this.orientation = { horizontal: 0, vertical: 0 };
     this.animation_ZoomToObject(this.controlPanel.currentSelected);
   }
 
@@ -502,7 +495,7 @@ export class Sketch {
     // this.scene.add(this.chamber1);
 
     // this.grid = new THREE.GridHelper(100, 300);
-    this.scene.add(this.grid);
+    // this.scene.add(this.grid);
   }
 
   addLight() {
@@ -681,6 +674,9 @@ export class Sketch {
     this.controlPanel.theta = Math.PI * 2;
     this.pointRef.phi = -Math.PI / 2;
     this.pointRef.theta = Math.PI / 2;
+
+    this.orientation.horizontal = 0;
+    this.orientation.vertical = 0;
   }
 
   render() {
@@ -690,23 +686,22 @@ export class Sketch {
         y: this.controlPanel.INTERSECTED.position.y,
         z: this.controlPanel.INTERSECTED.position.z + this.controlPanel.INTERSECTED.stare_dist * Math.sin(this.controlPanel.INTERSECTED.theta),
       });
-
-      if (this.orbiting == true) {
-        this.point.x = this.controlPanel.INTERSECTED.position.x;
-        this.point.y = this.controlPanel.INTERSECTED.position.y;
-        this.point.z = this.controlPanel.INTERSECTED.position.z;
-      } else {
-        this.point.x = this.controlPanel.INTERSECTED.position.x + this.pointRef.radius * Math.sin(this.pointRef.phi) * Math.cos(this.pointRef.theta);
-        this.point.y = this.controlPanel.INTERSECTED.position.y + this.pointRef.radius * Math.cos(this.pointRef.phi);
-        this.point.z = this.controlPanel.INTERSECTED.position.z + this.pointRef.radius * Math.sin(this.pointRef.phi) * Math.sin(this.pointRef.theta);
-      }
     }
 
-    if (this.controlPanel.VIEWmode == false && this.tiltCam == true) {
-      this.point.x = this.pointRef.radius * Math.sin(this.pointRef.phi) * Math.cos(this.pointRef.theta);
-      this.point.y = this.pointRef.radius * Math.cos(this.pointRef.phi);
-      this.point.z = this.pointRef.radius * Math.sin(this.pointRef.phi) * Math.sin(this.pointRef.theta);
-      this.tiltCam = false;
+    if (this.controlPanel.VIEWmode == true) {
+      gsap.to(this.point, 1, {
+        x: this.controlPanel.INTERSECTED.position.x + this.pointRef.radius * Math.sin(this.pointRef.phi) * Math.cos(this.pointRef.theta),
+        y: this.controlPanel.INTERSECTED.position.y + this.pointRef.radius * Math.cos(this.pointRef.phi),
+        z: this.controlPanel.INTERSECTED.position.z + this.pointRef.radius * Math.sin(this.pointRef.phi) * Math.sin(this.pointRef.theta),
+      });
+    }
+
+    if (this.controlPanel.VIEWmode == false) {
+      gsap.to(this.point, 1, {
+        x: this.pointRef.radius * Math.sin(this.pointRef.phi) * Math.cos(this.pointRef.theta),
+        y: this.pointRef.radius * Math.cos(this.pointRef.phi),
+        z: this.pointRef.radius * Math.sin(this.pointRef.phi) * Math.sin(this.pointRef.theta),
+      });
     }
 
     // if (this.activated) {
