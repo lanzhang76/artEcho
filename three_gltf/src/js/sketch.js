@@ -15,7 +15,6 @@ export class Sketch {
     this.scene = new THREE.Scene();
 
     this.camera = new THREE.PerspectiveCamera(70, this.width / this.height, 0.01, 500);
-    this.camera.position.set(0, 1, 0);
     this.camera.rotation.order = "YXZ";
     this.previous = null;
 
@@ -33,15 +32,10 @@ export class Sketch {
     this.renderer.setSize(this.width, this.height);
     this.renderer.domElement.setAttribute("role", "application");
     this.container.appendChild(this.renderer.domElement);
-    this.directionCounter = {
-      vertical: 0,
-      orbit: 0,
-      horizontal: 0,
-    };
 
     // this.controls = new OrbitControls(this.camera, this.renderer.domElement);
 
-    this.chamber = 1;
+    this.chamber = 4;
     this.inChamber = true;
     this.currentModels = [];
     this.activated = false;
@@ -49,14 +43,18 @@ export class Sketch {
     this.keyPressed = false;
     this.orbiting = false;
 
+    this.lights = new THREE.Group();
+
     this.ogPos = [
-      { name: "chamber1", x: 0, y: 1, z: 0 },
-      { name: "chamber2", x: 0, y: 1, z: -20 },
-      { name: "chamber3", x: 0, y: 1, z: -40 },
+      { name: "chamber1", x: 0, y: 1, z: -0 },
+      { name: "chamber2", x: 0, y: 1, z: -19.3 },
+      { name: "chamber3", x: 0, y: 1, z: -38.6 },
       { name: "chamber4", x: 0, y: 1, z: -90 },
     ];
+    this.camera.position.set(this.ogPos[this.chamber - 1].x, this.ogPos[this.chamber - 1].y, this.ogPos[this.chamber - 1].z);
 
     this.rooms = models[4].data;
+    this.chambers = [{ chamber1: models[0].data, chamber2: models[1].data, chamber3: models[2].data, chamber4: models[3].data }];
     this.chamber1 = models[0].data;
     this.chamber2 = models[1].data;
     this.chamber3 = models[2].data;
@@ -69,7 +67,12 @@ export class Sketch {
       VIEWmode: false,
       initialMove: true,
       INTERSECTED: { name: "origin", path: null, mesh: null, box: null, position: { x: 0, y: 0.2, z: 0 } },
-      og: { name: "origin", path: null, mesh: null, box: null, position: { x: 0, y: 0.2, z: 0 } },
+    };
+
+    this.directionCounter = {
+      vertical: 0,
+      orbit: 0,
+      horizontal: 0,
     };
 
     this.point = {
@@ -86,7 +89,7 @@ export class Sketch {
     // this.gui = new GUI();
 
     this.pointRef = {
-      radius: 10,
+      radius: 1000,
       phi: -Math.PI / 2,
       theta: Math.PI / 2,
     };
@@ -109,6 +112,7 @@ export class Sketch {
 
   loadModels() {
     this.loader = new GLTFLoader();
+
     //room
     for (let room of this.rooms) {
       this.loader.load(
@@ -131,35 +135,37 @@ export class Sketch {
     }
 
     //chamber 1 model
-    if (this.chamber == 1 && this.inChamber == true) {
-      this.currentModels = this.chamber1;
-      for (let model of this.chamber1) {
-        this.loadThisModel(model, "room 1");
-      }
+    // if (this.chamber == 1 && this.inChamber == true) {
+    //   const chamberName = `chamber{this.chamber}`
+    //   this.currentModels = this.chamber1;
+    //   for (let model of this.chamber1) {
+    //     this.loadThisModel(model, "room 1");
+    //   }
 
-      for (let model of this.chamber2) {
-        this.loadThisModel(model, "room 2");
-      }
+    //   for (let model of this.chamber2) {
+    //     this.loadThisModel(model, "room 2");
+    //   }
+    // }
+
+    // for (let model of this.chambers[0]["chamber1"]) {
+    //   this.loadThisModel(model, "room 1");
+    // }
+
+    // for (let model of this.chambers[0]["chamber2"]) {
+    //   this.loadThisModel(model, "room 2");
+    // }
+
+    // for (let model of this.chambers[0]["chamber3"]) {
+    //   this.loadThisModel(model, "room 3");
+    // }
+
+    for (let model of this.chambers[0]["chamber4"]) {
+      this.loadThisModel(model, "room 4");
     }
 
-    // for (let model of this.chamber1) {
-    //   this.loadThisModel(model);
-    // }
-
-    // for (let model of this.chamber2) {
-    //   this.loadThisModel(model);
-    // }
-
+    const chamberName = `chamber${this.chamber}`;
+    this.currentModels = this.chambers[0][chamberName];
     console.log(this.currentModels);
-  }
-
-  load2() {
-    if (this.chamber == 2 && this.inChamber == true) {
-      this.currentModels = this.chamber2;
-      for (let model of this.chamber2) {
-        this.loadThisModel(model);
-      }
-    }
   }
 
   loadThisModel(model, room_name) {
@@ -173,6 +179,7 @@ export class Sketch {
         model.mesh.scale.set(model.scale, model.scale, model.scale);
         model.mesh.position.set(model.position.x + model.offset.x, (model.box.getSize(new THREE.Vector3()).y * model.scale) / 2 + model.offset.y, model.position.z + model.offset.z);
         model.mesh.rotation.set(model.rotation.x, model.rotation.y, model.rotation.z);
+        console.log(model.name, model.box.getSize());
       },
       (xhr) => {
         // while loading:
@@ -424,22 +431,18 @@ export class Sketch {
         switch (event.keyCode) {
           case 49: // chamber 1
             this.moveToChamber(1);
-            this.pointRef.radius = 10;
             break;
 
           case 50: // chamber 2
             this.moveToChamber(2);
-            this.pointRef.radius = 200;
             break;
 
           case 51: // chamber 3
             this.moveToChamber(3);
-            this.pointRef.radius = 200;
             break;
 
           case 52: // chamber 4
             this.moveToChamber(4);
-            this.pointRef.radius = 300;
             break;
         }
       }
@@ -472,10 +475,13 @@ export class Sketch {
 
   select() {
     this.controlPanel.INTERSECTED = Object.assign({}, this.currentModels[this.controlPanel.currentSelected]);
-    this.textBox.innerText = `${this.controlPanel.INTERSECTED.name} is selected`;
-    this.directionCounter = { vertical: 0, horizontal: 0, orbit: 0 };
-    this.orientation = { horizontal: 0, vertical: 0 };
-    this.animation_ZoomToObject(this.controlPanel.currentSelected);
+    console.log(this.controlPanel.INTERSECTED);
+    if (Object.keys(this.controlPanel.INTERSECTED).length != 0) {
+      this.textBox.innerText = `${this.controlPanel.INTERSECTED.name} is selected`;
+      this.directionCounter = { vertical: 0, horizontal: 0, orbit: 0 };
+      this.orientation = { horizontal: 0, vertical: 0 };
+      this.animation_ZoomToObject(this.controlPanel.currentSelected);
+    }
   }
 
   addFloor() {
@@ -486,29 +492,41 @@ export class Sketch {
     this.floorObject.rotation.set(Math.PI / 2, 0, 0);
     this.floorObject.name = "floor";
     this.scene.add(this.floorObject);
-
-    // this.chamberFloor = new THREE.PlaneBufferGeometry(10, 10, 1, 1);
-    // this.chamber_mat = new THREE.MeshBasicMaterial({ color: "#f8f8ff", side: THREE.DoubleSide });
-    // this.chamber1 = new THREE.Mesh(this.chamberFloor, this.chamber_mat);
-    // this.chamber1.position.set(0, 0.01, -20);
-    // this.chamber1.rotation.set(Math.PI / 2, 0, 0);
-    // this.scene.add(this.chamber1);
-
-    // this.grid = new THREE.GridHelper(100, 300);
-    // this.scene.add(this.grid);
   }
 
   addLight() {
     this.color = 0xffffff;
-    this.intensity = 1;
-    this.light = new THREE.PointLight(this.color, this.intensity);
-    this.light_1_2 = new THREE.PointLight(this.color, this.intensity, 20);
-    this.ambient = new THREE.AmbientLight(0x404040, this.intensity);
-    this.light.position.set(2, 3, 0.866);
-    this.light_1_2.position.set(2, 3, 3);
+    this.intensity = 0.8;
+    this.light_1 = new THREE.DirectionalLight(this.color, this.intensity);
+    this.light_1.position.set(0, 3, 1);
+    this.light_1.target.position.set(0, 0, 0);
+    this.lights.add(this.light_1);
+    this.lights.add(this.light_1.target);
 
-    this.scene.add(this.light);
-    this.scene.add(this.light_1_2);
+    this.light_1_2 = new THREE.PointLight(this.color, this.intensity, 20);
+    this.light_1_2.position.set(2, 3, 3);
+    this.lights.add(this.light_1_2);
+
+    this.light_2 = new THREE.PointLight(this.color, this.intensity);
+    this.light_2.position.set(0, 3, -19.5);
+    this.lights.add(this.light_2);
+
+    this.light_3 = new THREE.PointLight(this.color, this.intensity, 20);
+    this.light_3.position.set(0, 3, -38);
+    this.lights.add(this.light_3);
+
+    this.light_4 = new THREE.DirectionalLight(this.color, this.intensity);
+    this.light_4.position.set(1, 2, -90);
+    this.light_4.target.position.set(0, 0, -90);
+    this.light_4_1 = new THREE.PointLight(this.color, this.intensity, 20);
+    this.light_4_1.position.set(-10, 3, -90);
+    this.lights.add(this.light_4);
+    this.lights.add(this.light_4.target);
+    this.lights.add(this.light_4_1);
+
+    this.ambient = new THREE.AmbientLight(0x404040, this.intensity);
+
+    this.scene.add(this.lights);
     this.scene.add(this.ambient);
   }
 
@@ -628,21 +646,20 @@ export class Sketch {
         },
       }
     );
-    if (this.chamber == 1) {
-      gsap.fromTo(
-        this.camera.position,
-        { duration: 5, x: this.camera.position.x, y: this.camera.position.y, z: this.camera.position.z },
-        {
-          duration: 5,
-          x: this.ogPos[this.chamber - 1].x,
-          y: this.ogPos[this.chamber - 1].y,
-          z: this.ogPos[this.chamber - 1].z,
-          onUpdate: () => {
-            // this.camera.lookAt(this.point.x, this.point.y, this.point.z);
-          },
-        }
-      );
-    }
+
+    gsap.fromTo(
+      this.camera.position,
+      { duration: 5, x: this.camera.position.x, y: this.camera.position.y, z: this.camera.position.z },
+      {
+        duration: 5,
+        x: this.ogPos[this.chamber - 1].x,
+        y: this.ogPos[this.chamber - 1].y,
+        z: this.ogPos[this.chamber - 1].z,
+        onUpdate: () => {
+          // this.camera.lookAt(this.point.x, this.point.y, this.point.z);
+        },
+      }
+    );
   }
 
   moveToChamber(num) {
@@ -650,21 +667,16 @@ export class Sketch {
       this.textBox.innerText = `moving to chamber ${num}`;
       console.log("move to " + num + " chamber.");
       this.chamber = num;
-      console.log(this.ogPos[this.chamber - 1]);
+      const chamberName = `chamber${this.chamber}`;
+      this.currentModels = this.chambers[0][chamberName];
+      console.log(this.ogPos[this.chamber - 1].x, this.ogPos[this.chamber - 1].y, this.ogPos[this.chamber - 1].z);
 
-      gsap.fromTo(
-        this.camera.position,
-        { duration: 10, x: this.camera.position.x, y: this.camera.position.y, z: this.camera.position.z },
-        {
-          duration: 10,
-          x: this.ogPos[this.chamber - 1].x,
-          y: this.ogPos[this.chamber - 1].y,
-          z: this.ogPos[this.chamber - 1].z,
-          onUpdate: () => {
-            this.camera.lookAt(this.point.x, this.point.y, this.point.z);
-          },
-        }
-      );
+      gsap.to(this.camera.position, {
+        duration: 10,
+        x: this.ogPos[this.chamber - 1].x,
+        y: this.ogPos[this.chamber - 1].y,
+        z: this.ogPos[this.chamber - 1].z,
+      });
     } else {
       this.textBox.innerText = `you are already in chamber ${num}`;
     }

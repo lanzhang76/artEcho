@@ -7,77 +7,77 @@
 		{
 			"bufferView":0,
 			"componentType":5123,
-			"count":708,
+			"count":2334,
 			"type":"SCALAR",
 			"min":[0
 			],
-			"max":[707
+			"max":[2333
 			]
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":708,
+			"count":2334,
 			"type":"VEC3",
-			"min":[-12.4799995,0.0199999996,-15.9799995
+			"min":[-17.0300007,-3,-16.0300007
 			],
-			"max":[7.48000002,0.0199999996,15.9799995
+			"max":[9.02999973,4.03000021,16
 			]
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":708,
+			"count":2334,
 			"type":"VEC2",
-			"min":[-37.4399948,-46.9399986
+			"min":[-8.51500034,-7.01500034
 			],
-			"max":[22.4399986,48.9399986
+			"max":[8.51500034,9.01500034
 			]
 		},
 		{
 			"bufferView":3,
 			"componentType":5126,
-			"count":708,
+			"count":2334,
 			"type":"VEC3",
-			"min":[0,1,0
+			"min":[-1,-1,-1
 			],
-			"max":[0,1,0
+			"max":[1,1,1
 			]
 		},
 		{
 			"bufferView":4,
 			"componentType":5123,
-			"count":6564,
+			"count":168,
 			"type":"SCALAR",
 			"min":[0
 			],
-			"max":[6563
+			"max":[167
 			]
 		},
 		{
 			"bufferView":5,
 			"componentType":5126,
-			"count":6564,
+			"count":168,
 			"type":"VEC3",
-			"min":[-12.5500002,-0.0500000007,-16.0499992
+			"min":[-17,-3,-16
 			],
-			"max":[7.55000019,2.05000019,16.0499992
+			"max":[9,0.0299999993,16
 			]
 		},
 		{
 			"bufferView":6,
 			"componentType":5126,
-			"count":6564,
+			"count":168,
 			"type":"VEC2",
-			"min":[-48.1499977,-47.1499977
+			"min":[-2.33333349,-2.16666675
 			],
-			"max":[48.1499977,49.1499977
+			"max":[2,3.16666675
 			]
 		},
 		{
 			"bufferView":7,
 			"componentType":5126,
-			"count":6564,
+			"count":168,
 			"type":"VEC3",
 			"min":[-1,-1,-1
 			],
@@ -88,62 +88,62 @@
 	"buffers":[
 		{
 			"uri":"chamber4_data.bin",
-			"byteLength":247248,
+			"byteLength":85068,
 			"name":"main_buffer"
 		}
 	],
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":1416,
+			"byteLength":4668,
 			"target":34963
 		},
 		{
 			"buffer":0,
-			"byteOffset":1416,
-			"byteLength":8496,
+			"byteOffset":4668,
+			"byteLength":28008,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteOffset":9912,
-			"byteLength":5664,
+			"byteOffset":32676,
+			"byteLength":18672,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteOffset":15576,
-			"byteLength":8496,
+			"byteOffset":51348,
+			"byteLength":28008,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteOffset":24072,
-			"byteLength":13128,
+			"byteOffset":79356,
+			"byteLength":336,
 			"target":34963
 		},
 		{
 			"buffer":0,
-			"byteOffset":37200,
-			"byteLength":78768,
+			"byteOffset":79692,
+			"byteLength":2016,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteOffset":115968,
-			"byteLength":52512,
+			"byteOffset":81708,
+			"byteLength":1344,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteOffset":168480,
-			"byteLength":78768,
+			"byteOffset":83052,
+			"byteLength":2016,
 			"target":34962
 		}
 	],
 	"nodes":[
 		{
-			"name":"chamber_4",
+			"name":"chamber4",
 			"mesh":0
 		}
 	],
@@ -173,7 +173,7 @@
 	],
 	"materials":[
 		{
-			"name":"Worn_Concrete_Wall",
+			"name":"Concrete_Slab_2x2_M",
 			"pbrMetallicRoughness":{
 				"metallicFactor":0,
 				"baseColorTexture":{
@@ -188,7 +188,7 @@
 			}
 		},
 		{
-			"name":"Concrete_Slab_2x2_M",
+			"name":"Worn_Concrete_Wall",
 			"pbrMetallicRoughness":{
 				"metallicFactor":0,
 				"baseColorTexture":{
@@ -231,27 +231,27 @@
 	],
 	"images":[
 		{
-			"uri":"uhnlfbvn_4K_Albedo.png",
+			"uri":"sdwocfwa_2K_Albedo.png",
 			"mimeType":"image/png"
 		},
 		{
-			"uri":"uhnlfbvn_4K_Roughness.png",
+			"uri":"sdwocfwa_2K_Roughness.png",
 			"mimeType":"image/png"
 		},
 		{
-			"uri":"uhnlfbvn_4K_Normal.png",
+			"uri":"sdwocfwa_2K_Normal.png",
 			"mimeType":"image/png"
 		},
 		{
-			"uri":"sdwocfwa_4K_Albedo.png",
+			"uri":"uhnlfbvn_2K_Albedo.png",
 			"mimeType":"image/png"
 		},
 		{
-			"uri":"sdwocfwa_4K_Roughness.png",
+			"uri":"uhnlfbvn_2K_Roughness.png",
 			"mimeType":"image/png"
 		},
 		{
-			"uri":"sdwocfwa_4K_Normal.png",
+			"uri":"uhnlfbvn_2K_Normal.png",
 			"mimeType":"image/png"
 		}
 	],

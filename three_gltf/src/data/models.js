@@ -39,23 +39,26 @@ export const models = [
   {
     name: "chamber2",
     data: [
-      // { name: "Baluster vase", path: "../models/c2/vase1/f1980_193-150k-4096.gltf", mesh: null, box: null, scale: 1, position: { x: -2, y: 0.1, z: -22 }, rotation: { x: 0, y: 0, z: 0 }, offset: { x: 0, y: 0, z: 0 }, theta: Math.PI * 2, stare_dist: 0.5 },
-      // { name: "Beaker-shaped vase", path: "../models/c2/vase2/baluster_vase-150k-4096.gltf", mesh: null, box: null, scale: 1, position: { x: 2, y: 0.1, z: -22 }, rotation: { x: 0, y: 0, z: 0 }, offset: { x: 0, y: 0, z: 0 }, theta: Math.PI * 2, stare_dist: 0.5 },
-      // { name: "fangyi", path: "../models/c2/fangyi/fangyi-150k-4096.gltf", mesh: null, box: null, scale: 1, position: { x: -2, y: 0.1, z: -20 }, rotation: { x: 0, y: 0, z: 0 }, offset: { x: 0, y: 0, z: 0 }, theta: Math.PI * 2, stare_dist: 0.5 },
-      // { name: "ewer", path: "../models/c2/ewer/lidded_ewer-150k-4096.gltf", mesh: null, box: null, scale: 1, position: { x: 2, y: 0.1, z: -20 }, rotation: { x: 0, y: 0, z: 0 }, offset: { x: 0, y: 0, z: 0 }, theta: Math.PI * 2, stare_dist: 0.5 },
+      { name: "Beaker-shaped vase ", path: "../models/c2/vase1/f1980_193-150k-4096.gltf", mesh: null, box: null, scale: 1, position: { x: 2, y: 0.5, z: -21 }, rotation: { x: 0, y: 0, z: 0 }, offset: { x: 0, y: 0.1, z: 0 }, theta: Math.PI / 2, stare_dist: 1 },
+      { name: "Baluster vase", path: "../models/c2/vase2/baluster_vase-150k-4096.gltf", mesh: null, box: null, scale: 1, position: { x: 2, y: 0.5, z: -18 }, rotation: { x: 0, y: 0, z: 0 }, offset: { x: 0, y: 0, z: 0 }, theta: Math.PI * 3, stare_dist: 1 },
+      { name: "ewer", path: "../models/c2/ewer/lidded_ewer-150k-4096.gltf", mesh: null, box: null, scale: 5, position: { x: -2, y: 1, z: -18 }, rotation: { x: 0, y: 0, z: 0 }, offset: { x: 0, y: 0, z: 0 }, theta: -Math.PI / 4, stare_dist: 1.5 },
+      { name: "fangyi", path: "../models/c2/fangyi/fangyi-150k-4096.gltf", mesh: null, box: null, scale: 0.005, position: { x: -2, y: 1, z: -21 }, rotation: { x: 0, y: 0, z: 0 }, offset: { x: 0, y: 0, z: 0 }, theta: Math.PI / 4, stare_dist: 2 },
     ],
     soundsFiles: [],
   },
   {
     name: "chamber3",
-    data: [],
+    data: [
+      { name: "1903 Wright Flyer", path: "../models/c3/wright/wright_flyer-full_resolution.gltf", mesh: null, box: null, scale: 0.0005, position: { x: 3, y: 2, z: -36 }, rotation: { x: 0, y: (Math.PI * 5) / 4, z: 0 }, offset: { x: 0, y: 0, z: 0 }, theta: Math.PI * 3, stare_dist: 3 },
+      { name: "Bell X-1", path: "../models/c3/bell/bell_x1_mesh-web_remap.gltf", mesh: null, box: null, scale: 0.0005, position: { x: -3, y: 2, z: -43 }, rotation: { x: 0, y: (Math.PI * 5) / 4, z: 0 }, offset: { x: 0, y: 0, z: 0 }, theta: Math.PI / 4, stare_dist: 3 },
+    ],
     soundsFiles: [],
   },
   {
     name: "chamber4",
     data: [
-      { name: "shuttle", path: "../models/c1/space/Orbiter_Space_Shuttle_OV-103_Discovery-150k-4096.gltf", mesh: null, box: null, position: { x: 0, y: 1, z: -2 }, theta: (Math.PI * 3) / 4, stare_dist: 3 },
-      { name: "Apollo", path: "../models/c1/apollo/apollo_exterior-150k-4096.gltf", mesh: null, box: null, position: { x: 0, y: 1, z: -2 }, theta: (Math.PI * 3) / 4, stare_dist: 3 },
+      { name: "Apollo", path: "../models/c4/apollo/apollo_exterior-150k-4096.gltf", mesh: null, box: null, scale: 0.01, position: { x: 5, y: 2, z: -90 }, rotation: { x: 0, y: Math.PI, z: 0 }, offset: { x: 0, y: 0, z: 0 }, theta: Math.PI * 3, stare_dist: 3.5 },
+      { name: "shuttle", path: "../models/c4/space/Orbiter_Space_Shuttle_OV-103_Discovery-150k-4096.gltf", mesh: null, box: null, scale: 1, position: { x: -20, y: 2, z: -90 }, rotation: { x: 0, y: 0, z: 0 }, offset: { x: 0, y: 0, z: 0 }, theta: 0, stare_dist: 14 },
     ],
     soundsFiles: [],
   },
@@ -63,9 +66,9 @@ export const models = [
     name: "rooms",
     data: [
       { name: "chamber1-room", path: "../models/rooms/chamber1/chamber1.gltf", mesh: null, box: null, scale: 2.5, position: { x: 0, y: 0, z: 0 } },
-      { name: "chamber2-room", path: "../models/rooms/chamber2/chamber2.gltf", mesh: null, box: null, scale: 2.5, position: { x: 0, y: 0, z: -20 } },
-      // { name: "chamber3-room", path: "../models/rooms/chamber3/chamber3.gltf", mesh: null, box: null, scale: 2.5, position: { x: 0, y: 0, z: -40 } },
-      // { name: "chamber4-room", path: "../models/rooms/chamber4/chamber4.gltf", mesh: null, box: null, scale: 2.5, position: { x: 0, y: 0, z: -90 } },
+      { name: "chamber2-room", path: "../models/rooms/chamber2/chamber2.gltf", mesh: null, box: null, scale: 2.5, position: { x: 0, y: 0, z: -19.3 } },
+      { name: "chamber3-room", path: "../models/rooms/chamber3/chamber3.gltf", mesh: null, box: null, scale: 2.5, position: { x: 0, y: 0, z: -38.6 } },
+      { name: "chamber4-room", path: "../models/rooms/chamber4/chamber4.gltf", mesh: null, box: null, scale: 2.5, position: { x: 0, y: 0, z: -90 } },
     ],
   },
 ];
