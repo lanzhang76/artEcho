@@ -96,17 +96,17 @@ export class Sketch {
 
     this.textBox = document.querySelector("#selected");
 
-    // this.loadModels();
-    // this.resize();
-    // this.setupResize();
-    // this.setupKeys();
-    // this.addFloor();
-    // this.addLight();
-    // this.addSound();
+    this.loadModels();
+    this.resize();
+    this.setupResize();
+    this.setupKeys();
+    this.addFloor();
+    this.addLight();
+    this.addSound();
 
-    // this.setupGUI();
-    // this.moveBackToCenter();
-    // this.clearTarget();
+    //this.setupGUI();
+    this.moveBackToCenter();
+    this.clearTarget();
   }
 
   loadModels() {
