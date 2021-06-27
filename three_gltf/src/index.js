@@ -7,22 +7,28 @@ let canvas = new Sketch({
 
 let stage = 0;
 
+
 let overlay = document.querySelector("#overlay");
-let instruction = document.querySelector("#instruction");
+let instruction = document.querySelector(".intro-detail");
 let action = document.querySelector("#action");
+let narrator = document.querySelector("#narrator")
 
 window.addEventListener("keydown", (e) => {
   onKeyDown(e);
 });
 
+window.addEventListener('load',() => {
+  createStage(0);
+})
+
 let onKeyDown = (event) => {
   switch (event.keyCode) {
-    case 13 /*Enter*/:
-      if (stage === 0) {
-        stage++;
-        createStage(stage);
-      }
-      break;
+    // case 13 /*Enter*/:
+    //   if (stage === 0) {
+    //     stage++;
+    //     createStage(stage);
+    //   }
+    //   break;
 
     case 27 /*Escape*/:
       break;
@@ -38,14 +44,32 @@ yesButton.addEventListener("click", () => {
   createStage(stage);
 });
 
+let nextButton = document.createElement("div");
+nextButton.classList.add("instruction-button");
+nextButton.setAttribute("role", "button");
+nextButton.textContent = "NEXT";
+nextButton.addEventListener("click", () => {
+  stage++;
+  createStage(stage);
+});
+let backButton = document.createElement("div");
+backButton.classList.add("instruction-button");
+backButton.setAttribute("role", "button");
+backButton.textContent = "BACK";
+backButton.addEventListener("click", () => {
+  stage--;
+  createStage(stage);
+});
 let noButton = document.createElement("div");
 noButton.classList.add("instruction-button");
 noButton.setAttribute("role", "button");
+noButton.addEventListener('click',() => {
+  stage = 2;
+  createStage(stage)
+})
 noButton.textContent = "NO";
 
-let skipButton = document.createElement("div");
-skipButton.classList.add("instruction-button");
-skipButton.textContent = "Skip Onboarding";
+let skipButton = document.querySelector("#skip");
 skipButton.setAttribute("role", "button");
 skipButton.addEventListener("click", () => {
   stage = 4;
@@ -54,14 +78,26 @@ skipButton.addEventListener("click", () => {
 
 let createStage = (stage) => {
   switch (stage) {
-    case 1:
-      instruction.textContent = "Are you a sighted audience?";
+    case 0:
+      removeAllChildNodes(action);
+      instruction.textContent = " Hi, I am Thomas Tajo (tah-jo), I am your echolocation instructor today in ArtEcho.\n" +
+          "                   Here is a question that will help us get started: Have you ever experienced echolocation?";
       action.appendChild(yesButton);
       action.appendChild(noButton);
-      action.appendChild(skipButton);
+      break;
+    case 1:
+      removeAllChildNodes(action);
+      instruction.textContent = "Very Well! ArtEcho reproduces the echolocation experience to a virtual 3D environment. Anywhere within the virtual museum, you can press the Space key to trigger a virtual mouth click and then experience the sound reflections from the 3D objects in the museum.";
+      action.appendChild(nextButton);
+      action.appendChild(backButton);
       break;
     case 2:
-      instruction.textContent = "Have you ever heard about human echolocation?";
+      removeAllChildNodes(action);
+      instruction.textContent = " Echolocation is a technique used by some blind individuals that can help improve their independence and mobility. An echolocation user can perceive the location, size, shape, and texture of their surrounding objects by emitting the mouth click and interpreting the strength, pitch, duration, and direction of the resulting sound reflections. Echolocation users are well-trained to perform high-pitch mouth clicks. \n" +
+          "\n" +
+          "In the ArtEcho experience, anywhere, you can press the Space key to trigger a virtual mouth click and then experience the acoustics attributes of the exhibited 3D assets";
+      action.appendChild(nextButton);
+      action.appendChild(backButton);
       break;
     case 3:
       break;
