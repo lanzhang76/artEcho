@@ -59,7 +59,7 @@ export const models = [
     data: [
       { name: "armstrong", path: "../models/c4/armstrong/armstrong.gltf", mesh: null, box: null, scale: 0.1, position: { x: 3, y: 1.5, z: -95 }, rotation: { x: 0, y: 0, z: 0 }, offset: { x: 0, y: -0.8, z: 0 }, theta: Math.PI / 2, stare_dist: 1.5 },
       { name: "Apollo", path: "../models/c4/apollo/apollo_exterior-150k-4096.gltf", mesh: null, box: null, scale: 0.01, position: { x: 5, y: 2, z: -85 }, rotation: { x: 0, y: Math.PI, z: 0 }, offset: { x: 0, y: 0, z: 0 }, theta: Math.PI * 3, stare_dist: 3.5 },
-      { name: "shuttle", path: "../models/c4/space/Orbiter_Space_Shuttle_OV-103_Discovery-150k-4096.gltf", mesh: null, box: null, scale: 1, position: { x: -20, y: 2, z: -90 }, rotation: { x: 0, y: 0, z: 0 }, offset: { x: 0, y: 0, z: 0 }, theta: 0, stare_dist: 13 },
+      { name: "shuttle", path: "../models/c4/space/Orbiter_Space_Shuttle_OV-103_Discovery-150k-4096.gltf", mesh: null, box: null, scale: 1, position: { x: -25, y: 2, z: -90 }, rotation: { x: 0.15, y: 0, z: 0 }, offset: { x: 0, y: -5, z: 0 }, theta: 0, stare_dist: 18 },
     ],
     soundsFiles: [],
   },

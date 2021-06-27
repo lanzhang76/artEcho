@@ -28,7 +28,7 @@ export class Sketch {
     this.echoSound = new THREE.Audio(this.listener);
 
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
-    this.renderer.setClearColor(0x2d2d2d);
+    this.renderer.setClearColor(0x000000);
     this.renderer.setSize(this.width, this.height);
     this.renderer.domElement.setAttribute("role", "application");
     this.container.appendChild(this.renderer.domElement);
@@ -36,7 +36,7 @@ export class Sketch {
     // this.controls = new OrbitControls(this.camera, this.renderer.domElement);
 
     // CHANGE THIS NUMBER TO START IN THAT CHAMBER
-    this.chamber = 1;
+    this.chamber = 4;
     //
     this.inChamber = true;
     this.currentModels = [];
