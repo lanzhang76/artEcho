@@ -20,8 +20,8 @@ export class Sketch {
 
     this.tiltCam = false;
 
-    this.helper = new THREE.CameraHelper(this.camera);
-    this.scene.add(this.helper);
+    // this.helper = new THREE.CameraHelper(this.camera);
+    // this.scene.add(this.helper);
 
     this.listener = new THREE.AudioListener();
     this.camera.add(this.listener);
@@ -35,7 +35,9 @@ export class Sketch {
 
     // this.controls = new OrbitControls(this.camera, this.renderer.domElement);
 
-    this.chamber = 4;
+    // CHANGE THIS NUMBER TO START IN THAT CHAMBER
+    this.chamber = 1;
+    //
     this.inChamber = true;
     this.currentModels = [];
     this.activated = false;
@@ -100,7 +102,7 @@ export class Sketch {
     this.resize();
     this.setupResize();
     this.setupKeys();
-    this.addFloor();
+    // this.addFloor();
     this.addLight();
     this.addSound();
 
@@ -134,19 +136,19 @@ export class Sketch {
     }
 
     // ROOM 1 MODELS
-    // for (let model of this.chambers[0]["chamber1"]) {
-    //   this.loadThisModel(model, "room 1");
-    // }
+    for (let model of this.chambers[0]["chamber1"]) {
+      this.loadThisModel(model, "room 1");
+    }
 
     // ROOM 2 MODELS
-    // for (let model of this.chambers[0]["chamber2"]) {
-    //   this.loadThisModel(model, "room 2");
-    // }
+    for (let model of this.chambers[0]["chamber2"]) {
+      this.loadThisModel(model, "room 2");
+    }
 
     // // ROOM 3 MODELS
-    // for (let model of this.chambers[0]["chamber3"]) {
-    //   this.loadThisModel(model, "room 3");
-    // }
+    for (let model of this.chambers[0]["chamber3"]) {
+      this.loadThisModel(model, "room 3");
+    }
 
     for (let model of this.chambers[0]["chamber4"]) {
       this.loadThisModel(model, "room 4");
@@ -501,14 +503,14 @@ export class Sketch {
 
   addLight() {
     this.color = 0xffffff;
-    this.intensity = 0.8;
+    this.intensity = 0.5;
     this.light_1 = new THREE.DirectionalLight(this.color, this.intensity);
     this.light_1.position.set(0, 3, 1);
     this.light_1.target.position.set(0, 0, 0);
     this.lights.add(this.light_1);
     this.lights.add(this.light_1.target);
 
-    this.light_1_2 = new THREE.PointLight(this.color, this.intensity, 20);
+    this.light_1_2 = new THREE.PointLight(this.color, this.intensity);
     this.light_1_2.position.set(2, 3, 3);
     this.lights.add(this.light_1_2);
 
@@ -516,14 +518,14 @@ export class Sketch {
     this.light_2.position.set(0, 3, -19.5);
     this.lights.add(this.light_2);
 
-    this.light_3 = new THREE.PointLight(this.color, this.intensity, 20);
+    this.light_3 = new THREE.PointLight(this.color, this.intensity);
     this.light_3.position.set(0, 3, -38);
     this.lights.add(this.light_3);
 
     this.light_4 = new THREE.DirectionalLight(this.color, this.intensity);
     this.light_4.position.set(1, 2, -90);
     this.light_4.target.position.set(0, 0, -90);
-    this.light_4_1 = new THREE.PointLight(this.color, this.intensity, 20);
+    this.light_4_1 = new THREE.PointLight(this.color, this.intensity);
     this.light_4_1.position.set(-10, 3, -90);
     this.lights.add(this.light_4);
     this.lights.add(this.light_4.target);

@@ -49,7 +49,7 @@ export const models = [
   {
     name: "chamber3",
     data: [
-      { name: "1903 Wright Flyer", path: "../models/c3/wright/wright_flyer-full_resolution.gltf", mesh: null, box: null, scale: 0.0005, position: { x: 3, y: 2, z: -36 }, rotation: { x: 0, y: (Math.PI * 5) / 4, z: 0 }, offset: { x: 0, y: 0, z: 0 }, theta: Math.PI * 3, stare_dist: 3 },
+      { name: "1903 Wright Flyer", path: "../models/c3/wright/wright_flyer-full_resolution.gltf", mesh: null, box: null, scale: 0.0005, position: { x: 3, y: 1, z: -36 }, rotation: { x: 0, y: (Math.PI * 5) / 4, z: 0 }, offset: { x: 0, y: 0, z: 0 }, theta: Math.PI * 3, stare_dist: 4 },
       { name: "Bell X-1", path: "../models/c3/bell/bell_x1_mesh-web_remap.gltf", mesh: null, box: null, scale: 0.0005, position: { x: -3, y: 1, z: -43 }, rotation: { x: 0, y: (Math.PI * 5) / 4, z: 0 }, offset: { x: 0, y: 0, z: 0 }, theta: Math.PI / 4, stare_dist: 3 },
     ],
     soundsFiles: [],
