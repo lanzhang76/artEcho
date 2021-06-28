@@ -26,6 +26,7 @@ export class Sketch {
     this.listener = new THREE.AudioListener();
     this.camera.add(this.listener);
     this.echoSound = new THREE.Audio(this.listener);
+    this.stepSound = new THREE.Audio(this.listener);
 
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.renderer.setClearColor(0x000000);
@@ -326,26 +327,14 @@ export class Sketch {
         // 32 space bar
         let chamber = this.chamber;
         let object = this.controlPanel.currentSelected + 1;
-        // let theta = this.controlPanel.INTERSECTED.theta;
-        // //console.log(theta);
-        // //console.log(theta / Math.PI * 180)
-        // if(theta < 0){
-        //   console.log(Math.ceil(-theta / (Math.PI * 2)));
-        //   theta += Math.ceil(-theta / (Math.PI * 2)) * Math.PI * 2;
-        // }
-        // //console.log(theta / Math.PI * 180);
-        // theta = theta > Math.PI * 2 ? theta - (Math.floor(theta / (Math.PI * 2)) * Math.PI * 2) : theta;
-        //console.log(theta / Math.PI * 180);
+
         let orbit = this.directionCounter.orbit;
-        //if(orbit > 7) orbit -= 1;
-        // let verticalAngle = (this.point.y / Math.PI) * 180;
-        // let horizontal = (this.point.x / Math.PI) * 180;
+
         let verticalAngle = this.directionCounter.vertical * 30; //以这个为基数
         let horizontal = this.directionCounter.horizontal * 45; //以这个为基数
 
-        //console.log("orbit " + orbit + " vertical " + verticalAngle + "horizontal " + horizontal);
+
         let echoPath = "../sounds/Chamber1/Object" + object + "/" + orbit + "_" + horizontal + "_" + verticalAngle + ".mp3";
-        //console.log(echoPath);
 
         audioLoader.load(echoPath, (buffer) => {
           this.echoSound.setBuffer(buffer);
@@ -455,6 +444,11 @@ export class Sketch {
       if (this.directionCounter.orbit > 7) this.directionCounter.orbit = 0;
 
       console.log("hor: " + this.orientation.horizontal, "ver: " + this.orientation.vertical);
+      let footPath = "../Footstep Sounds/" + this.currentModels[this.controlPanel.currentSelected].footstep + ".mp3";
+      audioLoader.load(footPath,(buffer) => {
+        this.stepSound.setBuffer(buffer);
+        this.stepSound.play();
+      })
       const diff = this.pointRef.theta - Math.PI / 4;
       gsap.to(this.pointRef, 0.5, {
         theta: diff,
@@ -472,7 +466,11 @@ export class Sketch {
       this.controlPanel.INTERSECTED.theta += Math.PI / 4;
       this.directionCounter.orbit -= 1;
       if (this.directionCounter.orbit < 0) this.directionCounter.orbit = 7;
-
+      let footPath = "../Footstep Sounds/" + this.currentModels[this.controlPanel.currentSelected].footstep + ".mp3";
+      audioLoader.load(footPath,(buffer) => {
+        this.stepSound.setBuffer(buffer);
+        this.stepSound.play();
+      })
       console.log("hor: " + this.orientation.horizontal, "ver: " + this.orientation.vertical);
       const diff = this.pointRef.theta + Math.PI / 4;
       gsap.to(this.pointRef, 0.5, {
@@ -577,6 +575,22 @@ export class Sketch {
     this.controlPanel.VIEWmode = true;
     this.tiltCam = false;
     this.pointRef.theta = this.controlPanel.INTERSECTED.theta;
+    if(this.previous !== index) {
+      if(!this.previous) this.previous = 5;
+      let step = Math.abs(index - this.previous);
+      if(step === 2){
+        audioLoader.load("../Footstep Sounds/5.mp3",(buffer) => {
+          this.stepSound.setBuffer(buffer);
+          this.stepSound.play();
+        })
+      }else{
+        audioLoader.load("../Footstep Sounds/3.mp3",(buffer) => {
+          this.stepSound.setBuffer(buffer);
+          this.stepSound.play();
+        })
+      }
+
+    }
 
     gsap.to(this.point, {
       duration: 3,
@@ -586,7 +600,6 @@ export class Sketch {
       z: this.controlPanel.INTERSECTED.position.z,
     });
     let targetSound = this.chamber1Sound[index];
-    console.log(index);
     //console.log(targetSound.sound);
     gsap.to(targetSound, {
       duration: 3,
@@ -637,6 +650,12 @@ export class Sketch {
     this.controlPanel.initialMove = true;
     this.tiltCam = true;
     this.clearTarget();
+    if(this.activated){
+      audioLoader.load("../Footstep Sounds/4.mp3",(buffer) => {
+        this.stepSound.setBuffer(buffer);
+        this.stepSound.play();
+      })
+    }
     gsap.fromTo(
       this.point,
       { duration: 5, x: this.point.x, y: this.point.y, z: this.point.z },
@@ -672,13 +691,17 @@ export class Sketch {
 
   moveToChamber(num) {
     if (num != this.chamber) {
+      this.previous = null;
       this.textBox.innerText = `moving to chamber ${num}`;
       console.log("move to " + num + " chamber.");
       this.chamber = num;
       const chamberName = `chamber${this.chamber}`;
       this.currentModels = this.chambers[0][chamberName];
       console.log(this.ogPos[this.chamber - 1].x, this.ogPos[this.chamber - 1].y, this.ogPos[this.chamber - 1].z);
-
+      audioLoader.load("../Footstep Sounds/14.mp3",(buffer) => {
+        this.stepSound.setBuffer(buffer);
+        this.stepSound.play();
+      })
       gsap.to(this.camera.position, {
         duration: 10,
         x: this.ogPos[this.chamber - 1].x,
