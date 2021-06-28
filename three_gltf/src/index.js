@@ -6,6 +6,7 @@ let canvas = new Sketch({
 });
 
 let stage = 0;
+let activated = false;
 
 
 let overlay = document.querySelector("#overlay");
@@ -23,12 +24,12 @@ window.addEventListener('load',() => {
 
 let onKeyDown = (event) => {
   switch (event.keyCode) {
-    // case 13 /*Enter*/:
-    //   if (stage === 0) {
-    //     stage++;
-    //     createStage(stage);
-    //   }
-    //   break;
+
+    case 72 /*Help*/:
+      if(activated){
+        createStage(10);
+      }
+      break;
 
     case 27 /*Escape*/:
       break;
@@ -104,7 +105,19 @@ let createStage = (stage) => {
     case 4:
       overlay.style.display = "none";
       canvas.setActivated();
+      activated = true;
       document.querySelector("#selected").style.display = "block";
+      break;
+
+    case 10:
+      skipButton.textContent = 'Close Menu';
+      instruction.style.display = 'none';
+      narrator.style.display = 'none';
+      action.style.display = 'none';
+      overlay.style.display = '';
+      document.querySelector('#key-control').style.display = 'flex';
+      break;
+
   }
 };
 
