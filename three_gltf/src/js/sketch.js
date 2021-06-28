@@ -141,19 +141,19 @@ export class Sketch {
     }
 
     // // ROOM 2 MODELS
-    // for (let model of this.chambers[0]["chamber2"]) {
-    //   this.loadThisModel(model, "room 2");
-    // }
+    for (let model of this.chambers[0]["chamber2"]) {
+      this.loadThisModel(model, "room 2");
+    }
 
     // // ROOM 3 MODELS
-    // for (let model of this.chambers[0]["chamber3"]) {
-    //   this.loadThisModel(model, "room 3");
-    // }
+    for (let model of this.chambers[0]["chamber3"]) {
+      this.loadThisModel(model, "room 3");
+    }
 
     // // ROOM 4 MODELS
-    // for (let model of this.chambers[0]["chamber4"]) {
-    //   this.loadThisModel(model, "room 4");
-    // }
+    for (let model of this.chambers[0]["chamber4"]) {
+      this.loadThisModel(model, "room 4");
+    }
 
     const chamberName = `chamber${this.chamber}`;
     this.currentModels = this.chambers[0][chamberName];
