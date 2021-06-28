@@ -36,7 +36,7 @@ export class Sketch {
     // this.controls = new OrbitControls(this.camera, this.renderer.domElement);
 
     // CHANGE THIS NUMBER TO START IN THAT CHAMBER
-    this.chamber = 4;
+    this.chamber = 1;
     //
     this.inChamber = true;
     this.currentModels = [];
@@ -140,19 +140,20 @@ export class Sketch {
       this.loadThisModel(model, "room 1");
     }
 
-    // ROOM 2 MODELS
-    for (let model of this.chambers[0]["chamber2"]) {
-      this.loadThisModel(model, "room 2");
-    }
+    // // ROOM 2 MODELS
+    // for (let model of this.chambers[0]["chamber2"]) {
+    //   this.loadThisModel(model, "room 2");
+    // }
 
     // // ROOM 3 MODELS
-    for (let model of this.chambers[0]["chamber3"]) {
-      this.loadThisModel(model, "room 3");
-    }
+    // for (let model of this.chambers[0]["chamber3"]) {
+    //   this.loadThisModel(model, "room 3");
+    // }
 
-    for (let model of this.chambers[0]["chamber4"]) {
-      this.loadThisModel(model, "room 4");
-    }
+    // // ROOM 4 MODELS
+    // for (let model of this.chambers[0]["chamber4"]) {
+    //   this.loadThisModel(model, "room 4");
+    // }
 
     const chamberName = `chamber${this.chamber}`;
     this.currentModels = this.chambers[0][chamberName];
