@@ -8,25 +8,23 @@ let canvas = new Sketch({
 let stage = 0;
 let activated = false;
 
-
 let overlay = document.querySelector("#overlay");
 let instruction = document.querySelector(".intro-detail");
 let action = document.querySelector("#action");
-let narrator = document.querySelector("#narrator")
+let narrator = document.querySelector("#narrator");
 
 window.addEventListener("keydown", (e) => {
   onKeyDown(e);
 });
 
-window.addEventListener('load',() => {
+window.addEventListener("load", () => {
   createStage(0);
-})
+});
 
 let onKeyDown = (event) => {
   switch (event.keyCode) {
-
     case 72 /*Help*/:
-      if(activated){
+      if (activated) {
         createStage(10);
       }
       break;
@@ -64,10 +62,10 @@ backButton.addEventListener("click", () => {
 let noButton = document.createElement("div");
 noButton.classList.add("instruction-button");
 noButton.setAttribute("role", "button");
-noButton.addEventListener('click',() => {
+noButton.addEventListener("click", () => {
   stage = 2;
-  createStage(stage)
-})
+  createStage(stage);
+});
 noButton.textContent = "NO";
 
 let skipButton = document.querySelector("#skip");
@@ -81,8 +79,7 @@ let createStage = (stage) => {
   switch (stage) {
     case 0:
       removeAllChildNodes(action);
-      instruction.textContent = " Hi, I am Thomas Tajo (tah-jo), I am your echolocation instructor today in ArtEcho.\n" +
-          "                   Here is a question that will help us get started: Have you ever experienced echolocation?";
+      instruction.textContent = " Hi, I am Thomas Tajo (tah-jo), I am your echolocation instructor today in ArtEcho.\n" + "                   Here is a question that will help us get started: Have you ever experienced echolocation?";
       action.appendChild(yesButton);
       action.appendChild(noButton);
       break;
@@ -94,9 +91,10 @@ let createStage = (stage) => {
       break;
     case 2:
       removeAllChildNodes(action);
-      instruction.textContent = " Echolocation is a technique used by some blind individuals that can help improve their independence and mobility. An echolocation user can perceive the location, size, shape, and texture of their surrounding objects by emitting the mouth click and interpreting the strength, pitch, duration, and direction of the resulting sound reflections. Echolocation users are well-trained to perform high-pitch mouth clicks. \n" +
-          "\n" +
-          "In the ArtEcho experience, anywhere, you can press the Space key to trigger a virtual mouth click and then experience the acoustics attributes of the exhibited 3D assets";
+      instruction.textContent =
+        " Echolocation is a technique used by some blind individuals that can help improve their independence and mobility. An echolocation user can perceive the location, size, shape, and texture of their surrounding objects by emitting the mouth click and interpreting the strength, pitch, duration, and direction of the resulting sound reflections. Echolocation users are well-trained to perform high-pitch mouth clicks. \n" +
+        "\n" +
+        "In the ArtEcho experience, anywhere, you can press the Space key to trigger a virtual mouth click and then experience the acoustics attributes of the exhibited 3D assets";
       action.appendChild(nextButton);
       action.appendChild(backButton);
       break;
@@ -110,14 +108,13 @@ let createStage = (stage) => {
       break;
 
     case 10:
-      skipButton.textContent = 'Close Menu';
-      instruction.style.display = 'none';
-      narrator.style.display = 'none';
-      action.style.display = 'none';
-      overlay.style.display = '';
-      document.querySelector('#key-control').style.display = 'flex';
+      skipButton.textContent = "Close Menu";
+      instruction.style.display = "none";
+      narrator.style.display = "none";
+      action.style.display = "none";
+      overlay.style.display = "";
+      document.querySelector("#key-control").style.display = "flex";
       break;
-
   }
 };
 

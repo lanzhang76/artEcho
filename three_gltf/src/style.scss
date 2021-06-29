@@ -9,37 +9,36 @@ canvas {
   display: block;
 }
 
-#prototype{
-  padding-top: 230px;
-  .go-next{
+#prototype {
+  padding-top: 100px;
+  .go-next {
     margin-top: 60px;
     margin-bottom: 40px;
   }
 }
 
 .content-wrapper {
-  width: 80vw;
-  max-width: 1440px;
-  margin-left: 10vw;
+  width: 100%;
+  height: 800px;
   position: relative;
 }
 
 #container {
   position: relative;
   width: 100%;
-  height: 600px;
+  height: 100%;
 }
 
 .header {
   display: flex;
   position: fixed;
   color: white;
-  z-index:3;
+  z-index: 3;
   justify-content: space-between;
   width: 100%;
   margin: 40px 0;
   font-size: 0.8em;
-  top:0;
+  top: 0;
 
   .nav {
     display: flex;
@@ -51,16 +50,16 @@ canvas {
     line-height: 24px;
     z-index: 2;
 
-    div{
-      margin-right:40px;
+    div {
+      margin-right: 40px;
     }
   }
 
-  .logo{
-    height:30px;
+  .logo {
+    height: 30px;
     margin-left: 60px;
 
-    img{
+    img {
       height: 100%;
     }
   }
@@ -71,7 +70,7 @@ canvas {
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 600px;
+  height: 100%;
   background: rgba(14, 14, 14, 0.6);
   color: white;
   text-align: center;
@@ -81,29 +80,28 @@ canvas {
   #audio-label {
     position: absolute;
     right: 117px;
-    top:33px;
+    top: 33px;
   }
-  #instruction{
+  #instruction {
     display: flex;
     flex-direction: column;
     align-items: center;
-
   }
 
-  #narrator{
+  #narrator {
     font-size: 20px;
     font-weight: 900;
     font-style: italic;
     margin-bottom: 20px;
   }
 
-  .intro-detail{
+  .intro-detail {
     width: 700px;
     text-align: center;
     line-height: 24px;
     font-size: 16px;
   }
-  #skip{
+  #skip {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -115,50 +113,48 @@ canvas {
     border: 1px solid white;
   }
 
-  #key-control{
+  #key-control {
     display: none;
     flex-direction: column;
     width: 730px;
-    .title{
+    .title {
       font-size: 20px;
       font-weight: 900;
       font-style: italic;
       margin-bottom: 32px;
     }
 
-    .content{
+    .content {
       display: flex;
       font-size: 20px;
       line-height: 20px;
       font-weight: 400;
       white-space: nowrap;
 
-      .italic{
-        font-style:italic;
+      .italic {
+        font-style: italic;
       }
 
-      .left{
+      .left {
         width: 350px;
         overflow: hidden;
         margin-right: 25px;
-        .left-block{
+        .left-block {
           display: flex;
           margin-bottom: 10px;
           width: 300px;
           overflow: hidden;
         }
-
       }
 
-      .right{
+      .right {
         width: 460px;
-        .right-block{
+        .right-block {
           display: flex;
           margin-bottom: 10px;
         }
       }
     }
-
   }
 }
 
@@ -170,10 +166,9 @@ canvas {
   z-index: 2;
 }
 
-
 #action {
   position: absolute;
-  bottom: 96px;
+  bottom: 200px;
   display: flex;
   align-items: center;
   width: 40%;
@@ -184,14 +179,19 @@ canvas {
   display: flex;
   color: white;
   position: relative;
-  padding: 230px;
+  max-width: 1400px;
+  width: 80vw;
+  padding: 40px;
+  margin: 180px auto;
+  margin-top: 200px;
   justify-content: space-between;
+  align-items: center;
 
   .hero-logo img {
     height: 72px;
   }
 
-  #left-column{
+  #left-column {
     width: 560px;
     display: flex;
     flex-direction: column;
@@ -199,17 +199,18 @@ canvas {
     font-size: 16px;
   }
 
-  #show-reel{
+  #show-reel {
     width: 540px;
     height: 304px;
+    margin: 20px;
     background: white;
   }
 }
 
-
 #instruction {
   width: 100%;
   text-align: center;
+  padding-bottom: 50px;
 }
 
 .instruction-button {
@@ -221,72 +222,69 @@ canvas {
   justify-content: center;
 }
 
-.go-next{
+.go-next {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
 
-  div{
+  div {
     display: flex;
     align-items: center;
     justify-content: center;
   }
 }
 
-a:link{
+a:link {
   text-decoration: none;
   color: white;
 }
 
-a:visited{
+a:visited {
   text-decoration: none;
   color: white;
 }
 
-.wrapper{
+.wrapper {
   display: flex;
   width: 100%;
   align-items: center;
   justify-content: center;
-
 }
 
-#features{
+#features {
   display: flex;
-  padding-top: 230px;
+  padding-top: 100px;
   //width: 80vw;
   //margin-left: 10vw;
   max-width: 1440px;
   flex-wrap: wrap;
   justify-content: space-around;
 
-  .feature-block{
+  .feature-block {
     margin-bottom: 60px;
     .img-container {
       width: 560px;
       height: 315px;
       background: white;
-      img{
+      img {
         width: 100%;
         height: 100%;
       }
     }
-    .text-container{
+    .text-container {
       width: 560px;
       color: white;
       margin-top: 20px;
 
-      .title{
+      .title {
         font-style: italic;
         font-weight: 900;
         font-size: 16px;
         line-height: 19px;
         margin-bottom: 10px;
       }
-
     }
-
   }
 }
 
@@ -296,12 +294,14 @@ a:visited{
   position: absolute;
   display: inline-block;
   right: 42px;
-  top:32px;
+  top: 32px;
   width: 60px;
   height: 24px;
 }
 
-.switch input {display:none;}
+.switch input {
+  display: none;
+}
 
 .slider {
   position: absolute;
@@ -311,8 +311,8 @@ a:visited{
   right: 0;
   bottom: 0;
   background-color: #ca2222;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
 .slider:before {
@@ -323,8 +323,8 @@ a:visited{
   left: 4px;
   bottom: 4px;
   background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
 input:checked + .slider {
@@ -332,7 +332,7 @@ input:checked + .slider {
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
+  box-shadow: 0 0 1px #2196f3;
 }
 
 input:checked + .slider:before {
@@ -342,37 +342,37 @@ input:checked + .slider:before {
 }
 
 /*------ ADDED CSS ---------*/
-.on
-{
+.on {
   display: none;
 }
 
-.off
-{
+.off {
   color: white;
   position: absolute;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   top: 50%;
   left: 70%;
   font-size: 10px;
   font-family: Verdana, sans-serif;
 }
 
-.on{
+.on {
   color: white;
   position: absolute;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   top: 50%;
   left: 30%;
   font-size: 10px;
   font-family: Verdana, sans-serif;
 }
 
-input:checked+ .slider .on
-{display: block;}
+input:checked + .slider .on {
+  display: block;
+}
 
-input:checked + .slider .off
-{display: none;}
+input:checked + .slider .off {
+  display: none;
+}
 
 /*--------- END --------*/
 
@@ -382,4 +382,5 @@ input:checked + .slider .off
 }
 
 .slider.round:before {
-  border-radius: 50%;}
+  border-radius: 50%;
+}

@@ -157,7 +157,7 @@ export class Sketch {
 
     const chamberName = `chamber${this.chamber}`;
     this.currentModels = this.chambers[0][chamberName];
-    console.log(this.currentModels);
+    // console.log(this.currentModels);
   }
 
   loadThisModel(model, room_name) {
@@ -171,7 +171,7 @@ export class Sketch {
         model.mesh.scale.set(model.scale, model.scale, model.scale);
         model.mesh.position.set(model.position.x + model.offset.x, (model.box.getSize(new THREE.Vector3()).y * model.scale) / 2 + model.offset.y, model.position.z + model.offset.z);
         model.mesh.rotation.set(model.rotation.x, model.rotation.y, model.rotation.z);
-        console.log(model.name, model.box.getSize());
+        // console.log(model.name, model.box.getSize());
       },
       (xhr) => {
         // while loading:
@@ -454,7 +454,7 @@ export class Sketch {
       this.directionCounter.orbit += 1;
       if (this.directionCounter.orbit > 7) this.directionCounter.orbit = 0;
 
-      console.log("hor: " + this.orientation.horizontal, "ver: " + this.orientation.vertical);
+      // console.log("hor: " + this.orientation.horizontal, "ver: " + this.orientation.vertical);
       const diff = this.pointRef.theta - Math.PI / 4;
       gsap.to(this.pointRef, 0.5, {
         theta: diff,
@@ -473,7 +473,7 @@ export class Sketch {
       this.directionCounter.orbit -= 1;
       if (this.directionCounter.orbit < 0) this.directionCounter.orbit = 7;
 
-      console.log("hor: " + this.orientation.horizontal, "ver: " + this.orientation.vertical);
+      // console.log("hor: " + this.orientation.horizontal, "ver: " + this.orientation.vertical);
       const diff = this.pointRef.theta + Math.PI / 4;
       gsap.to(this.pointRef, 0.5, {
         theta: diff,
@@ -483,7 +483,6 @@ export class Sketch {
 
   select() {
     this.controlPanel.INTERSECTED = Object.assign({}, this.currentModels[this.controlPanel.currentSelected]);
-    console.log(this.controlPanel.INTERSECTED);
     if (Object.keys(this.controlPanel.INTERSECTED).length != 0) {
       this.textBox.innerText = `${this.controlPanel.INTERSECTED.name} is selected`;
       this.directionCounter = { vertical: 0, horizontal: 0, orbit: 0 };
@@ -673,11 +672,11 @@ export class Sketch {
   moveToChamber(num) {
     if (num != this.chamber) {
       this.textBox.innerText = `moving to chamber ${num}`;
-      console.log("move to " + num + " chamber.");
+      // console.log("move to " + num + " chamber.");
       this.chamber = num;
       const chamberName = `chamber${this.chamber}`;
       this.currentModels = this.chambers[0][chamberName];
-      console.log(this.ogPos[this.chamber - 1].x, this.ogPos[this.chamber - 1].y, this.ogPos[this.chamber - 1].z);
+      // console.log(this.ogPos[this.chamber - 1].x, this.ogPos[this.chamber - 1].y, this.ogPos[this.chamber - 1].z);
 
       gsap.to(this.camera.position, {
         duration: 10,
