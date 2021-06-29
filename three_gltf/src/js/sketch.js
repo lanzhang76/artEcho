@@ -32,6 +32,8 @@ export class Sketch {
     this.renderer.setClearColor(0x000000);
     this.renderer.setSize(this.width, this.height);
     this.renderer.domElement.setAttribute("role", "application");
+    this.renderer.domElement.setAttribute("aria-label", "demo application");
+    this.renderer.domElement.setAttribute("tabindex", "0");
     this.container.appendChild(this.renderer.domElement);
 
     // this.controls = new OrbitControls(this.camera, this.renderer.domElement);
