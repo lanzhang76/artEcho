@@ -39,7 +39,7 @@ export class Sketch {
     // this.controls = new OrbitControls(this.camera, this.renderer.domElement);
 
     // CHANGE THIS NUMBER TO START IN THAT CHAMBER
-    this.chamber = 1;
+    this.chamber = 4;
     //
     this.inChamber = true;
     this.currentModels = [];
@@ -115,8 +115,25 @@ export class Sketch {
   }
 
   loadModels() {
-    this.loader = new GLTFLoader();
+    this.manager = new THREE.LoadingManager();
+    this.manager.onStart = function (url, itemsLoaded, itemsTotal) {
+      // console.log("Started loading file: " + url + ".\nLoaded " + itemsLoaded + " of " + itemsTotal + " files.");
+    };
 
+    this.manager.onLoad = function () {
+      console.log("Loading complete!");
+      document.querySelector("#loading-screen").style.display = "none";
+    };
+
+    this.manager.onProgress = function (url, itemsLoaded, itemsTotal) {
+      // console.log("Loading file: " + url + ".\nLoaded " + itemsLoaded + " of " + itemsTotal + " files.");
+    };
+
+    this.manager.onError = function (url) {
+      console.log("There was an error loading " + url);
+    };
+
+    this.loader = new GLTFLoader(this.manager);
     //room
     for (let room of this.rooms) {
       this.loader.load(
@@ -174,7 +191,13 @@ export class Sketch {
         model.mesh.scale.set(model.scale, model.scale, model.scale);
         model.mesh.position.set(model.position.x + model.offset.x, (model.box.getSize(new THREE.Vector3()).y * model.scale) / 2 + model.offset.y, model.position.z + model.offset.z);
         model.mesh.rotation.set(model.rotation.x, model.rotation.y, model.rotation.z);
+        model.mesh.receiveShadow = true;
         // console.log(model.name, model.box.getSize());
+
+        const light = new THREE.PointLight(0xffffff, model.light.intensity, model.light.distance);
+        light.position.set(model.position.x, model.box.getSize(new THREE.Vector3()).y * model.scale + model.light.offset, model.position.z + model.offset.z);
+        light.castShadow = true;
+        this.lights.add(light);
       },
       (xhr) => {
         // while loading:
@@ -335,7 +358,6 @@ export class Sketch {
         let verticalAngle = this.directionCounter.vertical * 30; //以这个为基数
         let horizontal = this.directionCounter.horizontal * 45; //以这个为基数
 
-
         let echoPath = "../sounds/Chamber1/Object" + object + "/" + orbit + "_" + horizontal + "_" + verticalAngle + ".mp3";
 
         audioLoader.load(echoPath, (buffer) => {
@@ -447,10 +469,10 @@ export class Sketch {
 
       // console.log("hor: " + this.orientation.horizontal, "ver: " + this.orientation.vertical);
       let footPath = "../Footstep Sounds/" + this.currentModels[this.controlPanel.currentSelected].footstep + ".mp3";
-      audioLoader.load(footPath,(buffer) => {
+      audioLoader.load(footPath, (buffer) => {
         this.stepSound.setBuffer(buffer);
         this.stepSound.play();
-      })
+      });
       const diff = this.pointRef.theta - Math.PI / 4;
       gsap.to(this.pointRef, 0.5, {
         theta: diff,
@@ -469,10 +491,10 @@ export class Sketch {
       this.directionCounter.orbit -= 1;
       if (this.directionCounter.orbit < 0) this.directionCounter.orbit = 7;
       let footPath = "../Footstep Sounds/" + this.currentModels[this.controlPanel.currentSelected].footstep + ".mp3";
-      audioLoader.load(footPath,(buffer) => {
+      audioLoader.load(footPath, (buffer) => {
         this.stepSound.setBuffer(buffer);
         this.stepSound.play();
-      })
+      });
       console.log("hor: " + this.orientation.horizontal, "ver: " + this.orientation.vertical);
       const diff = this.pointRef.theta + Math.PI / 4;
       gsap.to(this.pointRef, 0.5, {
@@ -503,35 +525,32 @@ export class Sketch {
 
   addLight() {
     this.color = 0xffffff;
-    this.intensity = 0.5;
-    this.light_1 = new THREE.DirectionalLight(this.color, this.intensity);
-    this.light_1.position.set(0, 3, 1);
-    this.light_1.target.position.set(0, 0, 0);
-    this.lights.add(this.light_1);
-    this.lights.add(this.light_1.target);
+    this.intensity = 0.1;
 
-    this.light_1_2 = new THREE.PointLight(this.color, this.intensity);
-    this.light_1_2.position.set(2, 3, 3);
+    // chamber1-object 4 assistive light
+    this.light_1_2 = new THREE.PointLight(this.color, 10, 2);
+    this.light_1_2.position.set(-3, 2, -3);
+    this.light_1_2.castShadow = true;
     this.lights.add(this.light_1_2);
 
-    this.light_2 = new THREE.PointLight(this.color, this.intensity);
-    this.light_2.position.set(0, 3, -19.5);
-    this.lights.add(this.light_2);
+    // this.light_2 = new THREE.PointLight(this.color, this.intensity);
+    // this.light_2.position.set(0, 3, -19.5);
+    // this.lights.add(this.light_2);
 
-    this.light_3 = new THREE.PointLight(this.color, this.intensity);
-    this.light_3.position.set(0, 3, -38);
-    this.lights.add(this.light_3);
+    // this.light_3 = new THREE.PointLight(this.color, this.intensity);
+    // this.light_3.position.set(0, 3, -38);
+    // this.lights.add(this.light_3);
 
-    this.light_4 = new THREE.DirectionalLight(this.color, this.intensity);
-    this.light_4.position.set(1, 2, -90);
-    this.light_4.target.position.set(0, 0, -90);
-    this.light_4_1 = new THREE.PointLight(this.color, this.intensity);
-    this.light_4_1.position.set(-10, 3, -90);
-    this.lights.add(this.light_4);
-    this.lights.add(this.light_4.target);
-    this.lights.add(this.light_4_1);
+    // this.light_4 = new THREE.DirectionalLight(this.color, this.intensity);
+    // this.light_4.position.set(1, 2, -90);
+    // this.light_4.target.position.set(0, 0, -90);
+    // this.lights.add(this.light_4);
+    // this.lights.add(this.light_4.target);
+    // this.light_4_1 = new THREE.PointLight(this.color, this.intensity);
+    // this.light_4_1.position.set(-10, 3, -90);
+    // this.lights.add(this.light_4_1);
 
-    this.ambient = new THREE.AmbientLight(0x404040, this.intensity);
+    this.ambient = new THREE.AmbientLight(0x404040, 3);
 
     this.scene.add(this.lights);
     this.scene.add(this.ambient);
@@ -576,22 +595,6 @@ export class Sketch {
     this.controlPanel.VIEWmode = true;
     this.tiltCam = false;
     this.pointRef.theta = this.controlPanel.INTERSECTED.theta;
-    if(this.previous !== index) {
-      if(!this.previous) this.previous = 5;
-      let step = Math.abs(index - this.previous);
-      if(step === 2){
-        audioLoader.load("../Footstep Sounds/5.mp3",(buffer) => {
-          this.stepSound.setBuffer(buffer);
-          this.stepSound.play();
-        })
-      }else{
-        audioLoader.load("../Footstep Sounds/3.mp3",(buffer) => {
-          this.stepSound.setBuffer(buffer);
-          this.stepSound.play();
-        })
-      }
-
-    }
 
     gsap.to(this.point, {
       duration: 3,
@@ -600,29 +603,6 @@ export class Sketch {
       y: this.controlPanel.INTERSECTED.position.y,
       z: this.controlPanel.INTERSECTED.position.z,
     });
-    let targetSound = this.chamber1Sound[index];
-    //console.log(targetSound.sound);
-    gsap.to(targetSound, {
-      duration: 3,
-      ease: "power1.out",
-      volume: 1,
-      onUpdate: () => {
-        targetSound.sound.setVolume(targetSound.volume);
-      },
-    });
-    if (this.previous !== null) {
-      let targetSound = this.chamber1Sound[this.previous];
-      gsap.to(targetSound, {
-        duration: 3,
-        ease: "power1.out",
-        volume: 0,
-        onUpdate: () => {
-          targetSound.sound.setVolume(targetSound.volume);
-        },
-      });
-    }
-    this.previous = index;
-
     if (this.controlPanel.initialMove) {
       gsap.fromTo(
         this.camera.position,
@@ -644,6 +624,50 @@ export class Sketch {
         }
       );
     }
+
+    this.zoomAudio(index);
+  }
+
+  zoomAudio(index) {
+    // if (this.previous !== index) {
+    //   if (!this.previous) this.previous = 5;
+    //   let step = Math.abs(index - this.previous);
+    //   if (step === 2) {
+    //     audioLoader.load("../Footstep Sounds/5.mp3", (buffer) => {
+    //       this.stepSound.setBuffer(buffer);
+    //       this.stepSound.play();
+    //     });
+    //   } else {
+    //     audioLoader.load("../Footstep Sounds/3.mp3", (buffer) => {
+    //       this.stepSound.setBuffer(buffer);
+    //       this.stepSound.play();
+    //     });
+    //   }
+    // }
+
+    let targetSound = this.chamber1Sound[index];
+    let soundTL = gsap.timeline();
+    console.log(targetSound.sound);
+    soundTL.to(targetSound, {
+      duration: 3,
+      ease: "power1.out",
+      volume: 1,
+      onUpdate: () => {
+        targetSound.sound.setVolume(targetSound.volume);
+      },
+    });
+    if (this.previous !== null) {
+      let targetSound = this.chamber1Sound[this.previous];
+      soundTL.to(targetSound, {
+        duration: 3,
+        ease: "power1.out",
+        volume: 0,
+        onUpdate: () => {
+          targetSound.sound.setVolume(targetSound.volume);
+        },
+      });
+    }
+    this.previous = index;
   }
 
   moveBackToCenter() {
@@ -651,12 +675,7 @@ export class Sketch {
     this.controlPanel.initialMove = true;
     this.tiltCam = true;
     this.clearTarget();
-    if(this.activated){
-      audioLoader.load("../Footstep Sounds/4.mp3",(buffer) => {
-        this.stepSound.setBuffer(buffer);
-        this.stepSound.play();
-      })
-    }
+
     gsap.fromTo(
       this.point,
       { duration: 5, x: this.point.x, y: this.point.y, z: this.point.z },
@@ -683,15 +702,22 @@ export class Sketch {
         x: this.ogPos[this.chamber - 1].x,
         y: this.ogPos[this.chamber - 1].y,
         z: this.ogPos[this.chamber - 1].z,
-        onUpdate: () => {
-          // this.camera.lookAt(this.point.x, this.point.y, this.point.z);
-        },
       }
     );
+
+    if (this.activated) {
+      audioLoader.load("../Footstep Sounds/4.mp3", (buffer) => {
+        this.stepSound.setBuffer(buffer);
+        this.stepSound.play();
+      });
+    }
   }
 
   moveToChamber(num) {
     if (num != this.chamber) {
+      if (this.controlPanel.VIEWmode) {
+        this.moveBackToCenter();
+      }
       this.previous = null;
       this.textBox.innerText = `moving to chamber ${num}`;
       // console.log("move to " + num + " chamber.");
@@ -699,10 +725,10 @@ export class Sketch {
       const chamberName = `chamber${this.chamber}`;
       this.currentModels = this.chambers[0][chamberName];
       // console.log(this.ogPos[this.chamber - 1].x, this.ogPos[this.chamber - 1].y, this.ogPos[this.chamber - 1].z);
-      audioLoader.load("../Footstep Sounds/14.mp3",(buffer) => {
+      audioLoader.load("../Footstep Sounds/14.mp3", (buffer) => {
         this.stepSound.setBuffer(buffer);
         this.stepSound.play();
-      })
+      });
       gsap.to(this.camera.position, {
         duration: 10,
         x: this.ogPos[this.chamber - 1].x,
