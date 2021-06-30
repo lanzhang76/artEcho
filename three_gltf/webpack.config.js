@@ -13,6 +13,18 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.html$/i,
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name: "[name].[ext]",
+            },
+          },
+        ],
+        exclude: path.resolve(__dirname, "src/template.html"),
+      },
+      {
         test: /\.css$/i,
         use: ["style-loader", "css-loader"],
       },
@@ -45,7 +57,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "src/template.html",
-      title: "New template",
+      title: "home",
     }),
   ],
 };

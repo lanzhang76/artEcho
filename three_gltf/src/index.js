@@ -1,9 +1,21 @@
+import "./team.html";
 import "./style.scss";
 import { Sketch } from "./js/sketch.js";
 
-document.querySelector(".content-wrapper").style.height = (document.querySelector(".content-wrapper").clientWidth * 9) / 16 + "px";
+let canvasWrapper = document.querySelector(".content-wrapper");
+
+canvasWrapper.style.height = (canvasWrapper.clientWidth * 9) / 16 + "px";
+heightWarning();
+
 function autoSize() {
-  document.querySelector(".content-wrapper").style.height = (document.querySelector(".content-wrapper").clientWidth * 9) / 16 + "px";
+  canvasWrapper.style.height = (canvasWrapper.clientWidth * 9) / 16 + "px";
+  heightWarning();
+}
+
+function heightWarning() {
+  let minimal = document.querySelector(".content-wrapper").clientHeight;
+  let warning = document.querySelector("#extend-window-warning");
+  window.innerHeight < minimal ? (warning.style.display = "flex") : (warning.style.display = "none");
 }
 
 window.onresize = autoSize;
@@ -37,7 +49,7 @@ let onKeyDown = (event) => {
       break;
 
     case 13:
-      if(stage === 0) {
+      if (stage === 0) {
         stage++;
         createStage(stage);
       }
@@ -98,13 +110,11 @@ startedButton.addEventListener("click", () => {
 });
 startedButton.textContent = "Get Started";
 
-
 let createStage = (stage) => {
   switch (stage) {
-
     case 1:
       removeAllChildNodes(action);
-      narrator.textContent = "Thomas Tajo:"
+      narrator.textContent = "Thomas Tajo:";
       instruction.textContent = " Hi, I am Thomas Tajo (tah-jo), I am your echolocation instructor today in ArtEcho.\n" + "                   Here is a question that will help us get started: Have you ever experienced echolocation?";
       action.appendChild(yesButton);
       action.appendChild(noButton);
@@ -126,8 +136,9 @@ let createStage = (stage) => {
       break;
     case 4:
       removeAllChildNodes(action);
-      narrator.textContent = "Nancy Roach:"
-      instruction.textContent = " Hi there, welcome to ArtEcho Museum, I am your tour guide Nancy Roach.There are four virtual galleries in ArtEcho, Prehistoric Creatures, Ancient Chinese Artifacts, In Flight, and Space Exploration. In these galleries, you will move through periods of the history of this planet and some of the life forms who’ve inhabited it. In each gallery there are multiple ways to receive and experience the story.You can press D to hear my audio descriptions of the museum objects. And as you learned from Thomas, you can press the space bar for a virtual echolocation experience and press E for Thomas’s verbal interpretations of the sound reflections from museum objects.";
+      narrator.textContent = "Nancy Roach:";
+      instruction.textContent =
+        " Hi there, welcome to ArtEcho Museum, I am your tour guide Nancy Roach.There are four virtual galleries in ArtEcho, Prehistoric Creatures, Ancient Chinese Artifacts, In Flight, and Space Exploration. In these galleries, you will move through periods of the history of this planet and some of the life forms who’ve inhabited it. In each gallery there are multiple ways to receive and experience the story.You can press D to hear my audio descriptions of the museum objects. And as you learned from Thomas, you can press the space bar for a virtual echolocation experience and press E for Thomas’s verbal interpretations of the sound reflections from museum objects.";
       action.appendChild(startedButton);
       action.appendChild(backButton);
       break;
