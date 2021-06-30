@@ -1,19 +1,40 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&display=swap");
+
 body {
   margin: 0;
-  font-family: Helvetica Neue;
-  background: #2e2d2d;
+  font-family: "Open Sans", sans-serif;
+  background: #363636;
   align-items: center;
 }
 
-canvas {
-  display: block;
-}
+#section1 {
+  padding-bottom: 100px;
 
-#prototype {
-  padding-top: 100px;
+  #bg {
+    position: absolute;
+    top: 0;
+    height: 100%;
+  }
+
   .go-next {
-    margin-top: 60px;
-    margin-bottom: 40px;
+    @media screen and (max-width: 767px) {
+      display: none;
+    }
+  }
+
+  canvas {
+    display: block;
+  }
+
+  #prototype {
+    .go-next {
+      margin-top: 60px;
+      margin-bottom: 40px;
+    }
+
+    @media screen and (max-width: 767px) {
+      display: none;
+    }
   }
 }
 
@@ -21,6 +42,9 @@ canvas {
   width: 100%;
   height: 800px;
   position: relative;
+  @media screen and (max-width: 767px) {
+    display: none;
+  }
 }
 
 #loading-screen {
@@ -76,11 +100,15 @@ canvas {
   position: relative;
   width: 100%;
   height: 100%;
+  -webkit-user-select: none; /* Chrome/Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+ */
+
+  user-select: none;
 }
 
 .header {
   display: flex;
-  position: fixed;
   color: white;
   z-index: 3;
   justify-content: space-between;
@@ -99,6 +127,10 @@ canvas {
     line-height: 24px;
     z-index: 2;
 
+    @media screen and (max-width: 767px) {
+      margin-right: 0;
+    }
+
     div {
       margin-right: 40px;
     }
@@ -107,6 +139,11 @@ canvas {
   .logo {
     height: 30px;
     margin-left: 60px;
+
+    @media screen and (max-width: 767px) {
+      height: 20px;
+      margin-left: 20px;
+    }
 
     img {
       height: 100%;
@@ -220,7 +257,7 @@ canvas {
   bottom: 200px;
   display: flex;
   align-items: center;
-  width: 40%;
+  width: 20%;
   justify-content: space-between;
 }
 
@@ -236,14 +273,28 @@ canvas {
   justify-content: space-between;
   align-items: center;
 
+  @media screen and (max-width: 767px) {
+    flex-direction: column;
+    margin: 40px auto;
+  }
+
   .hero-logo img {
     height: 72px;
   }
 
   #left-column {
-    width: 560px;
-    display: flex;
-    flex-direction: column;
+    width: 50%;
+    margin-right: 80px;
+    @media screen and (max-width: 767px) {
+      width: 100%;
+      margin-right: 0;
+      img {
+        width: 100%;
+      }
+    }
+  }
+
+  #right-column {
     line-height: 24px;
     font-size: 16px;
   }
@@ -276,6 +327,7 @@ canvas {
   flex-direction: column;
   align-items: center;
   width: 100%;
+  margin-top: 50px;
 
   div {
     display: flex;
@@ -303,7 +355,8 @@ a:visited {
 
 #features {
   display: flex;
-  padding-top: 100px;
+  padding-top: 50px;
+  padding-bottom: 150px;
   //width: 80vw;
   //margin-left: 10vw;
   max-width: 1440px;
@@ -315,7 +368,7 @@ a:visited {
     .img-container {
       width: 560px;
       height: 315px;
-      background: white;
+      background: black;
       img {
         width: 100%;
         height: 100%;

@@ -1,6 +1,13 @@
 import "./style.scss";
 import { Sketch } from "./js/sketch.js";
 
+document.querySelector(".content-wrapper").style.height = (document.querySelector(".content-wrapper").clientWidth * 9) / 16 + "px";
+function autoSize() {
+  document.querySelector(".content-wrapper").style.height = (document.querySelector(".content-wrapper").clientWidth * 9) / 16 + "px";
+}
+
+window.onresize = autoSize;
+
 let canvas = new Sketch({
   dom: document.querySelector("#container"),
 });
