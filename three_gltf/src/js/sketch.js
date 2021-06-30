@@ -39,7 +39,7 @@ export class Sketch {
     // this.controls = new OrbitControls(this.camera, this.renderer.domElement);
 
     // CHANGE THIS NUMBER TO START IN THAT CHAMBER
-    this.chamber = 4;
+    this.chamber = 1;
     //
     this.inChamber = true;
     this.currentModels = [];
@@ -532,23 +532,6 @@ export class Sketch {
     this.light_1_2.position.set(-3, 2, -3);
     this.light_1_2.castShadow = true;
     this.lights.add(this.light_1_2);
-
-    // this.light_2 = new THREE.PointLight(this.color, this.intensity);
-    // this.light_2.position.set(0, 3, -19.5);
-    // this.lights.add(this.light_2);
-
-    // this.light_3 = new THREE.PointLight(this.color, this.intensity);
-    // this.light_3.position.set(0, 3, -38);
-    // this.lights.add(this.light_3);
-
-    // this.light_4 = new THREE.DirectionalLight(this.color, this.intensity);
-    // this.light_4.position.set(1, 2, -90);
-    // this.light_4.target.position.set(0, 0, -90);
-    // this.lights.add(this.light_4);
-    // this.lights.add(this.light_4.target);
-    // this.light_4_1 = new THREE.PointLight(this.color, this.intensity);
-    // this.light_4_1.position.set(-10, 3, -90);
-    // this.lights.add(this.light_4_1);
 
     this.ambient = new THREE.AmbientLight(0x404040, 3);
 
