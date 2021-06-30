@@ -533,7 +533,7 @@ export class Sketch {
     this.light_1_2.castShadow = true;
     this.lights.add(this.light_1_2);
 
-    this.ambient = new THREE.AmbientLight(0x404040, 3);
+    this.ambient = new THREE.AmbientLight(0x404040, 2);
 
     this.scene.add(this.lights);
     this.scene.add(this.ambient);

@@ -136,7 +136,7 @@ export const models = [
         path: "../models/c3/wright/wright_flyer-full_resolution.gltf",
         mesh: null,
         box: null,
-        light: { intensity: 4.5, distance: 6, offset: 2 },
+        light: { intensity: 4, distance: 6, offset: 2 },
         scale: 0.0005,
         position: { x: 3, y: 1, z: -36 },
         rotation: { x: 0, y: (Math.PI * 5) / 4, z: 0 },
