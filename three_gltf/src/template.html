@@ -3,11 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>artEcho</title>
+    <title>ArtEcho Home</title>
   </head>
   <body>
     <section id="section1">
-      <img id="bg" src="img/section1.png" />
+      <!-- <img id="bg" src="img/section1.png" /> -->
       <div class="header">
         <div class="logo">
           <img src="img/artecho-logo.svg" />
@@ -15,10 +15,7 @@
 
         <div class="nav">
           <div>
-            <a href="/">Project</a>
-          </div>
-          <div>
-            <a href="./team.html">Team</a>
+            <a href="/prototype.html" target="_blank">Try Prototype</a>
           </div>
         </div>
       </div>
@@ -36,120 +33,12 @@
           <p>💡 Please put on headphones for the best experience.</p>
         </div>
       </div>
-      <div class="go-next">
-        <a href="#prototype">
-          <div>Try Prototype</div>
-          <div><img src="img/down-arrow.svg" /></div>
-        </a>
-      </div>
-    </section>
 
-    <section id="prototype">
-      <div class="content-wrapper">
-        <h3 id="selected" aria-live="polite">no model is selected</h3>
-        <div id="container">
-          <div id="loading-screen">
-            <div><p>loading</p></div>
-            <div class="lds-ripple">
-              <div></div>
-              <div></div>
-            </div>
-          </div>
-          <div id="extend-window-warning">
-            <p>Please extend the height of your browser window for the experience.</p>
-          </div>
-          <div id="overlay">
-            <div id="audio-label">Audio Naration</div>
-            <label class="switch">
-              <input type="checkbox" id="togBtn" />
-              <div class="slider round">
-                <!--ADDED HTML -->
-                <span class="on">ON</span>
-                <span class="off">OFF</span>
-                <!--END-->
-              </div>
-            </label>
-            <div id="instruction" aria-live="polite">
-              <div id="narrator">Press Enter to start</div>
-              <div class="intro-detail"></div>
-            </div>
-            <div id="action"></div>
-            <div id="key-control">
-              <div class="title">Key Control Menu</div>
-              <div class="content">
-                <div class="left">
-                  <div class="left-block italic">Key</div>
-                  <div class="left-block">
-                    <div style="margin-right: 20px">Space</div>
-                    <div>-----------------------------------------</div>
-                  </div>
-                  <div class="left-block">
-                    <div style="margin-right: 20px">Left/Right</div>
-                    <div>----------------------------------------</div>
-                  </div>
-                  <div class="left-block">
-                    <div style="margin-right: 20px">Shift + Left/Right</div>
-                    <div>----------------------------------------</div>
-                  </div>
-
-                  <div class="left-block">
-                    <div style="margin-right: 20px">Shift + Up/Down</div>
-                    <div>----------------------------------------</div>
-                  </div>
-                  <div class="left-block">
-                    <div style="margin-right: 20px">Number Key</div>
-                    <div>----------------------------------------</div>
-                  </div>
-
-                  <div class="left-block">
-                    <div style="margin-right: 20px">Shift + Number Key</div>
-                    <div>----------------------------------------</div>
-                  </div>
-                  <div class="left-block">
-                    <div style="margin-right: 20px">0 or backspace</div>
-                    <div>----------------------------------------</div>
-                  </div>
-                  <div class="left-block">
-                    <div style="margin-right: 20px">E</div>
-                    <div>----------------------------------------</div>
-                  </div>
-                  <div class="left-block">
-                    <div style="margin-right: 20px">D</div>
-                    <div>----------------------------------------</div>
-                  </div>
-                  <div class="left-block">
-                    <div style="margin-right: 20px">H or ?</div>
-                    <div>----------------------------------------</div>
-                  </div>
-                </div>
-                <div class="right">
-                  <div class="right-block italic">Action</div>
-                  <div class="right-block">Trigger a virtual click sound for echolocating</div>
-                  <div class="right-block">Orbit around a museum object</div>
-                  <div class="right-block">Adjust viewing direction horizontally</div>
-                  <div class="right-block">Adjust viewing direction vertically</div>
-                  <div class="right-block">Proceed to a museum object in the current gallery</div>
-                  <div class="right-block">Proceed to another gallery</div>
-                  <div class="right-block">Return to the center of the current gallery</div>
-                  <div class="right-block">Play/pause echolocation instructions</div>
-                  <div class="right-block">Play/pause object descriptions</div>
-                  <div class="right-block">Open/close Key Functionality Menu</div>
-                </div>
-              </div>
-            </div>
-            <div id="skip" role="button">Skip Onboarding</div>
-          </div>
-        </div>
-      </div>
-      <div class="go-next">
-        <a href="#features">
-          <div>Highlighted Solutions</div>
-          <div><img src="img/down-arrow.svg" /></div>
-        </a>
-      </div>
+      <div class="try-button-wrapper"><a href="prototype.html" target="_blank" id="try-button">Try Prototype in a New Tab</a></div>
     </section>
 
     <secion id="section3">
+      <div class="section-title"><h4>Highlighted Solutions</h4></div>
       <div class="wrapper">
         <div id="features">
           <div class="feature-block">
@@ -195,5 +84,90 @@
         </div>
       </div>
     </secion>
+
+    <section id="section4">
+      <div class="section-title"><h4>Our Team</h4></div>
+      <div class="row row1">
+        <div class="profile">
+          <img class="prof-pic" src="/img/profiles/1.png" />
+          <p class="name">
+            <strong><em>Zhizhen (Jerry) Tan</em></strong>
+          </p>
+          <p class="title">Project Lead, Designer, Developer</p>
+          <div class="icons">
+            <a href="https://www.jerrytan.me" target="_blank"><img src="/img/icon-globe.svg" /></a>
+            <a href="https://www.linkedin.com/in/zhizhen-jerry-tan-a1840116b/" target="_blank"><img src="/img/icon-linkedin.svg" /></a>
+          </div>
+        </div>
+
+        <div class="profile">
+          <img class="prof-pic" src="/img/profiles/2.png" />
+          <p class="name">
+            <strong><em>Thomas Tajo</em></strong>
+          </p>
+          <p class="title">Echolocation Adviser</p>
+          <div class="icons">
+            <a href="https://visioninclusive.org" target="_blank"><img src="/img/icon-globe.svg" /></a>
+            <a href="https://www.linkedin.com/in/thomas-tajo-672353134/" target="_blank"><img src="/img/icon-linkedin.svg" /></a>
+          </div>
+        </div>
+
+        <div class="profile">
+          <img class="prof-pic" src="/img/profiles/3.png" />
+          <p class="name">
+            <strong><em>John Roach</em></strong>
+          </p>
+          <p class="title">Sound Designer</p>
+          <div class="icons">
+            <a href="http://johnroach.net" target="_blank"><img src="/img/icon-globe.svg" /></a>
+            <a href="https://www.linkedin.com/in/john-roach-65247a4/" target="_blank"><img src="/img/icon-linkedin.svg" /></a>
+          </div>
+        </div>
+      </div>
+      <div class="row row2">
+        <div class="profile">
+          <img class="prof-pic" src="/img/profiles/4.jpeg" />
+          <p class="name">
+            <strong><em>Eraince Wang</em></strong>
+          </p>
+          <p class="title">Designer, Developer</p>
+          <div class="icons">
+            <a href="https://www.linkedin.com/in/peiyu-wang/" target="_blank"><img src="/img/icon-linkedin.svg" /></a>
+          </div>
+        </div>
+
+        <div class="profile">
+          <img class="prof-pic" src="/img/profiles/5.png" />
+          <p class="name">
+            <strong><em>Lan Zhang</em></strong>
+          </p>
+          <p class="title">Designer, Developer</p>
+          <div class="icons">
+            <a href="https://www.lanzhang.net/" target="_blank"><img src="/img/icon-globe.svg" /></a>
+            <a href="https://www.linkedin.com/in/lanzhangwork/" target="_blank"><img src="/img/icon-linkedin.svg" /></a>
+          </div>
+        </div>
+
+        <div class="profile">
+          <img class="prof-pic" src="/img/profiles/6.png" />
+          <p class="name">
+            <strong><em>Benny Zhang</em></strong>
+          </p>
+          <p class="title">3D Artist</p>
+          <div class="icons">
+            <a href="https://bennyzhangdesign.com/" target="_blank"><img src="/img/icon-globe.svg" /></a>
+            <a href="https://www.linkedin.com/in/bennyzhang90/" target="_blank"><img src="/img/icon-linkedin.svg" /></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="credits">
+        <p>
+          <strong>Special Thanks:</strong> <br />
+          We gratefully acknowledge the support of Cooper Hewitt Smithsonian Museum Interaction Lab and Verizon 5G Lab with the project funding and technological mentorship.
+          <br />We also thank Nancy Roach for narrating the virtual experience.
+        </p>
+      </div>
+    </section>
   </body>
 </html>

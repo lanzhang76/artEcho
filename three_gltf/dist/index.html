@@ -3,266 +3,92 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>artEcho Technical Demo</title>
+    <title>ArtEcho Home</title>
   </head>
   <body>
-    <div class="header">
-      <div class="logo">
-        <img src="img/artecho-logo.svg">
-      </div>
-
-      <div class="nav">
-        <div>
-          <a href="src/template.html">Project</a>
-        </div>
-        <div>
-          <a href="src/team.html">Team</a>
-        </div>
-        <div>
-          <a href="src/about.html">About</a>
+    <section id="section1">
+      <img id="bg" src="img/section1.png" />
+      <div class="header">
+        <div class="logo">
+          <img src="img/artecho-logo.svg" />
         </div>
 
-      </div>
-    </div>
-    <div id="description">
-      <div id="left-column">
-        <div class="hero-logo">
-          <img src="img/artecho-logo.svg">
+        <div class="nav">
+          <div>
+            <a href="/">Project</a>
+          </div>
+          <div>
+            <a href="./team.html">Team</a>
+          </div>
         </div>
-        <div>
+      </div>
+      <div id="description">
+        <div id="left-column">
+          <img src="img/hero-text.svg" />
+        </div>
+        <div id="right-column">
           <p>
             While animals like bats are well-known for finding their way around by making clicking sounds and listening for their echoes, a subset of blind individuals has also been known to navigate and perceive objects using echolocation.
             <br /><br />
             ArtEcho is a web-based acoustic VR museum experience designed primarily for the blind and low vision community. It reveals, through sound, the shapes and textures of different objects and artifacts in the Smithsonian 3D Digitization Collection using simulated auditory echolocation.
           </p>
           <br />
-          <p>
-            💡 Please put on headphones for the best experience.
-          </p>
+          <p>💡 Please put on headphones for the best experience.</p>
         </div>
       </div>
-      <div id="show-reel">
-        video here
-      </div>
-    </div>
-    <div class="go-next">
-      <a href="#prototype">
-        <div>Try Prototype</div>
-        <div><img src="img/down-arrow.svg"></div>
-      </a>
-
-    </div>
-
-    <div id="prototype">
-          <div class="content-wrapper">
-            <h3 id="selected" aria-live="polite">no model is selected</h3>
-            <div id="container">
-              <div id="overlay">
-                <div id="audio-label">Audio Naration</div>
-                <label class="switch">
-                  <input type="checkbox" id="togBtn">
-                  <div class="slider round">
-                    <!--ADDED HTML -->
-                    <span class="on">ON</span>
-                    <span class="off">OFF</span>
-                    <!--END-->
-                  </div>
-                </label>
-                <div id="instruction" aria-live="polite">
-                  <div id="narrator">
-                    Thomas
-                  </div>
-                 <div class="intro-detail">
-                   Hi, I am Thomas Tajo (tah-jo), I am your echolocation instructor today in ArtEcho.
-                   Here is a question that will help us get started: Have you ever experienced echolocation?
-                 </div>
-                </div>
-                <div id="action"></div>
-                <div id="key-control">
-                  <div class="title">Key Control Menu</div>
-                  <div class="content">
-                    <div class="left">
-                      <div class="left-block italic">
-                        Key
-                      </div>
-                      <div class="left-block">
-                        <div style="margin-right: 20px">Space</div>
-                        <div> -----------------------------------------</div>
-                      </div>
-                      <div class="left-block">
-                        <div style="margin-right: 20px">Left/Right</div>
-                        <div> ----------------------------------------</div>
-                      </div>
-                      <div class="left-block">
-                        <div style="margin-right: 20px">Shift + Left/Right</div>
-                        <div> ----------------------------------------</div>
-                      </div>
-
-                      <div class="left-block">
-                        <div style="margin-right: 20px">Shift + Up/Down</div>
-                        <div> ----------------------------------------</div>
-                      </div>
-                      <div class="left-block">
-                        <div style="margin-right: 20px">Number Key</div>
-                        <div> ----------------------------------------</div>
-                      </div>
-
-                      <div class="left-block">
-                        <div style="margin-right: 20px">Shift + Number Key</div>
-                        <div> ----------------------------------------</div>
-                      </div>
-                      <div class="left-block">
-                        <div style="margin-right: 20px">0 or backspace</div>
-                        <div> ----------------------------------------</div>
-                      </div>
-                      <div class="left-block">
-                        <div style="margin-right: 20px">E</div>
-                        <div> ----------------------------------------</div>
-                      </div>
-                      <div class="left-block">
-                        <div style="margin-right: 20px">D</div>
-                        <div> ----------------------------------------</div>
-                      </div>
-                      <div class="left-block">
-                        <div style="margin-right: 20px">H or ?</div>
-                        <div> ----------------------------------------</div>
-                      </div>
-
-                    </div>
-                    <div class="right">
-                      <div class="right-block italic">
-                        Action
-                      </div>
-                      <div class="right-block">
-                        Trigger a virtual click sound for echolocating
-                      </div>
-                      <div class="right-block">
-                        Orbit around a museum object
-
-                      </div>
-                      <div class="right-block">
-                        Adjust viewing direction horizontally
-
-                      </div>
-                      <div class="right-block">
-                        Adjust viewing direction vertically
-
-
-                      </div>
-                      <div class="right-block">
-                        Proceed to a museum object in the current gallery
-
-
-                      </div>
-                      <div class="right-block">
-                        Proceed to another gallery
-
-
-                      </div>
-                      <div class="right-block">
-                        Return to the center of the current gallery
-
-
-                      </div>
-                      <div class="right-block">
-                        Play/pause echolocation instructions
-
-
-                      </div>
-                      <div class="right-block">
-                        Play/pause object descriptions
-
-
-
-                      </div>
-                      <div class="right-block">
-                        Open/close Key Functionality Menu
-
-
-                      </div>
-
-                    </div>
-                  </div>
-
-                </div>
-                <div id="skip" role="button">
-                  Skip Onboarding
-                </div>
-              </div>
-            </div>
-          </div>
       <div class="go-next">
-        <a href="#features">
-          <div>Highlighted Features</div>
-          <div><img src="img/down-arrow.svg"></div>
+        <a href="#prototype">
+          <div>Try Prototype</div>
+          <div><img src="img/down-arrow.svg" /></div>
         </a>
-
       </div>
+    </section>
 
-    </div>
+    <secion id="section3">
+      <div class="wrapper">
+        <div id="features">
+          <div class="feature-block">
+            <div class="img-container">
+              <img src="/img/feature_4.png" />
+            </div>
 
-
-
-
-    <div class="wrapper">
-      <div id="features">
-
-        <div class="feature-block">
-          <div class="img-container">
-
-          </div>
-
-          <div class="text-container">
-            <div class="title">Acoustic Simulation</div>
-            <div class="detail">
-              Leveraging Microsoft Project Acoustics, ArtEcho simulates the mouth clicks’ realisitc reflection from Smithsonian 3D assets.
+            <div class="text-container">
+              <div class="title">Smithsonian 3D Assets</div>
+              <div class="detail">ArtEcho presents 13 pieces of 3D museum objects from the Smithsonian Institution in a web VR setting.</div>
             </div>
           </div>
+          <div class="feature-block">
+            <div class="img-container">
+              <img src="/img/feature_2.png" />
+            </div>
 
-        </div>
-        <div class="feature-block">
-          <div class="img-container">
-
-          </div>
-
-          <div class="text-container">
-            <div class="title">Acoustic Simulation</div>
-            <div class="detail">
-              Leveraging Microsoft Project Acoustics, ArtEcho simulates the mouth clicks’ realisitc reflection from Smithsonian 3D assets.
+            <div class="text-container">
+              <div class="title">Acoustic Simulation</div>
+              <div class="detail">Leveraging Microsoft Project Acoustics, ArtEcho simulates the realistic mouth click sound reflection from 3D museum objects.</div>
             </div>
           </div>
+          <div class="feature-block">
+            <div class="img-container">
+              <img src="/img/feature_1.png" />
+            </div>
 
-        </div>
-        <div class="feature-block">
-          <div class="img-container">
-
-          </div>
-
-          <div class="text-container">
-            <div class="title">Acoustic Simulation</div>
-            <div class="detail">
-              Leveraging Microsoft Project Acoustics, ArtEcho simulates the mouth clicks’ realisitc reflection from Smithsonian 3D assets.
+            <div class="text-container">
+              <div class="title">Virtual Curation</div>
+              <div class="detail">Museum objects are curated in a virtual environment, where audiences can perceive their actual scale and intricacy visually and auditorily.</div>
             </div>
           </div>
+          <div class="feature-block">
+            <div class="img-container">
+              <img src="/img/feature_3.png" />
+            </div>
 
-        </div>
-        <div class="feature-block">
-          <div class="img-container">
-
-          </div>
-
-          <div class="text-container">
-            <div class="title">Acoustic Simulation</div>
-            <div class="detail">
-              Leveraging Microsoft Project Acoustics, ArtEcho simulates the mouth clicks’ realisitc reflection from Smithsonian 3D assets.
+            <div class="text-container">
+              <div class="title">Auditory Wayfinding System</div>
+              <div class="detail">ArtEcho incorporates spatialized audio for sightless audiences’ accessible navigation.</div>
             </div>
           </div>
-
         </div>
       </div>
-    </div>
-
-
-
-  <script src="bundle.js"></script></body>
+    </secion>
+  <script src="index.js"></script></body>
 </html>

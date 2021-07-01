@@ -457,7 +457,7 @@ export class Sketch {
   }
 
   rotateRightObject() {
-    if (this.controlPanel.INTERSECTED.name == "shuttle") {
+    if (this.controlPanel.INTERSECTED.name == "Discovery Space Shuttle") {
       if (this.orientation.shuttle < 2) {
         this.controlPanel.INTERSECTED.position.z -= 10;
         this.orientation.shuttle += 1;
@@ -481,7 +481,7 @@ export class Sketch {
   }
 
   rotateLeftObject() {
-    if (this.controlPanel.INTERSECTED.name == "shuttle") {
+    if (this.controlPanel.INTERSECTED.name == "Discovery Space Shuttle") {
       if (this.orientation.shuttle > -2) {
         this.controlPanel.INTERSECTED.position.z += 10;
         this.orientation.shuttle -= 1;

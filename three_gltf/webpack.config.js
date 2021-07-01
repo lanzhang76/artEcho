@@ -5,25 +5,14 @@ const { title } = require("process");
 const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: { index: "./src/index.js", prototype: "./src/prototype.js" },
   mode: "development",
   devServer: {
     open: true,
   },
   module: {
     rules: [
-      {
-        test: /\.html$/i,
-        use: [
-          {
-            loader: "file-loader",
-            options: {
-              name: "[name].[ext]",
-            },
-          },
-        ],
-        exclude: path.resolve(__dirname, "src/template.html"),
-      },
+      { test: /\.(jpe?g|png|gif|svg)$/i, loader: "file-loader" },
       {
         test: /\.css$/i,
         use: ["style-loader", "css-loader"],
@@ -51,13 +40,20 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "bundle.js",
-    publicPath: "",
+    filename: "[name].js",
+    publicPath: "/",
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "src/template.html",
-      title: "home",
+      template: "./src/template.html",
+      title: "artEcho Home",
+      excludeChunks: ["prototype"],
+    }),
+    new HtmlWebpackPlugin({
+      template: "./src/prototype.html",
+      title: "artEcho prototype",
+      filename: "prototype.html",
+      Chunks: ["prototype"],
     }),
   ],
 };
