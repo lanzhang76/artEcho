@@ -53,6 +53,7 @@ module.exports = {
       template: "./src/prototype.html",
       title: "artEcho prototype",
       filename: "prototype.html",
+      excludeChunks: ["index"],
       Chunks: ["prototype"],
     }),
   ],
