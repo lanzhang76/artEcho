@@ -17,6 +17,7 @@ export class Sketch {
     this.camera = new THREE.PerspectiveCamera(70, this.width / this.height, 0.01, 500);
     this.camera.rotation.order = "YXZ";
     this.previous = null;
+    this.objectDesPlaying = false;
 
     this.tiltCam = false;
 
@@ -27,6 +28,7 @@ export class Sketch {
     this.camera.add(this.listener);
     this.echoSound = new THREE.Audio(this.listener);
     this.stepSound = new THREE.Audio(this.listener);
+    this.objDes = new THREE.Audio(this.listener);
 
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.renderer.setClearColor(0x000000);
@@ -63,7 +65,7 @@ export class Sketch {
 
     this.rooms = models[4].data;
     this.chambers = [{ chamber1: models[0].data, chamber2: models[1].data, chamber3: models[2].data, chamber4: models[3].data }];
-    this.chamber1Sound = models[0].soundsFiles;
+    this.chambersSound =[ models[0].soundsFiles, models[1].soundsFiles, models[2].soundsFiles, models[3].soundsFiles];
 
     this.controlPanel = {
       theta: Math.PI / 2,
@@ -349,8 +351,8 @@ export class Sketch {
       //
       // ** PLAY ECHO SOUND W/ SPACE KEY **
       //
-      if (event.keyCode === 32) {
-        // 32 space bar
+      if (event.keyCode === 69) {
+        // 69 E
         let chamber = this.chamber;
         let object = this.controlPanel.currentSelected + 1;
 
@@ -364,7 +366,7 @@ export class Sketch {
         audioLoader.load(echoPath, (buffer) => {
           this.echoSound.setBuffer(buffer);
 
-          let targetSound = this.chamber1Sound[object - 1];
+          let targetSound = this.chambersSound[this.chamber - 1][object - 1];
           gsap.to(targetSound, {
             duration: 3,
             ease: "power1.out",
@@ -390,6 +392,21 @@ export class Sketch {
             },
           });
         });
+      }
+
+      if(event.keyCode === 68){
+      //press D
+        if(this.objDes.isPlaying){
+          this.objDes.pause();
+        }else{
+          let obj = "../objDes/G" + this.chamber + 'O' + (this.controlPanel.currentSelected + 1) + '.mp3';
+          audioLoader.load(obj, (buffer) => {
+            this.objDes.setBuffer(buffer);
+            this.objDes.play();
+          });
+        }
+
+
       }
     }
 
@@ -542,41 +559,51 @@ export class Sketch {
   }
 
   addSound() {
-    this.chamber1Sound.forEach((info) => {
-      const sound = new THREE.PositionalAudio(this.listener);
-      audioLoader.load(info.path, function (buffer) {
-        sound.setBuffer(buffer);
-        sound.setRefDistance(0.05);
-        sound.setLoop(true);
-        sound.pause();
-        sound.setDistanceModel("linear");
-        sound.setRolloffFactor(1);
-        sound.setVolume(0);
-        sound.setDirectionalCone(180, 230, 0.1);
-        // sound.play();
-      });
-      info.sound = sound;
-      const geometry = new THREE.BoxGeometry();
-      const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-      const sphere = new THREE.Mesh(geometry, material);
-      sphere.position.copy(info.position);
-      sphere.visible = false;
-      sphere.add(sound);
-      info.sphere = sphere;
-      this.scene.add(sphere);
+    this.chambersSound.forEach((chamber) => {
+      chamber.forEach((info) => {
+        const sound = new THREE.PositionalAudio(this.listener);
+        audioLoader.load(info.path, function (buffer) {
+          sound.setBuffer(buffer);
+          sound.setRefDistance(0.05);
+          if(info.name !== 'gallery') sound.setLoop(true);
+          sound.pause();
+          sound.setDistanceModel("linear");
+          sound.setRolloffFactor(1);
+          sound.setVolume(0);
+          sound.setDirectionalCone(180, 230, 0.1);
+          // sound.play();
+        });
+        info.sound = sound;
+        const geometry = new THREE.BoxGeometry();
+        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        const sphere = new THREE.Mesh(geometry, material);
+        sphere.position.copy(info.position);
+        sphere.visible = false;
+        sphere.add(sound);
+        info.sphere = sphere;
+        this.scene.add(sphere);
+      })
+
     });
   }
 
-  setActivated() {
+  setActivated(index) {
     this.activated = true;
-    this.chamber1Sound.forEach((info) => {
+    this.chambersSound[index].forEach((info) => {
       const sound = info.sound;
-      sound.play();
-      sound.setVolume(0);
+      if(info.name !== 'gallery'){
+        sound.play();
+        sound.setVolume(0);
+      }else{
+        sound.play();
+        sound.setVolume(1);
+      }
+
     });
   }
 
   animation_ZoomToObject(index) {
+    this.chambersSound[this.chamber-1][this.chambersSound[this.chamber-1].length - 1].sound.pause();
     this.controlPanel.VIEWmode = true;
     this.tiltCam = false;
     this.pointRef.theta = this.controlPanel.INTERSECTED.theta;
@@ -630,7 +657,7 @@ export class Sketch {
     //   }
     // }
 
-    let targetSound = this.chamber1Sound[index];
+    let targetSound = this.chambersSound[this.chamber - 1][index];
     let soundTL = gsap.timeline();
     console.log(targetSound.sound);
     soundTL.to(targetSound, {
@@ -642,7 +669,7 @@ export class Sketch {
       },
     });
     if (this.previous !== null) {
-      let targetSound = this.chamber1Sound[this.previous];
+      let targetSound = this.chambersSound[this.chamber - 1][this.previous];
       soundTL.to(targetSound, {
         duration: 3,
         ease: "power1.out",
@@ -660,7 +687,6 @@ export class Sketch {
     this.controlPanel.initialMove = true;
     this.tiltCam = true;
     this.clearTarget();
-
     gsap.fromTo(
       this.point,
       { duration: 5, x: this.point.x, y: this.point.y, z: this.point.z },
@@ -671,10 +697,16 @@ export class Sketch {
         z: this.pointRef.radius * Math.sin(this.pointRef.phi) * Math.sin(this.pointRef.theta),
         onComplete: () => {
           if (this.previous !== null) {
-            let previous = this.chamber1Sound[this.previous].sound;
+            let previous = this.chambersSound[this.chamber - 1][this.previous].sound;
             previous.stop();
           }
           this.previous = null;
+          if(this.activated){
+            let soundInfo =  this.chambersSound[this.chamber - 1][this.chambersSound[this.chamber - 1].length - 1];
+            soundInfo.sound.setVolume(1);
+            soundInfo.sound.play();
+          }
+
         },
       }
     );
@@ -720,7 +752,11 @@ export class Sketch {
     this.previous = null;
     this.textBox.innerText = `moving to Gallery ${num}`;
     // console.log("move to " + num + " chamber.");
+    let soundInfo = this.chambersSound[this.chamber - 1][this.chambersSound[this.chamber - 1].length - 1];
+    soundInfo.sound.pause();
+    soundInfo.sound.offset = 0;
     this.chamber = num;
+
     const chamberName = `chamber${this.chamber}`;
     this.currentModels = this.chambers[0][chamberName];
     // console.log(this.ogPos[this.chamber - 1].x, this.ogPos[this.chamber - 1].y, this.ogPos[this.chamber - 1].z);
@@ -733,6 +769,12 @@ export class Sketch {
       x: this.ogPos[this.chamber - 1].x,
       y: this.ogPos[this.chamber - 1].y,
       z: this.ogPos[this.chamber - 1].z,
+      onComplete: () => {
+        this.setActivated(this.chamber - 1)
+        // let newSoundInfo = this.chambersSound[this.chamber - 1][this.chambersSound[this.chamber - 1].length - 1];
+        // newSoundInfo.sound.setVolume(1);
+        // newSoundInfo.sound.play();
+      }
     });
   }
 

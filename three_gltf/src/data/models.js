@@ -64,6 +64,7 @@ export const models = [
       { name: "Triceratops horridus", path: "../Background-Sounds/Chamber1/Object4.mp3", position: { x: 6, y: 0, z: -6 }, volume: 0 },
       { name: "Geochelone carbonaria", path: "../Background-Sounds/Chamber1/Object1.mp3", position: { x: -6, y: 0, z: 6 }, volume: 0 },
       { name: "Eremotherium laurillardi", path: "../Background-Sounds/Chamber1/Object2.mp3", position: { x: -6, y: 0, z: -6 }, volume: 0 },
+      { name: "gallery", path: "../Background-Sounds/Chamber1/0.mp3", position: { x: 0, y: 0, z: 3 }, volume: 0 },
     ],
   },
   {
@@ -126,7 +127,13 @@ export const models = [
         footstep: 1,
       },
     ],
-    soundsFiles: [],
+    soundsFiles: [
+      { name: "", path: "../Background-Sounds/Chamber2/Object1.mp3", position: { x: 6, y: 0, z: -21 }, volume: 0 },
+      { name: "", path: "../Background-Sounds/Chamber2/Object2.mp3", position: { x: 6, y: 0, z: -18 }, volume: 0 },
+      { name: "", path: "../Background-Sounds/Chamber2/Object3.mp3", position: { x: -6, y: 0, z: -18 }, volume: 0 },
+      { name: "", path: "../Background-Sounds/Chamber2/Object4.mp3", position: { x: -6, y: 0, z: -21 }, volume: 0 },
+      { name: "gallery", path: "../Background-Sounds/Chamber2/0.mp3", position: { x: 0, y: 0, z: -20 }, volume: 0 },
+    ],
   },
   {
     name: "Gallery 3: In Flight",
@@ -160,7 +167,11 @@ export const models = [
         footstep: 2,
       },
     ],
-    soundsFiles: [],
+    soundsFiles: [
+      { name: "", path: "../Background-Sounds/Chamber3/Object1.mp3", position: { x: 6, y: 0, z: -36 }, volume: 0 },
+      { name: "", path: "../Background-Sounds/Chamber3/Object2.mp3", position: { x: -6, y: 0, z: -43 }, volume: 0 },
+      { name: "gallery", path: "../Background-Sounds/Chamber3/0.mp3", position: { x: 0, y: 0, z: -40 }, volume: 0 },
+    ],
   },
   {
     name: "Gallery 4: Space Exploration",
@@ -208,7 +219,12 @@ export const models = [
         footstep: 2,
       },
     ],
-    soundsFiles: [],
+    soundsFiles: [
+      { name: "", path: "../Background-Sounds/Chamber4/Object1.mp3", position: { x: 3, y: 0, z: -95 }, volume: 0 },
+      { name: "", path: "../Background-Sounds/Chamber4/Object2.mp3", position: { x: 5, y: 0, z: -85 }, volume: 0 },
+      { name: "", path: "../Background-Sounds/Chamber4/Object3.mp3", position: { x: -25, y: 0, z: -90 }, volume: 0 },
+      { name: "gallery", path: "../Background-Sounds/Chamber4/0.mp3", position: { x: 0, y: 0, z: -90 }, volume: 0 },
+    ],
   },
   {
     name: "rooms",
