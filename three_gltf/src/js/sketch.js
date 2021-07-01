@@ -41,6 +41,7 @@ export class Sketch {
     // CHANGE THIS NUMBER TO START IN THAT CHAMBER
     this.chamber = 1;
     //
+    this.isCENTER = true;
     this.inChamber = true;
     this.currentModels = [];
     this.activated = false;
@@ -121,7 +122,7 @@ export class Sketch {
     };
 
     this.manager.onLoad = function () {
-      console.log("Loading complete!");
+      // console.log("Loading complete!");
       document.querySelector("#loading-screen").style.display = "none";
     };
 
@@ -148,7 +149,7 @@ export class Sketch {
         },
         (xhr) => {
           // while loading:
-          console.log("chambers " + (xhr.loaded / xhr.total) * 100 + "% loaded");
+          // console.log("chambers " + (xhr.loaded / xhr.total) * 100 + "% loaded");
         }
       );
       this.loaded = true;
@@ -201,7 +202,7 @@ export class Sketch {
       },
       (xhr) => {
         // while loading:
-        console.log(room_name + " models are " + (xhr.loaded / xhr.total) * 100 + "% loaded");
+        // console.log(room_name + " models are " + (xhr.loaded / xhr.total) * 100 + "% loaded");
       }
     );
   }
@@ -242,24 +243,24 @@ export class Sketch {
       // 1. camera rotation: left and right at ORIGIN
       if (event.keyCode == 37 && event.shiftKey) {
         //
-        console.log("@origin: rotate left");
+        // console.log("@origin: rotate left");
         this.tiltCam = true;
         this.pointRef.theta -= Math.PI / 4;
       } else if (event.keyCode == 39 && event.shiftKey) {
         //
-        console.log("@origin: rotate right");
+        // console.log("@origin: rotate right");
         this.tiltCam = true;
         this.pointRef.theta += Math.PI / 4;
       }
 
       if (event.keyCode == 38 && event.shiftKey && this.pointRef.phi < -1.5) {
         //
-        console.log("@origin: tilt up", this.pointRef.phi);
+        // console.log("@origin: tilt up", this.pointRef.phi);
         this.tiltCam = true;
         this.pointRef.phi += Math.PI / 6;
       } else if (event.keyCode == 40 && event.shiftKey && this.pointRef.phi > -2) {
         //
-        console.log("@origin: tilt down", this.pointRef.phi);
+        // console.log("@origin: tilt down", this.pointRef.phi);
         this.tiltCam = true;
         this.pointRef.phi -= Math.PI / 6;
       }
@@ -276,7 +277,7 @@ export class Sketch {
 
       if (event.keyCode == 37 && event.shiftKey && this.orientation.horizontal > -1) {
         // left
-        console.log("@object: rotate left");
+        // console.log("@object: rotate left");
         this.tiltCam = true;
         this.pointRef.theta -= Math.PI / 4;
         this.orientation.horizontal -= 1;
@@ -285,7 +286,7 @@ export class Sketch {
         this.directionCounter.horizontal -= 1;
       } else if (event.keyCode == 39 && event.shiftKey && this.orientation.horizontal < 1) {
         // right
-        console.log("@object: rotate right");
+        // console.log("@object: rotate right");
         this.tiltCam = true;
         this.pointRef.theta += Math.PI / 4;
         this.orientation.horizontal += 1;
@@ -300,14 +301,14 @@ export class Sketch {
 
       if (event.keyCode == 38 && event.shiftKey && this.pointRef.phi < -0.6 && this.orientation.vertical < 1) {
         // up
-        console.log("@object: tilt up", this.pointRef.phi);
+        // console.log("@object: tilt up", this.pointRef.phi);
         this.tiltCam = true;
         this.pointRef.phi += Math.PI / 6;
         this.orientation.vertical += 1;
         this.directionCounter.vertical += 1;
       } else if (event.keyCode == 40 && event.shiftKey && this.orientation.vertical > -1) {
         // down
-        console.log("@object: tilt down", this.pointRef.phi);
+        // console.log("@object: tilt down", this.pointRef.phi);
         this.tiltCam = true;
         this.pointRef.phi -= Math.PI / 6;
         this.orientation.vertical -= 1;
@@ -324,13 +325,13 @@ export class Sketch {
           case 48: // 0
             // reset camera angle and position
             this.moveBackToCenter();
-            this.textBox.innerText = `moved back to center`;
+            this.textBox.innerText = `moving back to center of the gallery`;
             break;
 
           case 8: // del button
             // reset camera angle and position
             this.moveBackToCenter();
-            this.textBox.innerText = `moved back to center`;
+            this.textBox.innerText = `moving back to center the gallery`;
             break;
 
           case 37 /*Left*/:
@@ -495,7 +496,7 @@ export class Sketch {
         this.stepSound.setBuffer(buffer);
         this.stepSound.play();
       });
-      console.log("hor: " + this.orientation.horizontal, "ver: " + this.orientation.vertical);
+      // console.log("hor: " + this.orientation.horizontal, "ver: " + this.orientation.vertical);
       const diff = this.pointRef.theta + Math.PI / 4;
       gsap.to(this.pointRef, 0.5, {
         theta: diff,
@@ -510,6 +511,7 @@ export class Sketch {
       this.directionCounter = { vertical: 0, horizontal: 0, orbit: 0 };
       this.orientation = { horizontal: 0, vertical: 0, shuttle: 0 };
       this.animation_ZoomToObject(this.controlPanel.currentSelected);
+      this.isCENTER = false;
     }
   }
 
@@ -528,10 +530,10 @@ export class Sketch {
     this.intensity = 0.1;
 
     // chamber1-object 4 assistive light
-    this.light_1_2 = new THREE.PointLight(this.color, 10, 2);
-    this.light_1_2.position.set(-3, 2, -3);
-    this.light_1_2.castShadow = true;
-    this.lights.add(this.light_1_2);
+    // this.light_1_2 = new THREE.PointLight(this.color, 10, 2);
+    // this.light_1_2.position.set(-3, 2, -3);
+    // this.light_1_2.castShadow = true;
+    // this.lights.add(this.light_1_2);
 
     this.ambient = new THREE.AmbientLight(0x404040, 2);
 
@@ -694,33 +696,44 @@ export class Sketch {
         this.stepSound.play();
       });
     }
+
+    this.isCENTER = true;
   }
 
   moveToChamber(num) {
     if (num != this.chamber) {
-      if (this.controlPanel.VIEWmode) {
+      if (this.isCENTER != true) {
         this.moveBackToCenter();
+        let self = this;
+        setTimeout(function () {
+          self.moveToAnother(num);
+        }, 3000);
+      } else {
+        this.moveToAnother(num);
       }
-      this.previous = null;
-      this.textBox.innerText = `moving to chamber ${num}`;
-      // console.log("move to " + num + " chamber.");
-      this.chamber = num;
-      const chamberName = `chamber${this.chamber}`;
-      this.currentModels = this.chambers[0][chamberName];
-      // console.log(this.ogPos[this.chamber - 1].x, this.ogPos[this.chamber - 1].y, this.ogPos[this.chamber - 1].z);
-      audioLoader.load("../Footstep Sounds/14.mp3", (buffer) => {
-        this.stepSound.setBuffer(buffer);
-        this.stepSound.play();
-      });
-      gsap.to(this.camera.position, {
-        duration: 10,
-        x: this.ogPos[this.chamber - 1].x,
-        y: this.ogPos[this.chamber - 1].y,
-        z: this.ogPos[this.chamber - 1].z,
-      });
     } else {
-      this.textBox.innerText = `you are already in chamber ${num}`;
+      this.textBox.innerText = `you are already in Gallery ${num}`;
     }
+  }
+
+  moveToAnother(num) {
+    this.previous = null;
+    this.textBox.innerText = `moving to Gallery ${num}`;
+    // console.log("move to " + num + " chamber.");
+    this.chamber = num;
+    const chamberName = `chamber${this.chamber}`;
+    this.currentModels = this.chambers[0][chamberName];
+    // console.log(this.ogPos[this.chamber - 1].x, this.ogPos[this.chamber - 1].y, this.ogPos[this.chamber - 1].z);
+    audioLoader.load("../Footstep Sounds/14.mp3", (buffer) => {
+      this.stepSound.setBuffer(buffer);
+      this.stepSound.play();
+    });
+    gsap.to(this.camera.position, {
+      duration: 10,
+      x: this.ogPos[this.chamber - 1].x,
+      y: this.ogPos[this.chamber - 1].y,
+      z: this.ogPos[this.chamber - 1].z,
+    });
   }
 
   clearTarget() {
