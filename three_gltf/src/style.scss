@@ -7,6 +7,10 @@ body {
   align-items: center;
 }
 
+body.prototype {
+  background: black;
+}
+
 p::selection {
   color: #219653;
   background: rgba(255, 255, 255, 0.9);
@@ -628,4 +632,8 @@ input:checked + .slider .off {
 
 #section3 {
   padding-top: 80px;
+}
+
+#loadOverlay {
+  display: none;
 }
