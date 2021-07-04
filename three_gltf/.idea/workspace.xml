@@ -21,9 +21,22 @@
   <component name="ChangeListManager">
     <list default="true" id="e0f3ef49-89a8-4939-a6ae-03e4180a8230" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Background-Sounds/Chamber1/0.mp3" beforeDir="false" afterPath="$PROJECT_DIR$/Background-Sounds/Chamber1/0.mp3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Background-Sounds/Chamber1/Object1.mp3" beforeDir="false" afterPath="$PROJECT_DIR$/Background-Sounds/Chamber1/Object1.mp3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Background-Sounds/Chamber1/Object2.mp3" beforeDir="false" afterPath="$PROJECT_DIR$/Background-Sounds/Chamber1/Object2.mp3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Background-Sounds/Chamber1/Object3.mp3" beforeDir="false" afterPath="$PROJECT_DIR$/Background-Sounds/Chamber1/Object3.mp3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Background-Sounds/Chamber1/Object4.mp3" beforeDir="false" afterPath="$PROJECT_DIR$/Background-Sounds/Chamber1/Object4.mp3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Background-Sounds/Chamber2/Object1.mp3" beforeDir="false" afterPath="$PROJECT_DIR$/Background-Sounds/Chamber2/Object1.mp3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Background-Sounds/Chamber2/Object2.mp3" beforeDir="false" afterPath="$PROJECT_DIR$/Background-Sounds/Chamber2/Object2.mp3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Background-Sounds/Chamber2/Object3.mp3" beforeDir="false" afterPath="$PROJECT_DIR$/Background-Sounds/Chamber2/Object3.mp3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Background-Sounds/Chamber2/Object4.mp3" beforeDir="false" afterPath="$PROJECT_DIR$/Background-Sounds/Chamber2/Object4.mp3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sounds/demo.wav" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/data/models.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/models.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/js/sketch.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/sketch.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/prototype.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/prototype.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/prototype.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/prototype.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/style.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpack.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/webpack.config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,8 +46,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaScript File" />
         <option value="HTML File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -54,6 +67,11 @@
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/js" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -69,6 +87,7 @@
       <workItem from="1624406867699" duration="5500000" />
       <workItem from="1624503188988" duration="11189000" />
       <workItem from="1624781876658" duration="10782000" />
+      <workItem from="1625279637144" duration="4373000" />
     </task>
     <servers />
   </component>

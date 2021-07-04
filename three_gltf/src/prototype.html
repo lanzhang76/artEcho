@@ -20,6 +20,14 @@
               <div></div>
             </div>
           </div>
+          <div id="prompt">
+            <span id="hint-1">Press</span>
+            <span id="hint-2">Number key</span>
+            <span id="hint-3">to start</span>
+            <span role="button" id="hint-close">
+                <img src="img/close.svg">
+              </span>
+          </div>
           <!-- <div id="extend-window-warning">
             <p>Please extend the height of your browser window for the experience.</p>
           </div> -->
@@ -29,13 +37,15 @@
               <input type="checkbox" id="togBtn" />
               <div class="slider round">
                 <!--ADDED HTML -->
-                <span class="on">ON</span>
                 <span class="off">OFF</span>
+                <span class="on">ON</span>
                 <!--END-->
               </div>
             </label>
             <div id="instruction" aria-live="polite">
-              <div id="narrator">Press Enter to start</div>
+              <div id="narrator">
+                <div role="button" id="enter-button">Press Enter to start</div>
+              </div>
               <div class="intro-detail"></div>
             </div>
             <div id="action"></div>
@@ -103,6 +113,7 @@
               </div>
             </div>
             <div id="skip" role="button">Skip Onboarding</div>
+
           </div>
         </div>
       </div>

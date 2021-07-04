@@ -5,7 +5,7 @@ const { title } = require("process");
 const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
-  entry: { index: "./src/index.js", prototype: "./src/prototype.js" },
+  entry: { index: "./src/index.js", prototype: "./src/prototype.js"},
   mode: "development",
   devServer: {
     open: true,
@@ -54,7 +54,7 @@ module.exports = {
       title: "artEcho prototype",
       filename: "prototype.html",
       excludeChunks: ["index"],
-      Chunks: ["prototype"],
+      Chunks: ["prototype","audioManager"],
     }),
   ],
 };
