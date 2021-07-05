@@ -223,7 +223,7 @@ class AudioManager {
 
     zoomAudio(chamber, object){
         this.leaveGallery = true;
-        this.hint.stop();
+        if(!this.hint.paused) this.hint.pause();
         let soundTL = gsap.timeline();
         if (this.bgmSound !== null) {
             let targetSound = this.bgmSound;
