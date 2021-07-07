@@ -38,6 +38,7 @@ class AudioManager {
         this.keyControlPlaying = false;
         this.galleryInturrpted = false;
         this.bgmInturrpted = false;
+        this.helpHintPlaying = false;
 
 
         //all positional sound
@@ -122,7 +123,7 @@ class AudioManager {
                         delay: 1,
                         duration: 0.2,
                         ease: "power1.out",
-                        volume: 1,
+                        volume: targetSound.max,
                         onUpdate: function () {
                             targetSound.sound.setVolume(targetSound.volume);
                         },
@@ -228,7 +229,7 @@ class AudioManager {
         if (this.bgmSound !== null) {
             let targetSound = this.bgmSound;
             soundTL.to(targetSound, {
-                duration: 2,
+                duration: 1,
                 ease: "power1.out",
                 volume: 0,
                 onUpdate: () => {
@@ -236,20 +237,33 @@ class AudioManager {
                 },
                 onComplete:() => {
                     targetSound.sound.pause();
+                    let target = this.chambersSound[chamber - 1][object];
+                    target.sound.play();
+                    soundTL.to(target, {
+                        duration: 1,
+                        ease: "power1.out",
+                        volume: target.max,
+                        onUpdate: () => {
+                            target.sound.setVolume(target.volume);
+                        },
+                    });
+                    this.bgmSound = target;
                 }
             });
+        }else{
+            let targetSound = this.chambersSound[chamber - 1][object];
+            targetSound.sound.play();
+            soundTL.to(targetSound, {
+                duration: 2,
+                ease: "power1.out",
+                volume: targetSound.max,
+                onUpdate: () => {
+                    targetSound.sound.setVolume(targetSound.volume);
+                },
+            });
+            this.bgmSound = targetSound;
         }
-        let targetSound = this.chambersSound[chamber - 1][object];
-        targetSound.sound.play();
-        soundTL.to(targetSound, {
-            duration: 2,
-            ease: "power1.out",
-            volume: 1,
-            onUpdate: () => {
-                targetSound.sound.setVolume(targetSound.volume);
-            }
-        });
-        this.bgmSound = targetSound;
+
     }
 
     fadeOutBGM(){
@@ -278,7 +292,7 @@ class AudioManager {
             soundTL.to(targetSound, {
                 duration: 2,
                 ease: "power1.out",
-                volume: 1,
+                volume: targetSound.max,
                 onUpdate: () => {
                     targetSound.sound.setVolume(targetSound.volume);
                 }
@@ -365,17 +379,19 @@ class AudioManager {
             //display none the dom
         }
         this.hintStopped = true;
+        this.helpHintPlaying = false;
         this.prompt.style.display = 'none';
     }
 
     objectHint(){
+        this.hint = this.hintAudio[2];
+        this.hint.play();
         this.prompt.style.display = 'block';
         this.hint1.textContent = "Press  ";
         this.hint2.textContent = "Shift + Arrow Key  ";
         this.hint3.textContent = "to adjust viewing direction.";
         this.hintStopped = false;
-        this.hint = this.hintAudio[2];
-        this.hint.play();
+
 
         setTimeout(() => {
             if(!this.hintStopped){
@@ -398,12 +414,17 @@ class AudioManager {
     }
 
     helpHint(){
-        this.hint = this.hintAudio[5];
-        this.hint.play();
-        this.prompt.style.display = 'block';
-        this.hint1.textContent = "Press  ";
-        this.hint2.textContent = "H or ? ";
-        this.hint3.textContent = "to open Key Functionality Menu";
+        if(!this.keyControlPlaying){
+            this.hint = this.hintAudio[5];
+            this.hint.currentTime = 0;
+            this.hint.play();
+            this.prompt.style.display = 'block';
+            this.hint1.textContent = "Press  ";
+            this.hint2.textContent = "H or ? ";
+            this.hint3.textContent = "to open Key Functionality Menu";
+            this.helpHintPlaying = true;
+        }
+
     }
 
     isAudioPlaying(){

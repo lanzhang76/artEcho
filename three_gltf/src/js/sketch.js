@@ -500,9 +500,6 @@ export class Sketch {
 
   select() {
     this.objectVisited++;
-    if(this.objectVisited === 1){
-      audioManager.objectHint();
-    }
     this.controlPanel.INTERSECTED = Object.assign({}, this.currentModels[this.controlPanel.currentSelected]);
     if (Object.keys(this.controlPanel.INTERSECTED).length != 0) {
       this.textBox.innerText = `${this.controlPanel.INTERSECTED.name} is selected`;
@@ -561,6 +558,11 @@ export class Sketch {
       x: this.controlPanel.INTERSECTED.position.x,
       y: this.controlPanel.INTERSECTED.position.y,
       z: this.controlPanel.INTERSECTED.position.z,
+      onComplete: () => {
+        if(this.objectVisited === 1){
+          audioManager.objectHint();
+        }
+      }
     });
     if (this.controlPanel.initialMove) {
       gsap.fromTo(
@@ -579,6 +581,7 @@ export class Sketch {
           z: this.controlPanel.INTERSECTED.position.z + this.controlPanel.INTERSECTED.stare_dist * Math.sin(this.controlPanel.INTERSECTED.theta),
           onComplete: () => {
             this.controlPanel.initialMove = false;
+
           },
         }
       );
@@ -636,6 +639,7 @@ export class Sketch {
       audioManager.leaveObject();
       audioManager.fadeOutBGM();
       audioManager.stopHint();
+      audioManager.leaveGallery = true;
       if (this.isCENTER != true) {
         this.moveBackToCenter();
         let self = this;
@@ -709,7 +713,7 @@ export class Sketch {
 
     if(this.activated){
       let noInput = Date.now() - this.userInputTimestamp;
-      if(noInput > 5000 && !audioManager.isAudioPlaying()){
+      if(noInput > 5000  && noInput < 6000 && !audioManager.isAudioPlaying() && !audioManager.helpHintPlaying){
         audioManager.helpHint();
       }
     }
