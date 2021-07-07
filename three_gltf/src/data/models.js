@@ -60,7 +60,7 @@ export const models = [
       },
     ],
     soundsFiles: [
-      { name: "", path: "../Background-Sounds/Chamber1/Object3.mp3", position: { x: 6, y: 0, z: 6 }, volume: 0, max: 1 },
+      { name: "", path: "../Background-Sounds/Chamber1/Object1.mp3", position: { x: 6, y: 0, z: 6 }, volume: 0, max: 1 },
       { name: "", path: "../Background-Sounds/Chamber1/Object2.mp3", position: { x: 6, y: 0, z: -6 }, volume: 0 , max: 1 },
       { name: "", path: "../Background-Sounds/Chamber1/Object3.mp3", position: { x: -6, y: 0, z: 6 }, volume: 0 , max: 1 },
       { name: "", path: "../Background-Sounds/Chamber1/Object4.mp3", position: { x: -6, y: 0, z: -6 }, volume: 0 , max: 1 },
