@@ -21,7 +21,12 @@
   <component name="ChangeListManager">
     <list default="true" id="e0f3ef49-89a8-4939-a6ae-03e4180a8230" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data/models.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/models.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/prototype.html" beforeDir="false" afterPath="$PROJECT_DIR$/dist/prototype.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/prototype.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/prototype.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/audioManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/audioManager.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/prototype.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/prototype.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/prototype.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/prototype.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,6 +78,7 @@
       <workItem from="1624503188988" duration="11189000" />
       <workItem from="1624781876658" duration="10782000" />
       <workItem from="1625279637144" duration="4373000" />
+      <workItem from="1625636387098" duration="2324000" />
     </task>
     <servers />
   </component>

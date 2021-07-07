@@ -77,7 +77,11 @@ backButton.classList.add("instruction-button");
 backButton.setAttribute("role", "button");
 backButton.textContent = "BACK";
 backButton.addEventListener("click", () => {
-  stage--;
+  if(stage === 3){
+    stage = 1;
+  }else{
+    stage--;
+  }
   createStage(stage);
 });
 let noButton = document.createElement("div");
@@ -102,11 +106,17 @@ startedButton.addEventListener("click", () => {
   stage = 5;
   createStage(stage);
 });
-startedButton.textContent = "Get Started";
+startedButton.textContent = "Next";
 
 let stopHint = document.querySelector('#hint-close');
 stopHint.addEventListener('click', () => {
   audioManager.stopHint();
+})
+
+let enterButton = document.querySelector('#enter-button');
+enterButton.addEventListener('click', () => {
+  stage++;
+  createStage(stage);
 })
 
 

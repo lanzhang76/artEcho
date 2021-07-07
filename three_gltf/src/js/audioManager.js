@@ -24,7 +24,7 @@ class AudioManager {
             this.hintAudio[i] = new Audio(hintPath);
         }
 
-        this.onBoardingOn = false;
+        this.onBoardingOn = true;
 
         this.echoSound = null;
         this.stepSound = null;
@@ -50,19 +50,21 @@ class AudioManager {
     }
 
     playOnboardingFromBeginning(stage){
-        let audio = this.onboardingAudio[stage];
-        if(stage === 5){
-            this.playKeyControl();
-        }else{
-            audio.currentTime = 0;
-            audio.play();
+        if(this.onBoardingOn){
+            let audio = this.onboardingAudio[stage];
+            if(stage === 5){
+                this.playKeyControl();
+            }else{
+                audio.currentTime = 0;
+                audio.play();
+            }
         }
 
     }
 
     toggleOnboarding(stage){
         this.onBoardingOn = !this.onBoardingOn;
-        if(this.onBoardingOn){
+        if(!this.onBoardingOn){
             this.onboardingAudio[stage].pause();
         }else{
             this.onboardingAudio[stage].play();
