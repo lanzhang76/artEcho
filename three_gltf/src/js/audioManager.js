@@ -430,8 +430,8 @@ class AudioManager {
     }
 
     isAudioPlaying(){
-        if(this.echoSound && this.objDes && this.echoDes){
-            return !this.echoSound.paused || !this.objDes.paused || !this.echoDes.paused;
+        if(this.echoSound && this.objDes && this.echoDes && this.stepSound){
+            return !this.echoSound.paused || !this.objDes.paused || !this.echoDes.paused || !this.stepSound.puased;
         }else{
             return true;
         }

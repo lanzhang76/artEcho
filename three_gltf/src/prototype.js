@@ -69,7 +69,7 @@ nextButton.classList.add("instruction-button");
 nextButton.setAttribute("role", "button");
 nextButton.textContent = "NEXT";
 nextButton.addEventListener("click", () => {
-  stage++;
+  stage = stage === 2 ? stage = 4 : stage + 1
   createStage(stage);
 });
 let backButton = document.createElement("div");
@@ -79,7 +79,7 @@ backButton.textContent = "BACK";
 backButton.addEventListener("click", () => {
   if(stage === 3){
     stage = 1;
-  }else{
+  }else if(stage){
     stage--;
   }
   createStage(stage);
