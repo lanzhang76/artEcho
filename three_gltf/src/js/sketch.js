@@ -586,8 +586,7 @@ export class Sketch {
         }
       );
     }
-    let step = this.currentModels[this.controlPanel.currentSelected].footstep;
-    audioManager.playStepSound(step);
+    audioManager.playStepSound(5);
     let previous = this.previous;
     audioManager.zoomAudio(this.chamber, index, previous);
     this.previous = index;
@@ -627,8 +626,7 @@ export class Sketch {
     );
 
     if (this.activated) {
-      let step = 4;
-      audioManager.playStepSound(step);
+      audioManager.playStepSound(5);
     }
 
     this.isCENTER = true;
@@ -665,7 +663,7 @@ export class Sketch {
     const chamberName = `chamber${this.chamber}`;
     this.currentModels = this.chambers[0][chamberName];
     // console.log(this.ogPos[this.chamber - 1].x, this.ogPos[this.chamber - 1].y, this.ogPos[this.chamber - 1].z);
-    audioManager.playStepSound(14);
+    audioManager.playStepSound(9);
     gsap.to(this.camera.position, {
       duration: 10,
       x: this.ogPos[this.chamber - 1].x,
