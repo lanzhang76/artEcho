@@ -13,14 +13,14 @@ class AudioManager {
         this.hintStopped = false;
 
         for(let i = 1; i < 6; i++){
-            this.onboardingAudio[i] = new Audio('../Onboarding/' + i + '.mp3');
+            this.onboardingAudio[i] = new Audio('../audio/Onboarding/' + i + '.mp3');
         }
         for(let i = 1; i < 15; i++){
-            let footPath = "../Footstep Sounds/" + i + ".mp3";
+            let footPath = "../audio/Footstep Sounds/" + i + ".mp3";
             this.stepAudio[i] = new Audio(footPath);
         }
         for(let i = 0; i < 6; i++){
-            let hintPath = "../hints/" + i + ".mp3";
+            let hintPath = "../audio/hints/" + i + ".mp3";
             this.hintAudio[i] = new Audio(hintPath);
         }
 
@@ -88,7 +88,7 @@ class AudioManager {
                     if(info.name !== 'gallery') sound.setLoop(true);
                     sound.setDistanceModel("linear");
                     sound.setRolloffFactor(1);
-                    sound.setDirectionalCone(180, 230, 0.1);
+                    sound.setDirectionalCone(360, 360, 0.1);
                 });
                 info.sound = sound;
                 const geometry = new THREE.BoxGeometry();
@@ -109,7 +109,7 @@ class AudioManager {
     }
 
     playEchoSound(chamber,object,orbit,hor,ver){
-        let echoPath = "../sounds/Chamber" + chamber +  "/Object" + object + "/" + orbit + "_" + hor + "_" + ver + ".mp3";
+        let echoPath = "../audio/sounds/Chamber" + chamber +  "/Object" + object + "/" + orbit + "_" + hor + "_" + ver + ".mp3";
         this.echoSound = new Audio(echoPath);
         let targetSound = this.chambersSound[chamber - 1][object - 1];
         gsap.to(targetSound, {
@@ -165,7 +165,7 @@ class AudioManager {
             if(!this.echoDes.paused){
                 this.echoDes.pause();
             } else {
-                let obj = "../echoDes/ThomasG" + chamber + 'O' + object + '.mp3';
+                let obj = "../audio/echoDes/ThomasG" + chamber + 'O' + object + '.mp3';
                 this.echoDes = new Audio(obj);
                 //fade out first
                 if(!this.objDes.paused){
@@ -189,7 +189,7 @@ class AudioManager {
             if(!this.objDes.paused){
                 this.objDes.pause();
             } else {
-                let obj = "../objDes/G" + chamber + 'O' + object + '.mp3';
+                let obj = "../audio/objDes/G" + chamber + 'O' + object + '.mp3';
                 this.objDes = new Audio(obj);
                 if(!this.echoDes.paused){
                     let target = this.echoDes;
