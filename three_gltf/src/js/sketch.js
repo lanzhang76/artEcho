@@ -2,9 +2,9 @@ import * as THREE from "three";
 import gsap from "gsap";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { GUI } from "three/examples/jsm/libs/dat.gui.module.js";
+import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 import { models } from "../data/models";
-import {audioManager} from "./audioManager";
+import { audioManager } from "./audioManager";
 
 const audioLoader = new THREE.AudioLoader();
 export class Sketch {
@@ -35,7 +35,7 @@ export class Sketch {
     this.hint = new THREE.Audio(this.listener);
     this.echoDes = new THREE.Audio(this.listener);
     //all positional sound
-    this.chambersSound =[ models[0].soundsFiles, models[1].soundsFiles, models[2].soundsFiles, models[3].soundsFiles];
+    this.chambersSound = [models[0].soundsFiles, models[1].soundsFiles, models[2].soundsFiles, models[3].soundsFiles];
 
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.renderer.setClearColor(0x000000);
@@ -72,7 +72,6 @@ export class Sketch {
 
     this.rooms = models[4].data;
     this.chambers = [{ chamber1: models[0].data, chamber2: models[1].data, chamber3: models[2].data, chamber4: models[3].data }];
-
 
     this.controlPanel = {
       theta: Math.PI / 2,
@@ -118,7 +117,7 @@ export class Sketch {
     // this.addFloor();
     this.addLight();
     //add positional sound to the scene
-    audioManager.initializeSpaceSound(this.scene,this.listener);
+    audioManager.initializeSpaceSound(this.scene, this.listener);
 
     //this.setupGUI();
     this.moveBackToCenter();
@@ -145,6 +144,10 @@ export class Sketch {
     };
 
     this.loader = new GLTFLoader(this.manager);
+    this.dracoLoader = new DRACOLoader();
+    this.dracoLoader.setDecoderPath("/draco/");
+    this.loader.setDRACOLoader(this.dracoLoader);
+
     //room
     for (let room of this.rooms) {
       this.loader.load(
@@ -188,7 +191,6 @@ export class Sketch {
 
     const chamberName = `chamber${this.chamber}`;
     this.currentModels = this.chambers[0][chamberName];
-    // console.log(this.currentModels);
   }
 
   loadThisModel(model, room_name) {
@@ -368,17 +370,17 @@ export class Sketch {
         let orbit = this.directionCounter.orbit;
         let verticalAngle = this.directionCounter.vertical * 30; //以这个为基数
         let horizontal = this.directionCounter.horizontal * 45; //以这个为基数
-        audioManager.playEchoSound(chamber,object,orbit,horizontal,verticalAngle)
+        audioManager.playEchoSound(chamber, object, orbit, horizontal, verticalAngle);
       }
 
-      if(event.keyCode === 69){
+      if (event.keyCode === 69) {
         //press E
-        audioManager.playEchoDes(this.chamber,this.controlPanel.currentSelected + 1);
+        audioManager.playEchoDes(this.chamber, this.controlPanel.currentSelected + 1);
       }
 
-      if(event.keyCode === 68){
-      //press D
-        audioManager.playObjDes(this.chamber,this.controlPanel.currentSelected + 1 );
+      if (event.keyCode === 68) {
+        //press D
+        audioManager.playObjDes(this.chamber, this.controlPanel.currentSelected + 1);
       }
     }
 
@@ -469,7 +471,7 @@ export class Sketch {
       });
     }
     this.orbitTimes++;
-    if(this.orbitTimes === 2) audioManager.backHint();
+    if (this.orbitTimes === 2) audioManager.backHint();
   }
 
   rotateLeftObject() {
@@ -495,7 +497,7 @@ export class Sketch {
       });
     }
     this.orbitTimes++;
-    if(this.orbitTimes === 2) audioManager.backHint();
+    if (this.orbitTimes === 2) audioManager.backHint();
   }
 
   select() {
@@ -536,12 +538,11 @@ export class Sketch {
     this.scene.add(this.ambient);
   }
 
-
   setActivated(index) {
     audioManager.setActivated(index);
   }
 
-  startHint(){
+  startHint() {
     this.activated = true;
     audioManager.galleryHint();
   }
@@ -559,10 +560,10 @@ export class Sketch {
       y: this.controlPanel.INTERSECTED.position.y,
       z: this.controlPanel.INTERSECTED.position.z,
       onComplete: () => {
-        if(this.objectVisited === 1){
+        if (this.objectVisited === 1) {
           audioManager.objectHint();
         }
-      }
+      },
     });
     if (this.controlPanel.initialMove) {
       gsap.fromTo(
@@ -581,7 +582,6 @@ export class Sketch {
           z: this.controlPanel.INTERSECTED.position.z + this.controlPanel.INTERSECTED.stare_dist * Math.sin(this.controlPanel.INTERSECTED.theta),
           onComplete: () => {
             this.controlPanel.initialMove = false;
-
           },
         }
       );
@@ -589,7 +589,7 @@ export class Sketch {
     let step = this.currentModels[this.controlPanel.currentSelected].footstep;
     audioManager.playStepSound(step);
     let previous = this.previous;
-    audioManager.zoomAudio(this.chamber,index,previous);
+    audioManager.zoomAudio(this.chamber, index, previous);
     this.previous = index;
   }
 
@@ -610,7 +610,7 @@ export class Sketch {
         y: this.pointRef.radius * Math.cos(this.pointRef.phi),
         z: this.pointRef.radius * Math.sin(this.pointRef.phi) * Math.sin(this.pointRef.theta),
         onComplete: () => {
-          if(this.activated) audioManager.playGallery(this.chamber);
+          if (this.activated) audioManager.playGallery(this.chamber);
         },
       }
     );
@@ -672,8 +672,8 @@ export class Sketch {
       y: this.ogPos[this.chamber - 1].y,
       z: this.ogPos[this.chamber - 1].z,
       onComplete: () => {
-        this.setActivated(this.chamber - 1)
-      }
+        this.setActivated(this.chamber - 1);
+      },
     });
   }
 
@@ -711,9 +711,9 @@ export class Sketch {
       });
     }
 
-    if(this.activated){
+    if (this.activated) {
       let noInput = Date.now() - this.userInputTimestamp;
-      if(noInput > 5000  && noInput < 6000 && !audioManager.isAudioPlaying() && !audioManager.helpHintPlaying){
+      if (noInput > 5000 && noInput < 6000 && !audioManager.isAudioPlaying() && !audioManager.helpHintPlaying) {
         audioManager.helpHint();
       }
     }

@@ -4,7 +4,7 @@ export const models = [
     data: [
       {
         name: "Woolly mammoths",
-        path: "../models/c1/mammoth/woolly-mammoth-100k-4096.gltf",
+        path: "../models/c1/mammoth.gltf",
         mesh: null,
         box: null,
         light: { intensity: 3, distance: 5, offset: 1 },
@@ -18,7 +18,7 @@ export const models = [
       },
       {
         name: "Triceratops horridus",
-        path: "../models/c1/tricera/Triceratops_horridus_Marsh_1889-150k-4096.gltf",
+        path: "../models/c1/tricera.gltf",
         mesh: null,
         box: null,
         light: { intensity: 7, distance: 5, offset: 2 },
@@ -32,7 +32,7 @@ export const models = [
       },
       {
         name: "Red-footed Tortoise",
-        path: "../models/c1/geochelone/USNM_222486-100k-2048.gltf",
+        path: "../models/c1/geochelone.gltf",
         mesh: null,
         box: null,
         light: { intensity: 7, distance: 3, offset: 2 },
@@ -46,7 +46,7 @@ export const models = [
       },
       {
         name: "Eremotherium laurillardi",
-        path: "../models/c1/eremotherium/eremotherium_laurillardi-150k-4096.gltf",
+        path: "../models/c1/eremotherium.gltf",
         mesh: null,
         box: null,
         light: { intensity: 7, distance: 4, offset: 2 },
@@ -61,12 +61,12 @@ export const models = [
     ],
     soundsFiles: [
       //这两个有问题，声音和各自的绿箱子对不上
-      { name: "", path: "../Background-Sounds/Chamber1/Object1.mp3", position: { x: 6, y: 0, z: 6}, volume: 0, max: 1 },
-      { name: "", path: "../Background-Sounds/Chamber1/Object2.mp3", position: { x: 6, y: 0, z: -8 }, volume: 0 , max: 1 },
+      { name: "", path: "../Background-Sounds/Chamber1/Object1.mp3", position: { x: 6, y: 0, z: 6 }, volume: 0, max: 1 },
+      { name: "", path: "../Background-Sounds/Chamber1/Object2.mp3", position: { x: 6, y: 0, z: -8 }, volume: 0, max: 1 },
 
-      { name: "", path: "../Background-Sounds/Chamber1/Object3.mp3", position: { x: -5, y: 0, z: 6 }, volume: 0 , max: 1 },
-      { name: "", path: "../Background-Sounds/Chamber1/Object4.mp3", position: { x: -6, y: 0, z: -6 }, volume: 0 , max: 1 },
-      { name: "gallery", path: "../Background-Sounds/Chamber1/0.mp3", position: { x: 0, y: 0, z: -1 }, volume: 0 , max: 1 },
+      { name: "", path: "../Background-Sounds/Chamber1/Object3.mp3", position: { x: -5, y: 0, z: 6 }, volume: 0, max: 1 },
+      { name: "", path: "../Background-Sounds/Chamber1/Object4.mp3", position: { x: -6, y: 0, z: -6 }, volume: 0, max: 1 },
+      { name: "gallery", path: "../Background-Sounds/Chamber1/0.mp3", position: { x: 0, y: 0, z: -1 }, volume: 0, max: 1 },
     ],
   },
   {
@@ -74,13 +74,13 @@ export const models = [
     data: [
       {
         name: "Fangyi",
-        path: "../models/c2/fangyi/fangyi-150k-4096.gltf",
+        path: "../models/c2/fangyi.gltf",
         mesh: null,
         box: null,
         light: { intensity: 4, distance: 2, offset: 1 },
         scale: 0.0012,
         position: { x: 2, y: 1, z: -21 },
-        rotation: { x: 0, y: Math.PI/2, z: 0 },
+        rotation: { x: 0, y: Math.PI / 2, z: 0 },
         offset: { x: 0, y: 0.75, z: 0 },
         theta: Math.PI / 2,
         stare_dist: 0.65,
@@ -88,7 +88,7 @@ export const models = [
       },
       {
         name: "Guang",
-        path: "../models/c2/ewer/lidded_ewer-150k-4096.gltf",
+        path: "../models/c2/ewer.gltf",
         mesh: null,
         box: null,
         light: { intensity: 5, distance: 2, offset: 1 },
@@ -102,7 +102,7 @@ export const models = [
       },
       {
         name: "Beaker-shaped vase",
-        path: "../models/c2/vase1/f1980_193-150k-4096.gltf",
+        path: "../models/c2/vase1.gltf",
         mesh: null,
         box: null,
         light: { intensity: 2, distance: 1.5, offset: 0.4 },
@@ -116,7 +116,7 @@ export const models = [
       },
       {
         name: "Covered Baluster vase",
-        path: "../models/c2/vase2/baluster_vase-150k-4096.gltf",
+        path: "../models/c2/vase2.gltf",
         mesh: null,
         box: null,
         light: { intensity: 1.5, distance: 1.5, offset: 0.4 },
@@ -130,11 +130,11 @@ export const models = [
       },
     ],
     soundsFiles: [
-      { name: "", path: "../Background-Sounds/Chamber2/Object1.mp3", position: { x: 2, y: 0, z: -23 }, volume: 0, max: 0.15  },
-      { name: "", path: "../Background-Sounds/Chamber2/Object2.mp3", position: { x: 3, y: 0, z: -18 }, volume: 0 , max: 0.2 },
-      { name: "", path: "../Background-Sounds/Chamber2/Object3.mp3", position: { x: -1000, y: 0, z: -17 }, volume: 0, max: 0.15  },
-      { name: "", path: "../Background-Sounds/Chamber2/Object4.mp3", position: { x: -2, y: 0, z: -23 }, volume: 0, max: 0.15  },
-      { name: "gallery", path: "../Background-Sounds/Chamber2/0.mp3", position: { x: 0, y: 0, z: -20 }, volume: 0 , max: 1 },
+      { name: "", path: "../Background-Sounds/Chamber2/Object1.mp3", position: { x: 2, y: 0, z: -23 }, volume: 0, max: 0.15 },
+      { name: "", path: "../Background-Sounds/Chamber2/Object2.mp3", position: { x: 3, y: 0, z: -18 }, volume: 0, max: 0.2 },
+      { name: "", path: "../Background-Sounds/Chamber2/Object3.mp3", position: { x: -1000, y: 0, z: -17 }, volume: 0, max: 0.15 },
+      { name: "", path: "../Background-Sounds/Chamber2/Object4.mp3", position: { x: -2, y: 0, z: -23 }, volume: 0, max: 0.15 },
+      { name: "gallery", path: "../Background-Sounds/Chamber2/0.mp3", position: { x: 0, y: 0, z: -20 }, volume: 0, max: 1 },
     ],
   },
   {
@@ -142,7 +142,7 @@ export const models = [
     data: [
       {
         name: "1903 Wright Flyer",
-        path: "../models/c3/wright/wright_flyer-full_resolution.gltf",
+        path: "../models/c3/wright.gltf",
         mesh: null,
         box: null,
         light: { intensity: 4, distance: 6, offset: 2 },
@@ -156,7 +156,7 @@ export const models = [
       },
       {
         name: "Bell X-1",
-        path: "../models/c3/bell/bell_x1_mesh-web_remap.gltf",
+        path: "../models/c3/bell.gltf",
         mesh: null,
         box: null,
         light: { intensity: 5, distance: 5, offset: 2 },
@@ -170,9 +170,9 @@ export const models = [
       },
     ],
     soundsFiles: [
-      { name: "", path: "../Background-Sounds/Chamber3/Object1.mp3", position: { x: 6, y: 0, z: -36 }, volume: 0, max: 0.35  },
-      { name: "", path: "../Background-Sounds/Chamber3/Object2.mp3", position: { x: -8, y: 0, z: -43 }, volume: 0 , max: 0.5 },
-      { name: "gallery", path: "../Background-Sounds/Chamber3/0.mp3", position: { x: 0, y: 0, z: -40 }, volume: 0, max: 1  },
+      { name: "", path: "../Background-Sounds/Chamber3/Object1.mp3", position: { x: 6, y: 0, z: -36 }, volume: 0, max: 0.35 },
+      { name: "", path: "../Background-Sounds/Chamber3/Object2.mp3", position: { x: -8, y: 0, z: -43 }, volume: 0, max: 0.5 },
+      { name: "gallery", path: "../Background-Sounds/Chamber3/0.mp3", position: { x: 0, y: 0, z: -40 }, volume: 0, max: 1 },
     ],
   },
   {
@@ -180,7 +180,7 @@ export const models = [
     data: [
       {
         name: "Neil Armstrong Spacesuit",
-        path: "../models/c4/armstrong/armstrong.gltf",
+        path: "../models/c4/armstrong.gltf",
         mesh: null,
         box: null,
         light: { intensity: 5, distance: 5, offset: 2 },
@@ -194,7 +194,7 @@ export const models = [
       },
       {
         name: "Apollo 11 Command Module",
-        path: "../models/c4/apollo/apollo_exterior-150k-4096.gltf",
+        path: "../models/c4/apollo.gltf",
         mesh: null,
         box: null,
         light: { intensity: 4, distance: 15, offset: 0 },
@@ -208,7 +208,7 @@ export const models = [
       },
       {
         name: "Discovery Space Shuttle",
-        path: "../models/c4/space/Orbiter_Space_Shuttle_OV-103_Discovery-150k-4096.gltf",
+        path: "../models/c4/space.gltf",
         mesh: null,
         box: null,
         light: { intensity: 3, distance: 40, offset: -3 },
@@ -222,19 +222,19 @@ export const models = [
       },
     ],
     soundsFiles: [
-      { name: "", path: "../Background-Sounds/Chamber4/Object1.mp3", position: { x: 3, y: 0, z: -96 }, volume: 0, max: 0.3  },
-      { name: "", path: "../Background-Sounds/Chamber4/Object2.mp3", position: { x: 5, y: 0, z: -87 }, volume: 0, max: 0.3  },
-      { name: "", path: "../Background-Sounds/Chamber4/Object3.mp3", position: { x: -25, y: 0, z: -90 }, volume: 0 , max: 0.3 },
-      { name: "gallery", path: "../Background-Sounds/Chamber4/0.mp3", position: { x: 0, y: 0, z: -91 }, volume: 0 , max: 1 },
+      { name: "", path: "../Background-Sounds/Chamber4/Object1.mp3", position: { x: 3, y: 0, z: -96 }, volume: 0, max: 0.3 },
+      { name: "", path: "../Background-Sounds/Chamber4/Object2.mp3", position: { x: 5, y: 0, z: -87 }, volume: 0, max: 0.3 },
+      { name: "", path: "../Background-Sounds/Chamber4/Object3.mp3", position: { x: -25, y: 0, z: -90 }, volume: 0, max: 0.3 },
+      { name: "gallery", path: "../Background-Sounds/Chamber4/0.mp3", position: { x: 0, y: 0, z: -91 }, volume: 0, max: 1 },
     ],
   },
   {
     name: "rooms",
     data: [
-      { name: "chamber1-room", path: "../models/rooms/chamber1/chamber1.gltf", mesh: null, box: null, scale: 2.5, position: { x: 0, y: 0, z: 0 } },
-      { name: "chamber2-room", path: "../models/rooms/chamber2/chamber2.gltf", mesh: null, box: null, scale: 2.5, position: { x: 0, y: 0, z: -19.3 } },
-      { name: "chamber3-room", path: "../models/rooms/chamber3/chamber3.gltf", mesh: null, box: null, scale: 2.5, position: { x: 0, y: 0, z: -38.6 } },
-      { name: "chamber4-room", path: "../models/rooms/chamber4/chamber4.gltf", mesh: null, box: null, scale: 2.5, position: { x: 0, y: 0, z: -90 } },
+      { name: "chamber1-room", path: "../models/rooms/chamber1.gltf", mesh: null, box: null, scale: 2.5, position: { x: 0, y: 0, z: 0 } },
+      { name: "chamber2-room", path: "../models/rooms/chamber2.gltf", mesh: null, box: null, scale: 2.5, position: { x: 0, y: 0, z: -19.3 } },
+      { name: "chamber3-room", path: "../models/rooms/chamber3.gltf", mesh: null, box: null, scale: 2.5, position: { x: 0, y: 0, z: -38.6 } },
+      { name: "chamber4-room", path: "../models/rooms/chamber4.gltf", mesh: null, box: null, scale: 2.5, position: { x: 0, y: 0, z: -90 } },
     ],
   },
 ];
