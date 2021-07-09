@@ -1,13 +1,11 @@
 # ArtEcho
 
-artEcho demo repo
+artEcho demo mono repo
 
 ### Current technical demos
 
-1. stage1: Raycast
-1. stage2: [Key Combination Demo URL](https://artecho-demo-keypress.netlify.app/)
-1. stage3: GLTF Model Loading
-1. stage4: Models + sounds + interaction
+1. official demo repo: artEcho Demo
+2. development repo: three_gltf
 
 
 ### mono repo update
