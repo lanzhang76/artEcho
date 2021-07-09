@@ -1,11 +1,12 @@
-# ArtEcho
+# ArtEcho Mono Repo
 
-artEcho demo mono repo
 
-### Current technical demos
+### Current technical demos/repos
 
 1. official demo repo: artEcho Demo
 2. development repo: three_gltf
+3. (deprecated) raycast testing
+4. (deprecated) interaction key combination testing
 
 
 ### mono repo update
