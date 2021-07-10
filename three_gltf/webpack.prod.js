@@ -12,14 +12,16 @@ module.exports = {
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
         loader: "file-loader",
-        // options: { name: "[hash].[ext]", outputPath: "" },
+        options: { name: "[name].[hash:8].[ext]" },
       },
       {
         test: /\.css$/i,
-        loader: "css-loader",
-        options: {
-          url: false,
-        },
+        use: [
+          "style-loader",
+          {
+            loader: "css-loader",
+          },
+        ],
       },
       {
         test: /\.js$/,
@@ -54,7 +56,7 @@ module.exports = {
     }),
     new CopyPlugin({
       patterns: [
-        { from: "src/assets/audio", to: "assets/audio",noErrorOnMissing: true },
+        { from: "src/assets/audio", to: "assets/audio", noErrorOnMissing: true },
         { from: "draco", to: "draco" },
         { from: "src/assets/img", to: "assets/img", noErrorOnMissing: true },
         { from: "src/assets/models", to: "assets/models", noErrorOnMissing: true },
