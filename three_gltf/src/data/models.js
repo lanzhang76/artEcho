@@ -4,7 +4,7 @@ export const models = [
     data: [
       {
         name: "Woolly mammoths",
-        path: "../models/c1/mammoth.gltf",
+        path: "./assets/models/c1/mammoth.gltf",
         mesh: null,
         box: null,
         light: { intensity: 3, distance: 5, offset: 1 },
@@ -18,7 +18,7 @@ export const models = [
       },
       {
         name: "Triceratops horridus",
-        path: "../models/c1/tricera.gltf",
+        path: "./assets/models/c1/tricera.gltf",
         mesh: null,
         box: null,
         light: { intensity: 7, distance: 5, offset: 2 },
@@ -32,7 +32,7 @@ export const models = [
       },
       {
         name: "Red-footed Tortoise",
-        path: "../models/c1/geochelone.gltf",
+        path: "./assets/models/c1/geochelone.gltf",
         mesh: null,
         box: null,
         light: { intensity: 7, distance: 3, offset: 2 },
@@ -46,7 +46,7 @@ export const models = [
       },
       {
         name: "Eremotherium laurillardi",
-        path: "../models/c1/eremotherium.gltf",
+        path: "./assets/models/c1/eremotherium.gltf",
         mesh: null,
         box: null,
         light: { intensity: 7, distance: 4, offset: 2 },
@@ -74,7 +74,7 @@ export const models = [
     data: [
       {
         name: "Fangyi",
-        path: "../models/c2/fangyi.gltf",
+        path: "./assets/models/c2/fangyi.gltf",
         mesh: null,
         box: null,
         light: { intensity: 4, distance: 2, offset: 1 },
@@ -88,7 +88,7 @@ export const models = [
       },
       {
         name: "Guang",
-        path: "../models/c2/ewer.gltf",
+        path: "./assets/models/c2/ewer.gltf",
         mesh: null,
         box: null,
         light: { intensity: 5, distance: 2, offset: 1 },
@@ -102,7 +102,7 @@ export const models = [
       },
       {
         name: "Beaker-shaped vase",
-        path: "../models/c2/vase1.gltf",
+        path: "./assets/models/c2/vase1.gltf",
         mesh: null,
         box: null,
         light: { intensity: 2, distance: 1.5, offset: 0.4 },
@@ -116,7 +116,7 @@ export const models = [
       },
       {
         name: "Covered Baluster vase",
-        path: "../models/c2/vase2.gltf",
+        path: "./assets/models/c2/vase2.gltf",
         mesh: null,
         box: null,
         light: { intensity: 1.5, distance: 1.5, offset: 0.4 },
@@ -142,7 +142,7 @@ export const models = [
     data: [
       {
         name: "1903 Wright Flyer",
-        path: "../models/c3/wright.gltf",
+        path: "./assets/models/c3/wright.gltf",
         mesh: null,
         box: null,
         light: { intensity: 4, distance: 6, offset: 2 },
@@ -156,7 +156,7 @@ export const models = [
       },
       {
         name: "Bell X-1",
-        path: "../models/c3/bell.gltf",
+        path: "./assets/models/c3/bell.gltf",
         mesh: null,
         box: null,
         light: { intensity: 5, distance: 5, offset: 2 },
@@ -180,7 +180,7 @@ export const models = [
     data: [
       {
         name: "Neil Armstrong Spacesuit",
-        path: "../models/c4/armstrong.gltf",
+        path: "./assets/models/c4/armstrong.gltf",
         mesh: null,
         box: null,
         light: { intensity: 5, distance: 5, offset: 2 },
@@ -194,7 +194,7 @@ export const models = [
       },
       {
         name: "Apollo 11 Command Module",
-        path: "../models/c4/apollo.gltf",
+        path: "./assets/models/c4/apollo.gltf",
         mesh: null,
         box: null,
         light: { intensity: 4, distance: 15, offset: 0 },
@@ -208,7 +208,7 @@ export const models = [
       },
       {
         name: "Discovery Space Shuttle",
-        path: "../models/c4/space.gltf",
+        path: "./assets/models/c4/space.gltf",
         mesh: null,
         box: null,
         light: { intensity: 3, distance: 40, offset: -3 },
@@ -231,10 +231,10 @@ export const models = [
   {
     name: "rooms",
     data: [
-      { name: "chamber1-room", path: "../models/rooms/chamber1.gltf", mesh: null, box: null, scale: 2.5, position: { x: 0, y: 0, z: 0 } },
-      { name: "chamber2-room", path: "../models/rooms/chamber2.gltf", mesh: null, box: null, scale: 2.5, position: { x: 0, y: 0, z: -19.3 } },
-      { name: "chamber3-room", path: "../models/rooms/chamber3.gltf", mesh: null, box: null, scale: 2.5, position: { x: 0, y: 0, z: -38.6 } },
-      { name: "chamber4-room", path: "../models/rooms/chamber4.gltf", mesh: null, box: null, scale: 2.5, position: { x: 0, y: 0, z: -90 } },
+      { name: "chamber1-room", path: "./assets/models/rooms/chamber1.gltf", mesh: null, box: null, scale: 2.5, position: { x: 0, y: 0, z: 0 } },
+      { name: "chamber2-room", path: "./assets/models/rooms/chamber2.gltf", mesh: null, box: null, scale: 2.5, position: { x: 0, y: 0, z: -19.3 } },
+      { name: "chamber3-room", path: "./assets/models/rooms/chamber3.gltf", mesh: null, box: null, scale: 2.5, position: { x: 0, y: 0, z: -38.6 } },
+      { name: "chamber4-room", path: "./assets/models/rooms/chamber4.gltf", mesh: null, box: null, scale: 2.5, position: { x: 0, y: 0, z: -90 } },
     ],
   },
 ];

@@ -9,10 +9,15 @@ module.exports = {
   mode: "development",
   devServer: {
     open: true,
+    contentBase: "./dist",
   },
   module: {
     rules: [
-      { test: /\.(jpe?g|png|gif|svg)$/i, loader: "file-loader" },
+      { test: /\.(png|svg|jpg|jpeg|gif)$/i, type: "asset/resource", loader: "file-loader" },
+      {
+        test: /\.(png|jpg)$/,
+        loader: "url-loader",
+      },
       {
         test: /\.css$/i,
         use: ["style-loader", "css-loader"],

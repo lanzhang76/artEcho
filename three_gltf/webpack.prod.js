@@ -9,10 +9,17 @@ module.exports = {
   entry: { index: "./src/index.js", prototype: "./src/prototype.js" },
   module: {
     rules: [
-      { test: /\.(jpe?g|png|gif|svg)$/i, loader: "file-loader" },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        loader: "file-loader",
+        // options: { name: "[hash].[ext]", outputPath: "" },
+      },
       {
         test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
+        loader: "css-loader",
+        options: {
+          url: false,
+        },
       },
       {
         test: /\.js$/,
@@ -49,15 +56,15 @@ module.exports = {
       patterns: [
         { from: "audio", to: "audio" },
         { from: "draco", to: "draco" },
-        { from: "img", to: "img" },
-        { from: "models", to: "models" },
+        { from: "src/assets/img", to: "assets/img", noErrorOnMissing: true },
+        { from: "src/assets/models", to: "assets/models", noErrorOnMissing: true },
       ],
     }),
   ],
   output: {
     filename: "[name].bundle.js",
     path: path.resolve(__dirname, "dist"),
-    publicPath: "auto",
+    publicPath: "assets",
   },
   optimization: {
     minimizer: [
