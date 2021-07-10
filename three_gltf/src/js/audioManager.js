@@ -430,12 +430,16 @@ class AudioManager {
     }
 
     isAudioPlaying(){
-        if(this.echoSound && this.objDes && this.echoDes && this.stepSound){
-            return !this.echoSound.paused || !this.objDes.paused || !this.echoDes.paused || !this.stepSound.puased;
+        if(this.echoSound || this.objDes || this.echoDes || this.stepSound){
+            return (this.checkPlaying(this.echoSound)) || (this.checkPlaying(this.objDes)) || (this.checkPlaying(this.echoDes)) || (this.checkPlaying(this.stepSound));
         }else{
-            return true;
+            return false;
         }
 
+    }
+
+    checkPlaying(audio){
+        return audio && audio.currentTime > 0 && !audio.paused && !audio.ended;
     }
 
 }

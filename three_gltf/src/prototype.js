@@ -9,6 +9,7 @@ let canvas = new Sketch({
 let stage = 0;
 let activated = false;
 let keyMenuOpened = false;
+let experienced = null;
 
 let overlay = document.querySelector("#overlay");
 let instruction = document.querySelector(".intro-detail");
@@ -61,6 +62,7 @@ yesButton.setAttribute("role", "button");
 yesButton.textContent = "YES";
 yesButton.addEventListener("click", () => {
   stage++;
+  experienced = true;
   createStage(stage);
 });
 
@@ -79,7 +81,9 @@ backButton.textContent = "BACK";
 backButton.addEventListener("click", () => {
   if(stage === 3){
     stage = 1;
-  }else if(stage){
+  }else if(stage === 4){
+    stage = experienced ? 2 : 3;
+  }else {
     stage--;
   }
   createStage(stage);
@@ -88,6 +92,7 @@ let noButton = document.createElement("div");
 noButton.classList.add("instruction-button");
 noButton.setAttribute("role", "button");
 noButton.addEventListener("click", () => {
+  experienced = false;
   stage = 3;
   createStage(stage);
 });
