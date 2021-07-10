@@ -13,14 +13,14 @@ class AudioManager {
         this.hintStopped = false;
 
         for(let i = 1; i < 6; i++){
-            this.onboardingAudio[i] = new Audio('../audio/Onboarding/' + i + '.mp3');
+            this.onboardingAudio[i] = new Audio('./assets/audio/Onboarding/' + i + '.mp3');
         }
         for(let i = 1; i < 15; i++){
-            let footPath = "../audio/Footstep Sounds/" + i + ".mp3";
+            let footPath = "./assets/audio/Footstep Sounds/" + i + ".mp3";
             this.stepAudio[i] = new Audio(footPath);
         }
         for(let i = 0; i < 6; i++){
-            let hintPath = "../audio/hints/" + i + ".mp3";
+            let hintPath = "./assets/audio/hints/" + i + ".mp3";
             this.hintAudio[i] = new Audio(hintPath);
         }
 
@@ -109,7 +109,7 @@ class AudioManager {
     }
 
     playEchoSound(chamber,object,orbit,hor,ver){
-        let echoPath = "../audio/sounds/Chamber" + chamber +  "/Object" + object + "/" + orbit + "_" + hor + "_" + ver + ".mp3";
+        let echoPath = "./assets/audio/sounds/Chamber" + chamber +  "/Object" + object + "/" + orbit + "_" + hor + "_" + ver + ".mp3";
         this.echoSound = new Audio(echoPath);
         let targetSound = this.chambersSound[chamber - 1][object - 1];
         gsap.to(targetSound, {
@@ -165,7 +165,7 @@ class AudioManager {
             if(!this.echoDes.paused){
                 this.echoDes.pause();
             } else {
-                let obj = "../audio/echoDes/ThomasG" + chamber + 'O' + object + '.mp3';
+                let obj = "./assets/audio/echoDes/ThomasG" + chamber + 'O' + object + '.mp3';
                 this.echoDes = new Audio(obj);
                 //fade out first
                 if(!this.objDes.paused){
@@ -189,7 +189,7 @@ class AudioManager {
             if(!this.objDes.paused){
                 this.objDes.pause();
             } else {
-                let obj = "../audio/objDes/G" + chamber + 'O' + object + '.mp3';
+                let obj = "./assets/audio/objDes/G" + chamber + 'O' + object + '.mp3';
                 this.objDes = new Audio(obj);
                 if(!this.echoDes.paused){
                     let target = this.echoDes;
