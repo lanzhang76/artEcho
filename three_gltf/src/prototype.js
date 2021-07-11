@@ -111,7 +111,7 @@ startedButton.addEventListener("click", () => {
   stage = 5;
   createStage(stage);
 });
-startedButton.textContent = "Next";
+startedButton.textContent = "NEXT";
 
 let stopHint = document.querySelector('#hint-close');
 stopHint.addEventListener('click', () => {
@@ -132,7 +132,9 @@ let createStage = (stage) => {
       audioManager.pauseAllOnboarding();
       skipButton.style.display = 'flex';
       narrator.textContent = "Thomas Tajo:";
-      instruction.textContent = " Hi, I am Thomas Tajo (tah-jo), I am your echolocation instructor today in ArtEcho.\n" + "                   Here is a question that will help us get started: Have you ever experienced echolocation?";
+      instruction.setAttribute('style', 'white-space: pre-line; line-height: 1.5');
+      instruction.textContent = " Hi, I am Thomas Tajo. I am your echolocation instructor today in ArtEcho. \n" +
+      "Here is a question that will help us get started — Have you ever experienced echolocation?";
       action.appendChild(yesButton);
       action.appendChild(noButton);
       audioManager.playOnboardingFromBeginning(stage);
@@ -141,7 +143,8 @@ let createStage = (stage) => {
       removeAllChildNodes(action);
       audioManager.pauseAllOnboarding();
       narrator.textContent = "Thomas Tajo:";
-      instruction.textContent = "Very Well! ArtEcho reproduces the echolocation experience to a virtual 3D environment. Anywhere within the virtual museum, you can press the Space key to trigger a virtual mouth click and then experience the sound reflections from the 3D objects in the museum.";
+      instruction.textContent = "Very Well! ArtEcho reproduces the echolocation experience to a virtual 3D environment. \n" +
+      "\nAnywhere within the virtual museum, you can press the Space bar to trigger a virtual mouth click and then experience the sound reflections from the 3D objects in the museum. You can also press E for my interpretation of sound reflections from museum objects.";
       action.appendChild(nextButton);
       action.appendChild(backButton);
       audioManager.playOnboardingFromBeginning(stage);
@@ -152,8 +155,7 @@ let createStage = (stage) => {
       narrator.textContent = "Thomas Tajo:";
       instruction.textContent =
         " Echolocation is a technique used by some blind individuals that can help improve their independence and mobility. An echolocation user can perceive the location, size, shape, and texture of their surrounding objects by emitting the mouth click and interpreting the strength, pitch, duration, and direction of the resulting sound reflections. Echolocation users are well-trained to perform high-pitch mouth clicks. \n" +
-        "\n" +
-        "In the ArtEcho experience, anywhere, you can press the Space key to trigger a virtual mouth click and then experience the acoustics attributes of the exhibited 3D assets";
+        "\n In the ArtEcho experience, anywhere, you can press the Space bar to trigger a virtual mouth click and then experience the acoustics attributes of the exhibited 3D assets. You can also press E for my interpretation of sound reflections from museum objects.";
       action.appendChild(nextButton);
       action.appendChild(backButton);
       audioManager.playOnboardingFromBeginning(stage);
@@ -163,7 +165,8 @@ let createStage = (stage) => {
       audioManager.pauseAllOnboarding();
       narrator.textContent = "Nancy Roach:";
       instruction.textContent =
-        " Hi there, welcome to ArtEcho Museum, I am your tour guide Nancy Roach.There are four virtual galleries in ArtEcho, Prehistoric Creatures, Ancient Chinese Artifacts, In Flight, and Space Exploration. In these galleries, you will move through periods of the history of this planet and some of the life forms who’ve inhabited it. In each gallery there are multiple ways to receive and experience the story.You can press D to hear my audio descriptions of the museum objects. And as you learned from Thomas, you can press the space bar for a virtual echolocation experience and press E for Thomas’s verbal interpretations of the sound reflections from museum objects.";
+        " Hi there, welcome to ArtEcho Museum, I am your tour guide Nancy Roach. There are four virtual galleries in ArtEcho, Prehistoric Creatures, Ancient Chinese Artifacts, In Flight, and Space Exploration. In these galleries, you will move through periods of the history of this planet and some of the life forms who’ve inhabited it. \n" +
+        "\nIn each gallery there are multiple ways to receive and experience the story. You can press D to hear my audio descriptions of the museum objects. And as you learned from Thomas, you can press the space bar for a virtual echolocation experience and press E for Thomas’s verbal interpretations of the sound reflections from museum objects.";
       action.appendChild(startedButton);
       action.appendChild(backButton);
       audioManager.playOnboardingFromBeginning(stage);

@@ -115,7 +115,7 @@ class AudioManager {
         this.echoSound = new Audio(echoPath);
         let targetSound = this.chambersSound[chamber - 1][object - 1];
         gsap.to(targetSound, {
-            duration: 0.2,
+            duration: 0.5,
             ease: "power1.out",
             volume: 0,
             onComplete: () => {
@@ -125,7 +125,7 @@ class AudioManager {
                     { volume: 0 },
                     {
                         delay: 1,
-                        duration: 0.2,
+                        duration: 1,
                         ease: "power1.out",
                         volume: targetSound.max,
                         onUpdate: function () {
@@ -458,8 +458,8 @@ class AudioManager {
     }
 
     isAudioPlaying(){
-        if(this.echoSound || this.objDes || this.echoDes || this.stepSound || this.gallerySound){
-            return (this.checkPlaying(this.echoSound)) || (this.checkPlaying(this.objDes)) || (this.checkPlaying(this.echoDes)) || (this.checkPlaying(this.stepSound) || (this.gallerySound&&this.gallerySound.isPlaying));
+        if(this.echoSound || this.objDes || this.echoDes || this.stepSound || this.gallerySound || this.hint){
+            return (this.checkPlaying(this.echoSound)) || (this.checkPlaying(this.objDes)) || (this.checkPlaying(this.echoDes)) || (this.checkPlaying(this.stepSound) || (this.checkPlaying(this.hint)) || (this.gallerySound&&this.gallerySound.isPlaying));
         }else{
             return false;
         }

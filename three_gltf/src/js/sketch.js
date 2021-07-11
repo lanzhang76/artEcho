@@ -250,7 +250,7 @@ export class Sketch {
     // ** ORIGIN-ONLY Camera Rotation **
     //
     event.preventDefault();
-    audioManager.stopHint();
+    if(this.activated) audioManager.stopHint();
     this.userInputTimestamp = Date.now();
 
     if (this.activated && this.loaded == true && this.controlPanel.VIEWmode == false) {
@@ -339,13 +339,13 @@ export class Sketch {
           case 48: // 0
             // reset camera angle and position
             this.moveBackToCenter();
-            this.textBox.innerText = `moving back to center of the gallery`;
+            this.textBox.innerText = `Moving back to center of the gallery`;
             break;
 
           case 8: // del button
             // reset camera angle and position
             this.moveBackToCenter();
-            this.textBox.innerText = `moving back to center the gallery`;
+            this.textBox.innerText = `Moving back to center the gallery`;
             break;
 
           case 37 /*Left*/:
@@ -397,7 +397,7 @@ export class Sketch {
         switch (event.keyCode) {
           case 48: // 0 is orginal point
             // reset camera angle and position
-            this.textBox.innerText = `nothing is selected`;
+            this.textBox.innerText = `No object is selected`;
             break;
 
           case 49: // object 1
@@ -655,19 +655,19 @@ export class Sketch {
         this.moveToAnother(num);
       }
     } else {
-      this.textBox.innerText = `you are already in Gallery ${num}`;
+      this.textBox.innerText = `You are already in Gallery ${num}`;
     }
   }
 
   moveToAnother(num) {
     this.previous = null;
-    this.textBox.innerText = `moving to Gallery ${num}`;
+    this.textBox.innerText = `Moving to Gallery ${num}`;
     // console.log("move to " + num + " chamber.");
     audioManager.stopGallery();
     audioManager.stopHint();
     this.chamber = num;
 
-    const chamberName = `chamber${this.chamber}`;
+    const chamberName = `Chamber${this.chamber}`;
     this.currentModels = this.chambers[0][chamberName];
     // console.log(this.ogPos[this.chamber - 1].x, this.ogPos[this.chamber - 1].y, this.ogPos[this.chamber - 1].z);
     audioManager.playStepSound(9);
