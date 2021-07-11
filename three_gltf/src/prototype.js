@@ -28,7 +28,7 @@ let onKeyDown = (event) => {
   switch (event.keyCode) {
     case 72 /*Help*/:
     case 191:
-      if (activated) {
+      if (activated && !audioManager.hintLocked) {
         keyMenuOpened = !keyMenuOpened;
         if(keyMenuOpened){
           createStage(10);
