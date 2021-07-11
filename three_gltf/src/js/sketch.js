@@ -250,8 +250,8 @@ export class Sketch {
     // ** ORIGIN-ONLY Camera Rotation **
     //
     event.preventDefault();
-    if(!audioManager.hintLocked){
-      if(this.activated) audioManager.stopHint();
+    if (!audioManager.hintLocked) {
+      if (this.activated) audioManager.stopHint();
       this.userInputTimestamp = Date.now();
 
       if (this.activated && this.loaded == true && this.controlPanel.VIEWmode == false) {
@@ -448,7 +448,6 @@ export class Sketch {
         }
       }
     }
-
   }
 
   rotateRightObject() {
@@ -505,6 +504,7 @@ export class Sketch {
 
   select() {
     this.objectVisited++;
+    console.log(this.currentModels);
     this.controlPanel.INTERSECTED = Object.assign({}, this.currentModels[this.controlPanel.currentSelected]);
     if (Object.keys(this.controlPanel.INTERSECTED).length != 0) {
       this.textBox.innerText = `${this.controlPanel.INTERSECTED.name} is selected`;
@@ -556,7 +556,7 @@ export class Sketch {
     this.controlPanel.VIEWmode = true;
     this.tiltCam = false;
     this.pointRef.theta = this.controlPanel.INTERSECTED.theta;
-    if(this.objectVisited > 1) audioManager.objectLeft = true;
+    if (this.objectVisited > 1) audioManager.objectLeft = true;
 
     gsap.to(this.point, {
       duration: 3,
@@ -605,7 +605,7 @@ export class Sketch {
     this.clearTarget();
     audioManager.leaveObject();
     audioManager.fadeOutBGM();
-    if(this.activated)  audioManager.objectLeft = true;
+    if (this.activated) audioManager.objectLeft = true;
     gsap.fromTo(
       this.point,
       { duration: 5, x: this.point.x, y: this.point.y, z: this.point.z },
@@ -617,7 +617,6 @@ export class Sketch {
         onComplete: () => {
           if (this.activated) {
             audioManager.playGallery(this.chamber);
-
           }
         },
       }
@@ -669,8 +668,9 @@ export class Sketch {
     audioManager.stopGallery();
     audioManager.stopHint();
     this.chamber = num;
+    console.log(this.chamber);
 
-    const chamberName = `Chamber${this.chamber}`;
+    const chamberName = `chamber${this.chamber}`;
     this.currentModels = this.chambers[0][chamberName];
     // console.log(this.ogPos[this.chamber - 1].x, this.ogPos[this.chamber - 1].y, this.ogPos[this.chamber - 1].z);
     audioManager.playStepSound(9);
@@ -721,7 +721,7 @@ export class Sketch {
 
     if (this.activated) {
       let noInput = Date.now() - this.userInputTimestamp;
-      if (noInput > 10000 && noInput < 11000 && !audioManager.isAudioPlaying()  && !this.hHintPlayed) {
+      if (noInput > 10000 && noInput < 11000 && !audioManager.isAudioPlaying() && !this.hHintPlayed) {
         audioManager.helpHint();
         this.hHintPlayed = true;
       }
