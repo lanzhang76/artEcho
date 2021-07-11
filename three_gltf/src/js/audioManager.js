@@ -13,6 +13,7 @@ class AudioManager {
         this.hintStopped = false;
         this.firstGalleryPlayed = false;
         this.objectLeft = false;
+        this.hintLocked = false;
 
         for(let i = 1; i < 6; i++){
             this.onboardingAudio[i] = new Audio('./assets/audio/Onboarding/' + i + '.mp3');
@@ -40,7 +41,6 @@ class AudioManager {
         this.keyControlPlaying = false;
         this.galleryInturrpted = false;
         this.bgmInturrpted = false;
-        this.helpHintPlaying = false;
 
 
         //all positional sound
@@ -354,6 +354,7 @@ class AudioManager {
 
     galleryHint(){
         this.hint = this.hintAudio[0];
+        this.hintLocked = true;
         this.hint.play();
         this.prompt.style.display = 'block';
         this.hint1.textContent = "Press ";
@@ -362,18 +363,30 @@ class AudioManager {
 
         setTimeout(() => {
             if(!this.leaveGallery){
+                // let gallery = false;
+                // if(this.gallerySound.sound.isPlaying){
+                //     gallery = true;
+                //     this.gallerySound.sound.pause();
+                // }
                 this.hint = this.hintAudio[1];
                 this.hint.play();
                 this.prompt.style.display = 'block';
                 this.hint1.textContent = "Or press ";
                 this.hint2.textContent = "Shift + Number Key (1 to 4)  ";
                 this.hint3.textContent = "to proceed to another gallery";
+
+                // setTimeout(() => {
+                //     if(gallery){
+                //         this.gallerySound.sound.play();
+                //     }
+                // },17000)
             }
         },10000)
 
         //after finish
         setTimeout(() => {
             if(!this.leaveGallery && !this.hintStopped){
+                this.hintLocked = false;
                 this.stopHint();
                 this.setActivated(0);
             }
@@ -381,29 +394,27 @@ class AudioManager {
     }
 
     stopHint(){
-        if(this.hint && !this.hint.paused) {
-            this.hint.pause();
-            //display none the dom
-        }
-        if(!this.firstGalleryPlayed && !this.leaveGallery) this.setActivated(0);
-        this.hintStopped = true;
-        this.helpHintPlaying = false;
+        // if(this.hint && !this.hint.paused) {
+        //     this.hint.pause();
+        // }
+        //if(!this.firstGalleryPlayed && !this.leaveGallery) this.setActivated(0);
+        // this.hintStopped = true;
         this.prompt.style.display = 'none';
     }
 
     objectHint(){
         if(!this.objectLeft){
+            this.hintLocked = true;
             this.hint = this.hintAudio[2];
             this.hint.play();
             this.prompt.style.display = 'block';
             this.hint1.textContent = "Press  ";
             this.hint2.textContent = "Shift + Arrow Key  ";
             this.hint3.textContent = "to adjust viewing direction.";
-            this.hintStopped = false;
         }
 
         setTimeout(() => {
-            if(!this.hintStopped && !this.objectLeft){
+            if(!this.objectLeft){
                 this.hint = this.hintAudio[3];
                 this.prompt.style.display = 'block';
                 this.hint.play();
@@ -411,12 +422,17 @@ class AudioManager {
                 this.hint2.textContent = "Left/Right ";
                 this.hint3.textContent = "to orbit around the museum object.";
             }
-        },13000)
+        },12000)
+
+        setTimeout(() => {
+            this.hintLocked = false
+        },18000)
     }
 
     backHint(){
         let objPaused = false;
         let echoPaused = false;
+        this.hintLocked = true;
         if(this.objDes && !this.objDes.paused){
             objPaused = true;
             this.objDes.pause();
@@ -440,11 +456,13 @@ class AudioManager {
             if(echoPaused){
                 this.echoDes.play();
             }
+            this.hintLocked = false;
         },7000)
     }
 
     helpHint(){
         if(!this.keyControlPlaying){
+            this.hintLocked = true;
             this.hint = this.hintAudio[5];
             this.hint.currentTime = 0;
             this.hint.play();
@@ -452,14 +470,15 @@ class AudioManager {
             this.hint1.textContent = "Press  ";
             this.hint2.textContent = "H or ? ";
             this.hint3.textContent = "to open Key Functionality Menu";
-            this.helpHintPlaying = true;
         }
-
+        setTimeout(() => {
+            this.hintLocked = false;
+        },6000)
     }
 
     isAudioPlaying(){
         if(this.echoSound || this.objDes || this.echoDes || this.stepSound || this.gallerySound || this.hint){
-            return (this.checkPlaying(this.echoSound)) || (this.checkPlaying(this.objDes)) || (this.checkPlaying(this.echoDes)) || (this.checkPlaying(this.stepSound) || (this.checkPlaying(this.hint)) || (this.gallerySound&&this.gallerySound.isPlaying));
+            return (this.checkPlaying(this.echoSound)) || (this.checkPlaying(this.objDes)) || (this.checkPlaying(this.echoDes)) || (this.checkPlaying(this.stepSound) || (this.checkPlaying(this.hint)) || (this.gallerySound&&this.gallerySound.sound.isPlaying));
         }else{
             return false;
         }

@@ -21,17 +21,8 @@
   <component name="ChangeListManager">
     <list default="true" id="e0f3ef49-89a8-4939-a6ae-03e4180a8230" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/index.bundle.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/index.bundle.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/dist/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/prototype.bundle.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/prototype.bundle.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/prototype.html" beforeDir="false" afterPath="$PROJECT_DIR$/dist/prototype.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data/models.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/models.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/js/audioManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/audioManager.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/js/sketch.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/sketch.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/prototype.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/prototype.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/prototype.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/prototype.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/style.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/template.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/template.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,10 +95,10 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="341" y="-965" width="598" height="490" key="find.popup" timestamp="1625886918441">
+    <state x="341" y="-965" width="598" height="490" key="find.popup" timestamp="1625977192788">
       <screen x="-640" y="-1440" width="2560" height="1440" />
     </state>
-    <state x="341" y="-965" width="598" height="490" key="find.popup/-640.-1440.2560.1440/0.0.1680.1050@-640.-1440.2560.1440" timestamp="1625886918441" />
+    <state x="341" y="-965" width="598" height="490" key="find.popup/-640.-1440.2560.1440/0.0.1680.1050@-640.-1440.2560.1440" timestamp="1625977192788" />
     <state x="382" y="-965" width="598" height="490" key="find.popup/0.0.1440.900/-599.-1440.2560.1440@-599.-1440.2560.1440" timestamp="1624505854553" />
   </component>
 </project>
