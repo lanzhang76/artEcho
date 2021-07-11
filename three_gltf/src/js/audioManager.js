@@ -11,6 +11,8 @@ class AudioManager {
         this.hintAudio = [];
         this.leaveGallery = false;
         this.hintStopped = false;
+        this.firstGalleryPlayed = false;
+        this.objectLeft = false;
 
         for(let i = 1; i < 6; i++){
             this.onboardingAudio[i] = new Audio('./assets/audio/Onboarding/' + i + '.mp3');
@@ -222,6 +224,8 @@ class AudioManager {
                 this.gallerySound = info;
             }
         });
+
+        if(chamber === 0) this.firstGalleryPlayed = true;
     }
 
     zoomAudio(chamber, object){
@@ -360,6 +364,7 @@ class AudioManager {
             if(!this.leaveGallery){
                 this.hint = this.hintAudio[1];
                 this.hint.play();
+                this.prompt.style.display = 'block';
                 this.hint1.textContent = "Or press ";
                 this.hint2.textContent = "Shift + Number Key (1 to 4)  ";
                 this.hint3.textContent = "to proceed to another gallery";
@@ -368,7 +373,7 @@ class AudioManager {
 
         //after finish
         setTimeout(() => {
-            if(!this.leaveGallery){
+            if(!this.leaveGallery && !this.hintStopped){
                 this.stopHint();
                 this.setActivated(0);
             }
@@ -380,24 +385,27 @@ class AudioManager {
             this.hint.pause();
             //display none the dom
         }
+        if(!this.firstGalleryPlayed && !this.leaveGallery) this.setActivated(0);
         this.hintStopped = true;
         this.helpHintPlaying = false;
         this.prompt.style.display = 'none';
     }
 
     objectHint(){
-        this.hint = this.hintAudio[2];
-        this.hint.play();
-        this.prompt.style.display = 'block';
-        this.hint1.textContent = "Press  ";
-        this.hint2.textContent = "Shift + Arrow Key  ";
-        this.hint3.textContent = "to adjust viewing direction.";
-        this.hintStopped = false;
-
+        if(!this.objectLeft){
+            this.hint = this.hintAudio[2];
+            this.hint.play();
+            this.prompt.style.display = 'block';
+            this.hint1.textContent = "Press  ";
+            this.hint2.textContent = "Shift + Arrow Key  ";
+            this.hint3.textContent = "to adjust viewing direction.";
+            this.hintStopped = false;
+        }
 
         setTimeout(() => {
-            if(!this.hintStopped){
+            if(!this.hintStopped && !this.objectLeft){
                 this.hint = this.hintAudio[3];
+                this.prompt.style.display = 'block';
                 this.hint.play();
                 this.hint1.textContent = "Or press ";
                 this.hint2.textContent = "Left/Right ";
@@ -407,12 +415,32 @@ class AudioManager {
     }
 
     backHint(){
+        let objPaused = false;
+        let echoPaused = false;
+        if(this.objDes && !this.objDes.paused){
+            objPaused = true;
+            this.objDes.pause();
+        }
+
+        if(this.echoDes && !this.echoDes.paused){
+            echoPaused = true;
+            this.echoDes.pause();
+        }
         this.hint = this.hintAudio[4];
         this.hint.play();
         this.prompt.style.display = 'block';
         this.hint1.textContent = "Press  ";
         this.hint2.textContent = "Shift 0 or backspace ";
         this.hint3.textContent = "to return to the center of the current gallery.";
+
+        setTimeout(() => {
+            if(objPaused){
+                this.objDes.play();
+            }
+            if(echoPaused){
+                this.echoDes.play();
+            }
+        },7000)
     }
 
     helpHint(){
@@ -430,8 +458,8 @@ class AudioManager {
     }
 
     isAudioPlaying(){
-        if(this.echoSound || this.objDes || this.echoDes || this.stepSound){
-            return (this.checkPlaying(this.echoSound)) || (this.checkPlaying(this.objDes)) || (this.checkPlaying(this.echoDes)) || (this.checkPlaying(this.stepSound));
+        if(this.echoSound || this.objDes || this.echoDes || this.stepSound || this.gallerySound){
+            return (this.checkPlaying(this.echoSound)) || (this.checkPlaying(this.objDes)) || (this.checkPlaying(this.echoDes)) || (this.checkPlaying(this.stepSound) || (this.gallerySound&&this.gallerySound.isPlaying));
         }else{
             return false;
         }

@@ -6,7 +6,6 @@ import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 import { models } from "../data/models";
 import { audioManager } from "./audioManager";
 
-const audioLoader = new THREE.AudioLoader();
 export class Sketch {
   constructor(options) {
     this.container = options.dom;
@@ -57,6 +56,7 @@ export class Sketch {
     this.loaded = false;
     this.keyPressed = false;
     this.orbiting = false;
+    this.hHintPlayed = false;
 
     this.lights = new THREE.Group();
 
@@ -549,9 +549,11 @@ export class Sketch {
 
   animation_ZoomToObject(index) {
     audioManager.stopGallery();
+    audioManager.leaveObject();
     this.controlPanel.VIEWmode = true;
     this.tiltCam = false;
     this.pointRef.theta = this.controlPanel.INTERSECTED.theta;
+    if(this.objectVisited > 1) audioManager.objectLeft = true;
 
     gsap.to(this.point, {
       duration: 3,
@@ -600,6 +602,7 @@ export class Sketch {
     this.clearTarget();
     audioManager.leaveObject();
     audioManager.fadeOutBGM();
+    if(this.activated)  audioManager.objectLeft = true;
     gsap.fromTo(
       this.point,
       { duration: 5, x: this.point.x, y: this.point.y, z: this.point.z },
@@ -609,7 +612,10 @@ export class Sketch {
         y: this.pointRef.radius * Math.cos(this.pointRef.phi),
         z: this.pointRef.radius * Math.sin(this.pointRef.phi) * Math.sin(this.pointRef.theta),
         onComplete: () => {
-          if (this.activated) audioManager.playGallery(this.chamber);
+          if (this.activated) {
+            audioManager.playGallery(this.chamber);
+
+          }
         },
       }
     );
@@ -638,6 +644,7 @@ export class Sketch {
       audioManager.fadeOutBGM();
       audioManager.stopHint();
       audioManager.leaveGallery = true;
+      this.hHintPlayed = false;
       if (this.isCENTER != true) {
         this.moveBackToCenter();
         let self = this;
@@ -711,8 +718,9 @@ export class Sketch {
 
     if (this.activated) {
       let noInput = Date.now() - this.userInputTimestamp;
-      if (noInput > 5000 && noInput < 6000 && !audioManager.isAudioPlaying() && !audioManager.helpHintPlaying) {
+      if (noInput > 10000 && noInput < 11000 && !audioManager.isAudioPlaying() && !audioManager.helpHintPlaying && !this.hHintPlayed) {
         audioManager.helpHint();
+        this.hHintPlayed = true;
       }
     }
 

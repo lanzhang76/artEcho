@@ -129,7 +129,8 @@ let createStage = (stage) => {
   switch (stage) {
     case 1:
       removeAllChildNodes(action);
-      audioManager.pauseAllOnboarding()
+      audioManager.pauseAllOnboarding();
+      skipButton.style.display = 'flex';
       narrator.textContent = "Thomas Tajo:";
       instruction.textContent = " Hi, I am Thomas Tajo (tah-jo), I am your echolocation instructor today in ArtEcho.\n" + "                   Here is a question that will help us get started: Have you ever experienced echolocation?";
       action.appendChild(yesButton);
@@ -138,7 +139,7 @@ let createStage = (stage) => {
       break;
     case 2:
       removeAllChildNodes(action);
-      audioManager.pauseAllOnboarding()
+      audioManager.pauseAllOnboarding();
       narrator.textContent = "Thomas Tajo:";
       instruction.textContent = "Very Well! ArtEcho reproduces the echolocation experience to a virtual 3D environment. Anywhere within the virtual museum, you can press the Space key to trigger a virtual mouth click and then experience the sound reflections from the 3D objects in the museum.";
       action.appendChild(nextButton);
@@ -182,6 +183,8 @@ let createStage = (stage) => {
     case 10:
       skipButton.textContent = "Close Menu";
       audioManager.pauseAllOnboarding();
+      audioManager.onBoardingOn = true;
+      audioToggle.checked = false;
       audioManager.playOnboardingFromBeginning(5);
       instruction.style.display = "none";
       narrator.style.display = "none";
