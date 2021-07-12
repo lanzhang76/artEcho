@@ -22,7 +22,7 @@ class AudioManager {
             let footPath = "./assets/audio/Footstep Sounds/" + i + ".mp3";
             this.stepAudio[i] = new Audio(footPath);
         }
-        for(let i = 0; i < 6; i++){
+        for(let i = 0; i < 7; i++){
             let hintPath = "./assets/audio/hints/" + i + ".mp3";
             this.hintAudio[i] = new Audio(hintPath);
         }
@@ -474,6 +474,11 @@ class AudioManager {
         setTimeout(() => {
             this.hintLocked = false;
         },6000)
+    }
+
+    enterHint(){
+        this.hint = this.hintAudio[6];
+        this.hint.play();
     }
 
     isAudioPlaying(){

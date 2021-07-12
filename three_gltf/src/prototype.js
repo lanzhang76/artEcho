@@ -174,7 +174,11 @@ let createStage = (stage) => {
     case 5:
       audioManager.pauseAllOnboarding();
       overlay.style.display = "none";
-      canvas.startHint();
+      audioManager.enterHint();
+      setTimeout(() => {
+        canvas.startHint();
+      },5000)
+
       activated = true;
       document.querySelector("#selected").style.display = "block";
       break;
