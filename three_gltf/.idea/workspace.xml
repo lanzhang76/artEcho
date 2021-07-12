@@ -22,7 +22,7 @@
     <list default="true" id="e0f3ef49-89a8-4939-a6ae-03e4180a8230" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/js/audioManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/audioManager.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/prototype.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/prototype.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/sketch.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/sketch.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,6 +95,10 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="104" y="-1058" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1626053158018">
+      <screen x="-640" y="-1440" width="2560" height="1440" />
+    </state>
+    <state x="104" y="-1058" key="#com.intellij.execution.impl.EditConfigurationsDialog/-640.-1440.2560.1440/0.0.1680.1050@-640.-1440.2560.1440" timestamp="1626053158018" />
     <state x="341" y="-965" width="598" height="490" key="find.popup" timestamp="1625977192788">
       <screen x="-640" y="-1440" width="2560" height="1440" />
     </state>
