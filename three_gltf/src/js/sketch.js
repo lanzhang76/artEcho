@@ -645,6 +645,7 @@ export class Sketch {
       audioManager.stopHint();
       audioManager.leaveGallery = true;
       this.hHintPlayed = false;
+      this.textBox.innerText = `Moving to Gallery ${num}`;
       if (this.isCENTER != true) {
         this.moveBackToCenter();
         let self = this;
@@ -662,7 +663,7 @@ export class Sketch {
   moveToAnother(num) {
     this.readyToSelect = false;
     this.previous = null;
-    this.textBox.innerText = `Moving to Gallery ${num}`;
+
     audioManager.stopGallery();
     audioManager.stopHint();
     this.chamber = num;
@@ -679,6 +680,7 @@ export class Sketch {
       onComplete: () => {
         this.setActivated(this.chamber - 1);
         this.readyToSelect = true;
+        this.isCENTER = true;
       },
     });
   }
