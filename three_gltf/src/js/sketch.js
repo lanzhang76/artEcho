@@ -673,7 +673,7 @@ export class Sketch {
     // console.log(this.ogPos[this.chamber - 1].x, this.ogPos[this.chamber - 1].y, this.ogPos[this.chamber - 1].z);
     audioManager.playStepSound(9);
     gsap.to(this.camera.position, {
-      duration: 10,
+      duration: 5.7,
       x: this.ogPos[this.chamber - 1].x,
       y: this.ogPos[this.chamber - 1].y,
       z: this.ogPos[this.chamber - 1].z,
@@ -681,7 +681,7 @@ export class Sketch {
         this.setActivated(this.chamber - 1);
         this.readyToSelect = true;
         this.isCENTER = true;
-        this.textBox.innerText = `Ready to select objects.`;
+        this.textBox.innerText = `Ready to select objects`;
       },
     });
   }
