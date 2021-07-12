@@ -50,6 +50,7 @@ export class Sketch {
     this.chamber = 1;
     //
     this.isCENTER = true;
+    this.readyToSelect = true;
     this.inChamber = true;
     this.currentModels = [];
     this.activated = false;
@@ -140,7 +141,7 @@ export class Sketch {
     };
 
     this.manager.onError = function (url) {
-      console.log("There was an error loading " + url);
+      // console.log("There was an error loading " + url);
     };
 
     this.loader = new GLTFLoader(this.manager);
@@ -394,7 +395,7 @@ export class Sketch {
         // ** SELECT MODELS **
         //
 
-        if (event.keyCode >= 48 && event.keyCode <= 54 && event.ctrlKey == false && event.shiftKey == false) {
+        if (this.readyToSelect == true && event.keyCode >= 48 && event.keyCode <= 54 && event.ctrlKey == false && event.shiftKey == false) {
           switch (event.keyCode) {
             case 48: // 0 is orginal point
               // reset camera angle and position
@@ -504,7 +505,6 @@ export class Sketch {
 
   select() {
     this.objectVisited++;
-    console.log(this.currentModels);
     this.controlPanel.INTERSECTED = Object.assign({}, this.currentModels[this.controlPanel.currentSelected]);
     if (Object.keys(this.controlPanel.INTERSECTED).length != 0) {
       this.textBox.innerText = `${this.controlPanel.INTERSECTED.name} is selected`;
@@ -636,8 +636,6 @@ export class Sketch {
     if (this.activated) {
       audioManager.playStepSound(5);
     }
-
-    this.isCENTER = true;
   }
 
   moveToChamber(num) {
@@ -662,13 +660,12 @@ export class Sketch {
   }
 
   moveToAnother(num) {
+    this.readyToSelect = false;
     this.previous = null;
     this.textBox.innerText = `Moving to Gallery ${num}`;
-    // console.log("move to " + num + " chamber.");
     audioManager.stopGallery();
     audioManager.stopHint();
     this.chamber = num;
-    console.log(this.chamber);
 
     const chamberName = `chamber${this.chamber}`;
     this.currentModels = this.chambers[0][chamberName];
@@ -681,6 +678,7 @@ export class Sketch {
       z: this.ogPos[this.chamber - 1].z,
       onComplete: () => {
         this.setActivated(this.chamber - 1);
+        this.readyToSelect = true;
       },
     });
   }
