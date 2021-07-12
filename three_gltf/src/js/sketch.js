@@ -681,6 +681,7 @@ export class Sketch {
         this.setActivated(this.chamber - 1);
         this.readyToSelect = true;
         this.isCENTER = true;
+        this.textBox.innerText = `Ready to select objects.`;
       },
     });
   }
