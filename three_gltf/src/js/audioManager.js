@@ -113,6 +113,11 @@ class AudioManager {
     playEchoSound(chamber,object,orbit,hor,ver){
         let echoPath = "./assets/audio/sounds/Chamber" + chamber +  "/Object" + object + "/" + orbit + "_" + hor + "_" + ver + ".mp3";
         this.echoSound = new Audio(echoPath);
+        let target = null;
+        if(!this.objDes.paused || !this.echoDes.paused){
+            target = !this.objDes.paused ? this.objDes : this.echoDes;
+            target.pause();
+        }
         let targetSound = this.chambersSound[chamber - 1][object - 1];
         gsap.to(targetSound, {
             duration: 0.5,
@@ -131,6 +136,9 @@ class AudioManager {
                         onUpdate: function () {
                             targetSound.sound.setVolume(targetSound.volume);
                         },
+                        onComplete: function() {
+                            if(target) target.play();
+                        }
                     }
                 );
             },
@@ -139,26 +147,7 @@ class AudioManager {
             },
         });
 
-        if(!this.objDes.paused || !this.echoDes.paused){
-            let target = !this.objDes.paused ? this.objDes : this.echoDes;
-            gsap.to(target,{
-                duration: 0.2,
-                ease: "power1.out",
-                volume:0,
-                onComplete: function (){
-                    gsap.fromTo(
-                        target,
-                        { volume: 0 },
-                        {
-                            delay: 1,
-                            duration: 0.2,
-                            ease: "power1.out",
-                            volume: 1,
-                        }
-                    );
-                }
-            })
-        }
+
     }
 
     //E
@@ -381,7 +370,7 @@ class AudioManager {
                 //     }
                 // },17000)
             }
-        },10000)
+        },9000)
 
         //after finish
         setTimeout(() => {
@@ -390,7 +379,7 @@ class AudioManager {
                 this.stopHint();
                 this.setActivated(0);
             }
-        },17000)
+        },16500)
     }
 
     stopHint(){
@@ -483,7 +472,7 @@ class AudioManager {
 
     isAudioPlaying(){
         if(this.echoSound || this.objDes || this.echoDes || this.stepSound || this.gallerySound || this.hint){
-            return (this.checkPlaying(this.echoSound)) || (this.checkPlaying(this.objDes)) || (this.checkPlaying(this.echoDes)) || (this.checkPlaying(this.stepSound) || (this.checkPlaying(this.hint)) || (this.gallerySound&&this.gallerySound.sound.isPlaying));
+            return (this.checkPlaying(this.echoSound)) || (this.checkPlaying(this.objDes)) || (this.checkPlaying(this.echoDes)) || (this.checkPlaying(this.stepSound) || (this.checkPlaying(this.hint)) || (this.gallerySound && this.gallerySound.sound.isPlaying));
         }else{
             return false;
         }

@@ -721,7 +721,7 @@ export class Sketch {
 
     if (this.activated) {
       let noInput = Date.now() - this.userInputTimestamp;
-      if (noInput > 10000 && noInput < 11000 && !audioManager.isAudioPlaying() && !this.hHintPlayed) {
+      if (noInput > 11000 && noInput < 12000 && !audioManager.isAudioPlaying() && !this.hHintPlayed) {
         audioManager.helpHint();
         this.hHintPlayed = true;
       }
