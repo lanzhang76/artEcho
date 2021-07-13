@@ -57,7 +57,7 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         { from: "src/assets/audio", to: "assets/audio", noErrorOnMissing: true },
-        { from: "draco", to: "draco" },
+        { from: "src/js/draco", to: "draco" },
         { from: "src/assets/img", to: "assets/img", noErrorOnMissing: true },
         { from: "src/assets/models", to: "assets/models", noErrorOnMissing: true },
       ],

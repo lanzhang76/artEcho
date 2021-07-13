@@ -3,7 +3,7 @@ import gsap from "gsap";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
-import { models } from "../data/models";
+import { models } from "./models";
 import { audioManager } from "./audioManager";
 
 export class Sketch {
@@ -146,7 +146,7 @@ export class Sketch {
 
     this.loader = new GLTFLoader(this.manager);
     this.dracoLoader = new DRACOLoader();
-    this.dracoLoader.setDecoderPath("/draco/");
+    this.dracoLoader.setDecoderPath("./draco/");
     this.loader.setDRACOLoader(this.dracoLoader);
 
     //room
