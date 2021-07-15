@@ -506,12 +506,17 @@ export class Sketch {
   select() {
     this.objectVisited++;
     this.controlPanel.INTERSECTED = Object.assign({}, this.currentModels[this.controlPanel.currentSelected]);
-    if (Object.keys(this.controlPanel.INTERSECTED).length != 0) {
+    if (Object.keys(this.controlPanel.INTERSECTED).length != 0 || JSON.stringify(this.controlPanel.INTERSECTED) != "{}") {
+      console.log("in here");
       this.textBox.innerText = `${this.controlPanel.INTERSECTED.name} is selected`;
       this.directionCounter = { vertical: 0, horizontal: 0, orbit: 0 };
       this.orientation = { horizontal: 0, vertical: 0, shuttle: 0 };
       this.animation_ZoomToObject(this.controlPanel.currentSelected);
       this.isCENTER = false;
+    } else {
+      const select_msg = `1-${this.currentModels.length}`
+      console.log(this.currentModels.length);
+      this.textBox.innerText = `Please press ${select_msg} to select an object in the current gallery`;
     }
   }
 

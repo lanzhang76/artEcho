@@ -421,8 +421,7 @@ p::-moz-selection {
 }
 
 #action {
-  position: absolute;
-  bottom: 200px;
+  margin-top: 50px;
   display: flex;
   align-items: center;
   width: 350px;
@@ -432,7 +431,6 @@ p::-moz-selection {
 #instruction {
   width: 100%;
   text-align: center;
-  padding-bottom: 50px;
 }
 
 .instruction-button {
