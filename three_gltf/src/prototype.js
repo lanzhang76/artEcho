@@ -1,6 +1,6 @@
 import "./style.scss";
 import { Sketch } from "./js/sketch.js";
-import {audioManager} from "./js/audioManager";
+import { audioManager } from "./js/audioManager";
 
 let canvas = new Sketch({
   dom: document.querySelector("#container"),
@@ -30,9 +30,9 @@ let onKeyDown = (event) => {
     case 191:
       if (activated && !audioManager.hintLocked) {
         keyMenuOpened = !keyMenuOpened;
-        if(keyMenuOpened){
+        if (keyMenuOpened) {
           createStage(10);
-        }else{
+        } else {
           createStage(6);
         }
       }
@@ -50,11 +50,10 @@ let onKeyDown = (event) => {
   }
 };
 
-let audioToggle = document.querySelector('#togBtn');
-audioToggle.addEventListener('input',(e) => {
+let audioToggle = document.querySelector("#togBtn");
+audioToggle.addEventListener("input", (e) => {
   audioManager.toggleOnboarding(stage);
-})
-
+});
 
 let yesButton = document.createElement("div");
 yesButton.classList.add("instruction-button");
@@ -71,7 +70,7 @@ nextButton.classList.add("instruction-button");
 nextButton.setAttribute("role", "button");
 nextButton.textContent = "NEXT";
 nextButton.addEventListener("click", () => {
-  stage = stage === 2 ? stage = 4 : stage + 1
+  stage = stage === 2 ? (stage = 4) : stage + 1;
   createStage(stage);
 });
 let backButton = document.createElement("div");
@@ -79,11 +78,11 @@ backButton.classList.add("instruction-button");
 backButton.setAttribute("role", "button");
 backButton.textContent = "BACK";
 backButton.addEventListener("click", () => {
-  if(stage === 3){
+  if (stage === 3) {
     stage = 1;
-  }else if(stage === 4){
+  } else if (stage === 4) {
     stage = experienced ? 2 : 3;
-  }else {
+  } else {
     stage--;
   }
   createStage(stage);
@@ -113,28 +112,26 @@ startedButton.addEventListener("click", () => {
 });
 startedButton.textContent = "NEXT";
 
-let stopHint = document.querySelector('#hint-close');
-stopHint.addEventListener('click', () => {
+let stopHint = document.querySelector("#hint-close");
+stopHint.addEventListener("click", () => {
   audioManager.stopHint();
-})
+});
 
-let enterButton = document.querySelector('#enter-button');
-enterButton.addEventListener('click', () => {
+let enterButton = document.querySelector("#enter-button");
+enterButton.addEventListener("click", () => {
   stage++;
   createStage(stage);
-})
-
+});
 
 let createStage = (stage) => {
   switch (stage) {
     case 1:
       removeAllChildNodes(action);
       audioManager.pauseAllOnboarding();
-      skipButton.style.display = 'flex';
+      skipButton.style.display = "flex";
       narrator.textContent = "Thomas Tajo:";
-      instruction.setAttribute('style', 'white-space: pre-line; line-height: 1.5');
-      instruction.textContent = " Hi, I am Thomas Tajo. I am your echolocation instructor today in ArtEcho. \n" +
-      "Here is a question that will help us get started — Have you ever experienced echolocation?";
+      instruction.setAttribute("style", "white-space: pre-line; line-height: 1.5");
+      instruction.textContent = " Hi, I am Thomas Tajo. I am your echolocation instructor today in ArtEcho. \n" + "Here is a question that will help us get started — Have you ever experienced echolocation?";
       action.appendChild(yesButton);
       action.appendChild(noButton);
       audioManager.playOnboardingFromBeginning(stage);
@@ -143,8 +140,9 @@ let createStage = (stage) => {
       removeAllChildNodes(action);
       audioManager.pauseAllOnboarding();
       narrator.textContent = "Thomas Tajo:";
-      instruction.textContent = "Very Well! ArtEcho reproduces the echolocation experience to a virtual 3D environment. \n" +
-      "\nAnywhere within the virtual museum, you can press the Space bar to trigger a virtual mouth click and then experience the sound reflections from the 3D objects in the museum. You can also press E for my interpretation of sound reflections from museum objects.";
+      instruction.textContent =
+        "Very Well! ArtEcho reproduces the echolocation experience to a 3D virtual environment. \n" +
+        "\nAnywhere within the virtual museum, you can press the Space bar to trigger a virtual mouth click and then experience the sound reflections from 3D museum objects. You can also press E for my interpretation of sound reflections of museum objects.";
       action.appendChild(nextButton);
       action.appendChild(backButton);
       audioManager.playOnboardingFromBeginning(stage);
@@ -154,8 +152,8 @@ let createStage = (stage) => {
       audioManager.pauseAllOnboarding();
       narrator.textContent = "Thomas Tajo:";
       instruction.textContent =
-        " Echolocation is a technique used by some blind individuals that can help improve their independence and mobility. An echolocation user can perceive the location, size, shape, and texture of their surrounding objects by emitting the mouth click and interpreting the strength, pitch, duration, and direction of the resulting sound reflections. Echolocation users are well-trained to perform high-pitch mouth clicks. \n" +
-        "\n In the ArtEcho experience, anywhere, you can press the Space bar to trigger a virtual mouth click and then experience the acoustics attributes of the exhibited 3D assets. You can also press E for my interpretation of sound reflections from museum objects.";
+        " Echolocation is a technique used by some blind individuals that can help improve their independence and mobility. An echolocation user can perceive the location, texture, shape and size of their surrounding objects by emitting mouth clicks and by interpreting the strength, pitch, duration, and direction of the resulting acoustic reflections. Echolocation users are trained to perform high-pitch mouth clicks. \n" +
+        "\n In the ArtEcho experience, anywhere, you can press the Space bar to trigger a virtual mouth click and then experience the acoustic attributes of the exhibited 3D assets. You can also press E for my interpretation of sound reflections from 3D museum objects.";
       action.appendChild(nextButton);
       action.appendChild(backButton);
       audioManager.playOnboardingFromBeginning(stage);
@@ -177,7 +175,7 @@ let createStage = (stage) => {
       audioManager.enterHint();
       setTimeout(() => {
         canvas.startHint();
-      },5000)
+      }, 5000);
 
       activated = true;
       document.querySelector("#selected").style.display = "block";
