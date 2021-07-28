@@ -61,11 +61,11 @@ export const models = [
     ],
     soundsFiles: [
 
-      { name: "", path: "./assets/audio/Background-Sounds/Chamber1/Object1.mp3", position: { x: 6, y: 0, z: 6 }, volume: 0, max: 1 },
-      { name: "", path: "./assets/audio/Background-Sounds/Chamber1/Object2.mp3", position: { x: 6, y: 0, z: -8 }, volume: 0, max: 1 },
+      { name: "", path: "./assets/audio/Background-Sounds/Chamber1/Object1.mp3", position: { x: 6, y: 0, z: 6 }, volume: 0, max: 0.7 },
+      { name: "", path: "./assets/audio/Background-Sounds/Chamber1/Object2.mp3", position: { x: 6, y: 0, z: -8 }, volume: 0, max: 0.65 },
 
       { name: "", path: "./assets/audio/Background-Sounds/Chamber1/Object3.mp3", position: { x: -5, y: 0, z: 6 }, volume: 0, max: 1 },
-      { name: "", path: "./assets/audio/Background-Sounds/Chamber1/Object4.mp3", position: { x: -6, y: 0, z: -6 }, volume: 0, max: 1 },
+      { name: "", path: "./assets/audio/Background-Sounds/Chamber1/Object4.mp3", position: { x: -6, y: 0, z: -6 }, volume: 0, max: 1*0.9 },
       { name: "gallery", path: "./assets/audio/Background-Sounds/Chamber1/0.mp3", position: { x: 0, y: 0, z: -1 }, volume: 0, max: 1 },
     ],
   },
@@ -130,10 +130,10 @@ export const models = [
       },
     ],
     soundsFiles: [
-      { name: "", path: "./assets/audio/Background-Sounds/Chamber2/Object1.mp3", position: { x: 2, y: 0, z: -23 }, volume: 0, max: 0.5 },
+      { name: "", path: "./assets/audio/Background-Sounds/Chamber2/Object1.mp3", position: { x: 2, y: 0, z: -23 }, volume: 0, max: 0.25 },
       { name: "", path: "./assets/audio/Background-Sounds/Chamber2/Object2.mp3", position: { x: 3, y: 0, z: -18 }, volume: 0, max: 0.5 },
-      { name: "", path: "./assets/audio/Background-Sounds/Chamber2/Object3.mp3", position: { x: -1000, y: 0, z: -17 }, volume: 0, max: 0.5 },
-      { name: "", path: "./assets/audio/Background-Sounds/Chamber2/Object4.mp3", position: { x: -2, y: 0, z: -23 }, volume: 0, max: 0.5 },
+      { name: "", path: "./assets/audio/Background-Sounds/Chamber2/Object3.mp3", position: { x: -1000, y: 0, z: -17 }, volume: 0, max: 0.4 },
+      { name: "", path: "./assets/audio/Background-Sounds/Chamber2/Object4.mp3", position: { x: -2, y: 0, z: -23 }, volume: 0, max: 0.4 },
       { name: "gallery", path: "./assets/audio/Background-Sounds/Chamber2/0.mp3", position: { x: 0, y: 0, z: -20 }, volume: 0, max: 1 },
     ],
   },
@@ -170,8 +170,8 @@ export const models = [
       },
     ],
     soundsFiles: [
-      { name: "", path: "./assets/audio/Background-Sounds/Chamber3/Object1.mp3", position: { x: 6, y: 0, z: -36 }, volume: 0, max: 0.5 },
-      { name: "", path: "./assets/audio/Background-Sounds/Chamber3/Object2.mp3", position: { x: -8, y: 0, z: -43 }, volume: 0, max: 0.5 },
+      { name: "", path: "./assets/audio/Background-Sounds/Chamber3/Object1.mp3", position: { x: 6, y: 0, z: -36 }, volume: 0, max: 0.5*0.7 },
+      { name: "", path: "./assets/audio/Background-Sounds/Chamber3/Object2.mp3", position: { x: -8, y: 0, z: -43 }, volume: 0, max: 0.5*0.85 },
       { name: "gallery", path: "./assets/audio/Background-Sounds/Chamber3/0.mp3", position: { x: 0, y: 0, z: -40 }, volume: 0, max: 1 },
     ],
   },
@@ -222,9 +222,9 @@ export const models = [
       },
     ],
     soundsFiles: [
-      { name: "", path: "./assets/audio/Background-Sounds/Chamber4/Object1.mp3", position: { x: 3, y: 0, z: -96 }, volume: 0, max: 0.5 },
-      { name: "", path: "./assets/audio/Background-Sounds/Chamber4/Object2.mp3", position: { x: 5, y: 0, z: -87 }, volume: 0, max: 0.5 },
-      { name: "", path: "./assets/audio/Background-Sounds/Chamber4/Object3.mp3", position: { x: -25, y: 0, z: -90 }, volume: 0, max: 0.5 },
+      { name: "", path: "./assets/audio/Background-Sounds/Chamber4/Object1.mp3", position: { x: 3, y: 0, z: -96 }, volume: 0, max: 0.4 },
+      { name: "", path: "./assets/audio/Background-Sounds/Chamber4/Object2.mp3", position: { x: 5, y: 0, z: -87 }, volume: 0, max: 0.4},
+      { name: "", path: "./assets/audio/Background-Sounds/Chamber4/Object3.mp3", position: { x: -25, y: 0, z: -90 }, volume: 0, max: 0.25 },
       { name: "gallery", path: "./assets/audio/Background-Sounds/Chamber4/0.mp3", position: { x: 0, y: 0, z: -91 }, volume: 0, max: 1 },
     ],
   },
