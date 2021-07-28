@@ -62,6 +62,9 @@ module.exports = {
         { from: "src/assets/models", to: "assets/models", noErrorOnMissing: true },
       ],
     }),
+    new HtmlWebpackPlugin({
+      favicon: "./src/favicon.ico",
+    }),
   ],
   output: {
     filename: "[name].bundle.js",
