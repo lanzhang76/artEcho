@@ -165,8 +165,9 @@ let createStage = (stage) => {
       instruction.textContent =
         " Hi there, welcome to ArtEcho Museum, I am your tour guide Nancy Roach. There are four virtual galleries in ArtEcho, Prehistoric Creatures, Ancient Chinese Artifacts, In Flight, and Space Exploration. In these galleries, you will move through periods of the history of this planet and some of the life forms who’ve inhabited it. \n" +
         "\nIn each gallery there are multiple ways to receive and experience the story. You can press D to hear my audio descriptions of the museum objects. And as you learned from Thomas, you can press the space bar for a virtual echolocation experience and press E for Thomas’s verbal interpretations of the sound reflections from museum objects.";
-      action.appendChild(startedButton);
+
       action.appendChild(backButton);
+      action.appendChild(startedButton);
       audioManager.playOnboardingFromBeginning(stage);
       break;
     case 5:
