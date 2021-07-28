@@ -58,6 +58,7 @@ export class Sketch {
     this.keyPressed = false;
     this.orbiting = false;
     this.hHintPlayed = false;
+    this.rotatePressing = false;
 
     this.lights = new THREE.Group();
 
@@ -352,12 +353,12 @@ export class Sketch {
 
             case 37 /*Left*/:
               // rotate AROUND object
-              this.rotateLeftObject();
+              if (this.rotatePressing == false) this.rotateLeftObject();
               break;
 
             case 39 /*Right*/:
               // rotate AROUND object
-              this.rotateRightObject();
+              if (this.rotatePressing == false) this.rotateRightObject();
               break;
           }
         }
@@ -452,6 +453,7 @@ export class Sketch {
   }
 
   rotateRightObject() {
+    this.rotatePressing = true;
     if (this.controlPanel.INTERSECTED.name == "Discovery Space Shuttle") {
       if (this.orientation.shuttle < 2) {
         this.controlPanel.INTERSECTED.position.z -= 10;
@@ -475,9 +477,14 @@ export class Sketch {
     }
     this.orbitTimes++;
     if (this.orbitTimes === 2) audioManager.backHint();
+    let self = this;
+    setTimeout(function () {
+      self.rotatePressing = false;
+    }, 1000);
   }
 
   rotateLeftObject() {
+    this.rotatePressing = true;
     if (this.controlPanel.INTERSECTED.name == "Discovery Space Shuttle") {
       if (this.orientation.shuttle > -2) {
         this.controlPanel.INTERSECTED.position.z += 10;
@@ -501,6 +508,10 @@ export class Sketch {
     }
     this.orbitTimes++;
     if (this.orbitTimes === 2) audioManager.backHint();
+    let self = this;
+    setTimeout(function () {
+      self.rotatePressing = false;
+    }, 1000);
   }
 
   select() {
@@ -513,7 +524,7 @@ export class Sketch {
       this.animation_ZoomToObject(this.controlPanel.currentSelected);
       this.isCENTER = false;
     } else {
-      const select_msg = `1-${this.currentModels.length}`
+      const select_msg = `1-${this.currentModels.length}`;
       this.textBox.innerText = `Please press ${select_msg} to select an object in the current gallery`;
     }
   }
@@ -673,6 +684,7 @@ export class Sketch {
 
     const chamberName = `chamber${this.chamber}`;
     this.currentModels = this.chambers[0][chamberName];
+    // console.log(this.ogPos[this.chamber - 1].x, this.ogPos[this.chamber - 1].y, this.ogPos[this.chamber - 1].z);
     audioManager.playStepSound(9);
     gsap.to(this.camera.position, {
       duration: 5.7,

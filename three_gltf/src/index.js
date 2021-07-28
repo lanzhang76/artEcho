@@ -9,7 +9,7 @@ if (navigator.userAgent.indexOf("Safari") != -1 && navigator.userAgent.indexOf("
     for (let el of hide) {
       el.style.display = "none";
     }
-    document.getElementById("desktop-ins").innerText = "💡 Please use Chrome or Firefox browser for the best experience.";
+    document.getElementById("desktop-ins").innerText = "💡 Please use Chrome or Firefox browser to access the experience.";
   }
 } else {
   document.getElementById("desktop-ins").innerText = "💡 Please put on headphones for the best experience.";
