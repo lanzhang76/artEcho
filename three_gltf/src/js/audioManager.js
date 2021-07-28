@@ -13,6 +13,7 @@ class AudioManager {
     this.firstGalleryPlayed = false;
     this.objectLeft = false;
     this.hintLocked = false;
+    this.echoLocked = false;
 
     for (let i = 1; i < 6; i++) {
       this.onboardingAudio[i] = new Audio("./assets/audio/Onboarding/" + i + ".mp3");
@@ -108,6 +109,8 @@ class AudioManager {
   }
 
   playEchoSound(chamber, object, orbit, hor, ver) {
+    this.echoLocked = true;
+    var _this = this;
     let echoPath = "./assets/audio/sounds/Chamber" + chamber + "/Object" + object + "/" + orbit + "_" + hor + "_" + ver + ".mp3";
     this.echoSound = new Audio(echoPath);
     let target = null;
@@ -135,6 +138,7 @@ class AudioManager {
             },
             onComplete: function () {
               if (target) target.play();
+              _this.echoLocked = false;
             },
           }
         );
@@ -147,50 +151,56 @@ class AudioManager {
 
   //E
   playEchoDes(chamber, object) {
-    if (!this.keyControlPlaying) {
-      if (!this.echoDes.paused) {
-        this.echoDes.pause();
-      } else {
-        let obj = "./assets/audio/echoDes/ThomasG" + chamber + "O" + object + ".mp3";
-        this.echoDes = new Audio(obj);
-        //fade out first
-        if (!this.objDes.paused) {
-          let target = this.objDes;
-          gsap.to(target, {
-            duration: 0.2,
-            ease: "power1.out",
-            volume: 0,
-            onComplete: function () {
-              target.pause();
-            },
-          });
+    if(!this.echoLocked){
+      if (!this.keyControlPlaying) {
+        if (!this.echoDes.paused) {
+          this.echoDes.pause();
+        } else {
+          let obj = "./assets/audio/echoDes/ThomasG" + chamber + "O" + object + ".mp3";
+          this.echoDes = new Audio(obj);
+          //fade out first
+          if (!this.objDes.paused) {
+            let target = this.objDes;
+            gsap.to(target, {
+              duration: 0.2,
+              ease: "power1.out",
+              volume: 0,
+              onComplete: function () {
+                target.pause();
+              },
+            });
+          }
+          this.echoDes.play();
         }
-        this.echoDes.play();
       }
     }
+
   }
   //D
   playObjDes(chamber, object) {
-    if (!this.keyControlPlaying) {
-      if (!this.objDes.paused) {
-        this.objDes.pause();
-      } else {
-        let obj = "./assets/audio/objDes/G" + chamber + "O" + object + ".mp3";
-        this.objDes = new Audio(obj);
-        if (!this.echoDes.paused) {
-          let target = this.echoDes;
-          gsap.to(target, {
-            duration: 0.2,
-            ease: "power1.out",
-            volume: 0,
-            onComplete: function () {
-              target.pause();
-            },
-          });
+    if(!this.echoLocked){
+      if (!this.keyControlPlaying) {
+        if (!this.objDes.paused) {
+          this.objDes.pause();
+        } else {
+          let obj = "./assets/audio/objDes/G" + chamber + "O" + object + ".mp3";
+          this.objDes = new Audio(obj);
+          if (!this.echoDes.paused) {
+            let target = this.echoDes;
+            gsap.to(target, {
+              duration: 0.2,
+              ease: "power1.out",
+              volume: 0,
+              onComplete: function () {
+                target.pause();
+              },
+            });
+          }
+          this.objDes.play();
         }
-        this.objDes.play();
       }
     }
+
   }
 
   leaveObject() {

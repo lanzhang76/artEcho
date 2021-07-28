@@ -143,8 +143,8 @@ let createStage = (stage) => {
       instruction.textContent =
         "Very Well! ArtEcho reproduces the echolocation experience to a 3D virtual environment. \n" +
         "\nAnywhere within the virtual museum, you can press the Space bar to trigger a virtual mouth click and then experience the sound reflections from 3D museum objects. You can also press E for my interpretation of sound reflections of museum objects.";
-      action.appendChild(nextButton);
       action.appendChild(backButton);
+      action.appendChild(nextButton);
       audioManager.playOnboardingFromBeginning(stage);
       break;
     case 3:
@@ -154,8 +154,8 @@ let createStage = (stage) => {
       instruction.textContent =
         " Echolocation is a technique used by some blind individuals that can help improve their independence and mobility. An echolocation user can perceive the location, texture, shape and size of their surrounding objects by emitting mouth clicks and by interpreting the strength, pitch, duration, and direction of the resulting acoustic reflections. Echolocation users are trained to perform high-pitch mouth clicks. \n" +
         "\n In the ArtEcho experience, anywhere, you can press the Space bar to trigger a virtual mouth click and then experience the acoustic attributes of the exhibited 3D assets. You can also press E for my interpretation of sound reflections from 3D museum objects.";
-      action.appendChild(nextButton);
       action.appendChild(backButton);
+      action.appendChild(nextButton);
       audioManager.playOnboardingFromBeginning(stage);
       break;
     case 4:
