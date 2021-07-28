@@ -43,6 +43,9 @@ module.exports = {
       title: "Production",
     }),
     new HtmlWebpackPlugin({
+      favicon: "./src/favicon.ico",
+    }),
+    new HtmlWebpackPlugin({
       template: "./src/template.html",
       title: "artEcho Home",
       excludeChunks: ["prototype"],
@@ -61,9 +64,6 @@ module.exports = {
         { from: "src/assets/img", to: "assets/img", noErrorOnMissing: true },
         { from: "src/assets/models", to: "assets/models", noErrorOnMissing: true },
       ],
-    }),
-    new HtmlWebpackPlugin({
-      favicon: "./src/favicon.ico",
     }),
   ],
   output: {
