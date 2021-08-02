@@ -517,6 +517,7 @@ export class Sketch {
   select() {
     this.objectVisited++;
     this.olderObject = this.controlPanel.INTERSECTED;
+
     this.controlPanel.INTERSECTED = Object.assign({}, this.currentModels[this.controlPanel.currentSelected]);
     if (Object.keys(this.controlPanel.INTERSECTED).length != 0 || JSON.stringify(this.controlPanel.INTERSECTED) != "{}") {
       this.textBox.innerText = `${this.controlPanel.INTERSECTED.name} is selected`;
@@ -526,6 +527,9 @@ export class Sketch {
       this.isCENTER = false;
     } else {
       this.controlPanel.INTERSECTED = this.olderObject;
+      let currentIndex = this.currentModels.findIndex((obj) => obj.name == this.controlPanel.INTERSECTED.name) + 1;
+      this.controlPanel.currentSelected = currentIndex - 1;
+
       const select_msg = `1-${this.currentModels.length}`;
       this.textBox.innerText = `Please press ${select_msg} to select an object in the current gallery`;
     }
