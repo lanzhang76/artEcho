@@ -516,6 +516,7 @@ export class Sketch {
 
   select() {
     this.objectVisited++;
+    this.olderObject = this.controlPanel.INTERSECTED;
     this.controlPanel.INTERSECTED = Object.assign({}, this.currentModels[this.controlPanel.currentSelected]);
     if (Object.keys(this.controlPanel.INTERSECTED).length != 0 || JSON.stringify(this.controlPanel.INTERSECTED) != "{}") {
       this.textBox.innerText = `${this.controlPanel.INTERSECTED.name} is selected`;
@@ -524,6 +525,7 @@ export class Sketch {
       this.animation_ZoomToObject(this.controlPanel.currentSelected);
       this.isCENTER = false;
     } else {
+      this.controlPanel.INTERSECTED = this.olderObject;
       const select_msg = `1-${this.currentModels.length}`;
       this.textBox.innerText = `Please press ${select_msg} to select an object in the current gallery`;
     }
